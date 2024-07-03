@@ -8,16 +8,27 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { MantineProvider } from '@mantine/core';
 import { ErrorBoundary } from "react-error-boundary";
 import { Toaster } from 'react-hot-toast';
-import ErrorComp from './components/ErrorComp';
-import LoadingPage from './components/LoadingPage';
+import ErrorComp from './components/common/ErrorComp';
+import LoadingPage from './components/common/LoadingPage';
+import Layout from './components/common/Layout';
 
-const UploadForm = lazy(() => import('./pages/UploadFormComp'));
+const ImageConvert = lazy(() => import('./pages/ImageConvert'));
 
 const router = createBrowserRouter([
     {
-      path: "/",
-      element: <UploadForm />,
-    },
+        path: "/",
+        element: <Layout />,
+        children: [
+            {
+                path: "/",
+                element: <ImageConvert />,
+              },
+              {
+                path: "/imageConvert",
+                element: <ImageConvert />,
+              },
+        ]
+    }
 ]);
 
 function App() {

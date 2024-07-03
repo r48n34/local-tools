@@ -1,7 +1,9 @@
+import { Outlet } from "react-router-dom";
+
 import { Group } from "@mantine/core"
 import ToggleThemeBtn from "./ToggleThemeBtn"
 
-function Layout({ children }: any) {
+function Layout() {
 
     return (
         <>
@@ -10,7 +12,7 @@ function Layout({ children }: any) {
             </Group>
 
             <div>
-                {children}
+                <Outlet />
             </div>
         </>
     )

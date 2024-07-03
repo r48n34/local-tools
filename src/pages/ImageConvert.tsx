@@ -7,8 +7,8 @@ import { IconFileUpload, IconFileZip, IconImageInPicture, IconReload } from '@ta
 
 import toast from 'react-hot-toast';
 import { FileWithPath } from '@mantine/dropzone';
-import DropZoneComp from '../components/common/DropZoneComp';
-import DisplayCarousel from '../components/common/DisplayCarousel';
+import DropZoneComp from '../components/ImageConvert/DropZoneComp';
+import DisplayCarousel from '../components/ImageConvert/DisplayCarousel';
 import { toDownloadFile, toDownloadFileZip } from '../utils/downloadFile';
 import { imageToWebp, webpimageToPng } from '../utils/convertUtils';
 
