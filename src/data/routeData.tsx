@@ -12,6 +12,12 @@ export const categoryList = [
         link: "imageConvertPDF",
         desc: "Convert images to PDF file",
         icon: <IconPdf size={60}/>
+    },
+    {
+        labels: "PDF to Images",
+        link: "pdfConvertImages",
+        desc: "Convert PDF file to images",
+        icon: <IconImageInPicture size={60}/>
     }
 ]
 

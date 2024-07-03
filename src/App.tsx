@@ -17,6 +17,7 @@ import Layout from './components/common/Layout';
 const HomePage = lazy(() => import('./pages/HomePage'));
 const ImageConvert = lazy(() => import('./pages/ImageConvert'));
 const ImageConvertPDF = lazy(() => import('./pages/ImageConvertPDF'));
+const PdfConvertImage = lazy(() => import('./pages/PdfConvertImage'));
 
 const router = createBrowserRouter([
     {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
             {
                 path: "/imageConvertPDF",
                 element: <ImageConvertPDF />,
+            },
+            {
+                path: "/pdfConvertImages",
+                element: <PdfConvertImage />,
             },
         ]
     }

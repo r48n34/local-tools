@@ -5,9 +5,10 @@ import toast from 'react-hot-toast';
 
 type DropZoneCompProps = {
     setFilesCb: (files: FileWithPath[]) => void;
+    acceptedTypesList: string[];
 }
 
-function DropZoneComp({ setFilesCb, ...props }: DropZoneCompProps) {
+function DropZoneComp({ setFilesCb, acceptedTypesList,  ...props }: DropZoneCompProps) {
     return (
         <Dropzone
             onDrop={(files) => {
@@ -16,7 +17,8 @@ function DropZoneComp({ setFilesCb, ...props }: DropZoneCompProps) {
             }}
             onReject={(files) => console.log("Failed file", files)}
             maxSize={500 * 1024 ** 2}
-            accept={["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif", "image/webp"]}
+            accept={acceptedTypesList}
+            // accept={["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif", "image/webp"]}
             {...props}
         >
             <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>

@@ -78,11 +78,10 @@ function ImageConvertPDF() {
 
                 <Box pos="relative">
                     <LoadingOverlay visible={progressNumber >= 0} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
-                    <DropZoneComp setFilesCb={setFiles} />
+                    <DropZoneComp setFilesCb={setFiles} acceptedTypesList={["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif", "image/webp"]} />
 
                     {files.length >= 1 && (
                         <Box mt={24}>
-
                             {DisplayCarouselMemo}
 
                             <Text ta="right" mt={24} fz={18} fw={500} c="dimmed">
