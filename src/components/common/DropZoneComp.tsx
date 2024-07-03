@@ -40,7 +40,10 @@ function DropZoneComp({ setFilesCb, ...props }: DropZoneCompProps) {
                     <Text size="xl" inline>
                         Drag images here or click to select files
                     </Text>
-                    <Text size="sm" c="dimmed" inline mt={7}>
+                    <Text size="md" c="dimmed" inline mt={7}>
+                        Accepted: png, jpeg, bmp, tiff, gif, webp
+                    </Text>
+                    <Text size="sm" c="dimmed" inline mt={12}>
                         Attach as many images as you like
                     </Text>
                 </div>
