@@ -12,6 +12,7 @@ import ErrorComp from './components/common/ErrorComp';
 import LoadingPage from './components/common/LoadingPage';
 import Layout from './components/common/Layout';
 
+const HomePage = lazy(() => import('./pages/HomePage'));
 const ImageConvert = lazy(() => import('./pages/ImageConvert'));
 
 const router = createBrowserRouter([
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <ImageConvert />,
+                element: <HomePage />,
               },
               {
                 path: "/imageConvert",
