@@ -2,7 +2,7 @@ import 'jimp/browser/lib/jimp';
 const { Jimp } = window as any;
 
 import { Button, Group, Box, Text, Progress, Accordion, Grid, Select, NumberInput } from '@mantine/core';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { IconFileUpload, IconFileZip, IconImageInPicture, IconReload } from '@tabler/icons-react';
 
 import toast from 'react-hot-toast';
@@ -10,8 +10,9 @@ import { FileWithPath } from '@mantine/dropzone';
 import DropZoneComp from './common/DropZoneComp';
 import DisplayCarousel from './common/DisplayCarousel';
 import { toDownloadFile, toDownloadFileZip } from '../utils/downloadFile';
+import { imageToWebp } from '../utils/convertUtils';
 
-type OPFormat = "jpeg" | "png" | "bmp"
+type OPFormat = "jpeg" | "png" | "bmp" | "webp"
 interface Settings {
     opFormat: OPFormat
     quality: number
@@ -26,17 +27,16 @@ function UploadFormComp() {
 
     const [settings, setSettings] = useState<Settings>({
         opFormat: "jpeg",
-        quality: 100,
-        scale: 1
+        quality: 100, // 1 - 100
+        scale: 1 // 0.1 - A bigger numbers
     });
 
     async function transferFile() {
 
         try {
             toast.success('Converting images...')
-
             setOutputFile([]);
-            // console.log(settings);
+
 
             // const modifyFile = files.map( v => {
             //     if(v.){
@@ -56,24 +56,28 @@ function UploadFormComp() {
                         : Jimp.MIME_JPEG
 
             for (let file of files) {
-                const jimpImage = await Jimp.read(
-                    URL.createObjectURL(file)
-                );
+                
+                if(settings.opFormat === "webp"){
+                    resultArr.push(
+                        URL.createObjectURL(await imageToWebp(file, settings.quality))
+                    )
+                }
+                else {
+                    const jimpImage = await Jimp.read(
+                        URL.createObjectURL(file)
+                    );
 
-                const newImg = await jimpImage
-                    .scale(settings.scale)
-                    .quality(settings.quality)
-                    // .resize(256, 256)
-                    .getBase64Async(opType);
+                    resultArr.push(
+                        await jimpImage
+                        .scale(settings.scale)
+                        .quality(settings.quality)
+                        .getBase64Async(opType)
+                    )
+                }
 
-                // console.log(await imageToWebp(file));
-
-                resultArr.push(newImg)
                 setProgressNumber(Math.floor((resultArr.length / files.length) * 100))
 
             }
-
-            // console.log(resultArr);
 
             setOutputFile(resultArr);
             toast.success('Done, enjoy your images!')
@@ -88,6 +92,11 @@ function UploadFormComp() {
         }
 
     }
+
+    // Prevent flashing display rerender
+    const DisplayCarouselMemo = useMemo( () => 
+        <DisplayCarousel imgsList={files.map(v => URL.createObjectURL(v))} showsDownload={false} />, [files]
+    );
 
     return (
         <>
@@ -111,72 +120,77 @@ function UploadFormComp() {
                     </Progress.Root>
                 )}
 
-                <DropZoneComp setFilesCb={setFiles} />
-
-                <Accordion defaultValue="Setting">
-                    <Accordion.Item key="Setting" value="Setting">
-                        <Accordion.Control>
-                            Basic setting
-                        </Accordion.Control>
-
-                        <Accordion.Panel>
-                            <Grid>
-                                <Grid.Col span={6}>
-                                    <Select
-                                        label="Output format"
-                                        description="Select your output format"
-                                        data={["jpeg", "png", "bmp"]}
-                                        value={settings.opFormat}
-                                        onChange={(v) => setSettings({ ...settings, opFormat: v as OPFormat || "jpeg" })}
-                                    />
-                                </Grid.Col>
-
-                                <Grid.Col span={6}>
-                                    <NumberInput
-                                        label="Scale images"
-                                        description="x times the image output res"
-                                        value={settings.scale}
-                                        onChange={(v) => setSettings({ ...settings, scale: +v || 1 })}
-                                        min={0} max={30} step={0.1}
-                                    />
-                                </Grid.Col>
-
-                                {settings.opFormat === "jpeg" && (
-                                    <Grid.Col span={6}>
-                                        <NumberInput
-                                            label="Quality output"
-                                            description="Only affect if you choosing jpeg 1 (Worst) - 100 (Best)"
-                                            value={settings.quality}
-                                            onChange={(v) => setSettings({ ...settings, quality: +v || 1 })}
-                                            min={1} max={100} step={1}
-                                        />
-                                    </Grid.Col>
-                                )}
-                            </Grid>
-                        </Accordion.Panel>
-
-                    </Accordion.Item>
-                </Accordion>
-
                 {outputFile.length <= 0 && (
-                    <Box mt={24}>
-                        <DisplayCarousel imgsList={files.map(v => URL.createObjectURL(v))} showsDownload={false} />
-                        <Text ta="right" mt={24} fz={18} fw={500} c="dimmed">
-                            Uploaded total: {files.length} files
-                        </Text>
-                    </Box>
+                    <>
+                        <DropZoneComp setFilesCb={setFiles} />
+
+                        <Accordion defaultValue="Setting">
+                            <Accordion.Item key="Setting" value="Setting">
+                                <Accordion.Control>
+                                    Basic setting
+                                </Accordion.Control>
+
+                                <Accordion.Panel>
+                                    <Grid>
+                                        <Grid.Col span={6}>
+                                            <Select
+                                                label="Output format"
+                                                description="Select your output format"
+                                                data={["jpeg", "png", "bmp", "webp"]}
+                                                value={settings.opFormat}
+                                                onChange={(v) => setSettings({ ...settings, opFormat: v as OPFormat || "jpeg" })}
+                                            />
+                                        </Grid.Col>
+
+                                        <Grid.Col span={6}>
+                                            <NumberInput
+                                                label="Scale images"
+                                                description="x times the image output res"
+                                                value={settings.scale}
+                                                onChange={(v) => setSettings({ ...settings, scale: +v || 1 })}
+                                                min={0} max={30} step={0.1}
+                                            />
+                                        </Grid.Col>
+
+                                        {settings.opFormat === "jpeg" && (
+                                            <Grid.Col span={6}>
+                                                <NumberInput
+                                                    label="Quality output"
+                                                    description="Only affect if you choosing jpeg 1 (Worst) - 100 (Best)"
+                                                    value={settings.quality}
+                                                    onChange={(v) => setSettings({ ...settings, quality: +v || 1 })}
+                                                    min={1} max={100} step={1}
+                                                />
+                                            </Grid.Col>
+                                        )}
+                                    </Grid>
+                                </Accordion.Panel>
+
+                            </Accordion.Item>
+                        </Accordion>
+
+                        <Box mt={24}>
+
+                            { DisplayCarouselMemo }
+                            
+                            <Text ta="right" mt={24} fz={18} fw={500} c="dimmed">
+                                Uploaded total: {files.length} files
+                            </Text>
+                        </Box>
+
+                        <Group justify="flex-end" mb={16} mt={22}>
+                            <Button
+                                disabled={files.length <= 0}
+                                leftSection={<IconFileUpload />}
+                                variant="light"
+                                onClick={transferFile}
+                            >
+                                Transfer all image
+                            </Button>
+                        </Group>
+                    </>
                 )}
 
-                <Group justify="flex-end" mb={16} mt={22}>
-                    <Button
-                        disabled={files.length <= 0}
-                        leftSection={<IconFileUpload />}
-                        variant="light"
-                        onClick={transferFile}
-                    >
-                        Transfer all image
-                    </Button>
-                </Group>
 
                 {outputFile.length >= 1 && (
                     <Box mx="auto" mt={32}>

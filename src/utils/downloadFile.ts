@@ -12,7 +12,7 @@ export function toDownloadFile(str: string) {
 
 }
 
-export async function toDownloadFileZip(strs: string[], currentMineType: "jpeg" | "png" | "bmp") {
+export async function toDownloadFileZip(strs: string[], currentMineType: "jpeg" | "png" | "bmp" | "webp") {
 
     const zip = new JSZip();
 

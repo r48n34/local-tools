@@ -1,4 +1,4 @@
-export async function imageToWebp(myFile: File) {
+export async function imageToWebp(myFile: File, qualityNum: number = 100): Promise<File> {
     return new Promise((rec) => {
         const image = new Image();
         image.onload = () => {
@@ -9,10 +9,11 @@ export async function imageToWebp(myFile: File) {
             canvas.getContext('2d')!.drawImage(image, 0, 0);
             canvas.toBlob((blob) => {
 
-                const myImage = new File([blob!], 'my-new-name.webp', { type: blob!.type });
-                rec(myImage)
+                rec(
+                    new File([blob!], `${crypto.randomUUID()}.webp`, { type: blob!.type })
+                )
 
-            }, 'image/webp', 1);
+            }, 'image/webp', Math.floor(qualityNum / 100));
 
         };
 

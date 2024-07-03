@@ -1,6 +1,7 @@
 import { Box, Button, Card, Image } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import { toDownloadFile } from '../../utils/downloadFile';
+import { memo } from 'react';
 
 interface DisplayCarouselProps {
     imgsList: string[]
@@ -8,6 +9,7 @@ interface DisplayCarouselProps {
 }
 
 function DisplayCarousel({ imgsList, showsDownload = false }: DisplayCarouselProps) {
+
     return (
         <>
             <Carousel slideSize="70%" slideGap="md" withIndicators height={430}>
@@ -44,4 +46,4 @@ function DisplayCarousel({ imgsList, showsDownload = false }: DisplayCarouselPro
     )
 }
 
-export default DisplayCarousel
+export default memo(DisplayCarousel)
