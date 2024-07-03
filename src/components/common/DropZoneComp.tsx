@@ -13,7 +13,7 @@ function DropZoneComp({ setFilesCb, ...props }: DropZoneCompProps) {
             onReject={(files) => console.log("Failed file", files)}
             maxSize={500 * 1024 ** 2}
             // accept={IMAGE_MIME_TYPE}
-            accept={["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif"]}
+            accept={["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif", "image/webp"]}
             {...props}
         >
             <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>

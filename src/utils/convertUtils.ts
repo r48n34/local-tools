@@ -20,3 +20,26 @@ export async function imageToWebp(myFile: File, qualityNum: number = 100): Promi
         image.src = URL.createObjectURL(myFile);
     })
 }
+
+export async function webpimageToPng(myFile: File): Promise<File> {
+    return new Promise((rec) => {
+        const image = new Image();
+        image.onload = () => {
+
+            const canvas = document.createElement('canvas');
+            canvas.width = image.naturalWidth;
+            canvas.height = image.naturalHeight;
+            canvas.getContext('2d')!.drawImage(image, 0, 0);
+            canvas.toBlob((blob) => {
+
+                rec(
+                    new File([blob!], `${crypto.randomUUID()}.png`, { type: blob!.type })
+                )
+
+            }, 'image/png', 1);
+
+        };
+
+        image.src = URL.createObjectURL(myFile);
+    })
+}

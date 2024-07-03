@@ -10,7 +10,7 @@ import { FileWithPath } from '@mantine/dropzone';
 import DropZoneComp from './common/DropZoneComp';
 import DisplayCarousel from './common/DisplayCarousel';
 import { toDownloadFile, toDownloadFileZip } from '../utils/downloadFile';
-import { imageToWebp } from '../utils/convertUtils';
+import { imageToWebp, webpimageToPng } from '../utils/convertUtils';
 
 type OPFormat = "jpeg" | "png" | "bmp" | "webp"
 interface Settings {
@@ -37,13 +37,6 @@ function UploadFormComp() {
             toast.success('Converting images...')
             setOutputFile([]);
 
-
-            // const modifyFile = files.map( v => {
-            //     if(v.){
-
-            //     }
-            // })
-
             let resultArr = []
 
             // Jimp.MIME_PNG, Jimp.MIME_JPEG, Jimp.MIME_BMP
@@ -63,8 +56,13 @@ function UploadFormComp() {
                     )
                 }
                 else {
+
+                    const finalFile = file.type === "image/webp"
+                        ? await webpimageToPng(file)
+                        : file
+
                     const jimpImage = await Jimp.read(
-                        URL.createObjectURL(file)
+                        URL.createObjectURL(finalFile)
                     );
 
                     resultArr.push(
@@ -145,14 +143,14 @@ function UploadFormComp() {
                                         <Grid.Col span={6}>
                                             <NumberInput
                                                 label="Scale images"
-                                                description="x times the image output res"
+                                                description="x times the image output res (1 = normal)"
                                                 value={settings.scale}
                                                 onChange={(v) => setSettings({ ...settings, scale: +v || 1 })}
                                                 min={0} max={30} step={0.1}
                                             />
                                         </Grid.Col>
 
-                                        {settings.opFormat === "jpeg" && (
+                                        {["jpeg", "webp"].includes(settings.opFormat) && (
                                             <Grid.Col span={6}>
                                                 <NumberInput
                                                     label="Quality output"
@@ -190,7 +188,6 @@ function UploadFormComp() {
                         </Group>
                     </>
                 )}
-
 
                 {outputFile.length >= 1 && (
                     <Box mx="auto" mt={32}>
