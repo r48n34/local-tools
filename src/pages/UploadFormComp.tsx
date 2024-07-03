@@ -1,14 +1,14 @@
 import 'jimp/browser/lib/jimp';
 const { Jimp } = window as any;
 
-import { Button, Group, Box, Text, Progress, Accordion, Grid, Select, NumberInput } from '@mantine/core';
+import { Button, Group, Box, Text, Progress, Accordion, Grid, Select, NumberInput, Container } from '@mantine/core';
 import { useMemo, useState } from 'react';
 import { IconFileUpload, IconFileZip, IconImageInPicture, IconReload } from '@tabler/icons-react';
 
 import toast from 'react-hot-toast';
 import { FileWithPath } from '@mantine/dropzone';
-import DropZoneComp from './common/DropZoneComp';
-import DisplayCarousel from './common/DisplayCarousel';
+import DropZoneComp from '../components/common/DropZoneComp';
+import DisplayCarousel from '../components/common/DisplayCarousel';
 import { toDownloadFile, toDownloadFileZip } from '../utils/downloadFile';
 import { imageToWebp, webpimageToPng } from '../utils/convertUtils';
 
@@ -97,7 +97,7 @@ function UploadFormComp() {
     );
 
     return (
-        <>
+        <Container size={"lg"}>
             <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
                 Transfer file local
             </Text>
@@ -226,7 +226,7 @@ function UploadFormComp() {
                                         toDownloadFileZip(outputFile, settings.opFormat)
                                     }}
                                 >
-                                    Download All by ZIP
+                                    Download All with ZIP
                                 </Button>
                             </Group>
                         </Group>
@@ -235,7 +235,7 @@ function UploadFormComp() {
 
             </Box>
 
-        </>
+        </Container>
     );
 }
 
