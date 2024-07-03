@@ -1,7 +1,7 @@
 import 'jimp/browser/lib/jimp';
 const { Jimp } = window as any;
 
-import { LoadingOverlay, Button, Group, Box, Text, Progress, Accordion, Grid, Select, NumberInput, Container } from '@mantine/core';
+import { LoadingOverlay, Button, Group, Box, Text, Accordion, Grid, Select, NumberInput, Container } from '@mantine/core';
 import { useMemo, useState } from 'react';
 import { IconFileUpload, IconFileZip, IconImageInPicture, IconReload } from '@tabler/icons-react';
 
@@ -11,6 +11,7 @@ import DropZoneComp from '../components/ImageConvert/DropZoneComp';
 import DisplayCarousel from '../components/ImageConvert/DisplayCarousel';
 import { toDownloadFile, toDownloadFileZip } from '../utils/downloadFile';
 import { imageToWebp, webpimageToPng } from '../utils/convertUtils';
+import ProgressBar from '../components/ImageConvert/ProgressBar';
 
 type OPFormat = "jpeg" | "png" | "bmp" | "webp"
 interface Settings {
@@ -104,19 +105,13 @@ function UploadFormComp() {
             </Text>
 
             <Text ta={"center"} fz={16} fw={300} mt={-34} c='dimmed'>
-                Convert image in local run time, no server
+                Convert image in local run time, no server upload require
             </Text>
 
             <Box mx="auto" mt={32}>
 
                 {progressNumber >= 0 && (
-                    <Progress.Root size="xl" mb={12}>
-                        <Progress.Section value={progressNumber}>
-                            <Progress.Label>
-                                {progressNumber} %
-                            </Progress.Label>
-                        </Progress.Section>
-                    </Progress.Root>
+                    <ProgressBar progressNumber={progressNumber}/>
                 )}
 
                 {outputFile.length <= 0 && (

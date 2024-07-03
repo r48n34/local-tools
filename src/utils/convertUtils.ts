@@ -43,3 +43,27 @@ export async function webpimageToPng(myFile: File): Promise<File> {
         image.src = URL.createObjectURL(myFile);
     })
 }
+
+export function getHeightAndWidthFromDataUrl(dataURL: string): Promise<{ height: number, width: number }> {
+    return new Promise(resolve => {
+        const img = new Image()
+        img.onload = () => {
+            resolve({
+                height: img.height,
+                width: img.width
+            })
+        }
+        img.src = dataURL
+    })
+}
+
+// export const getHeightAndWidthFromDataUrl = (dataURL: string) => new Promise(resolve => {
+//     const img = new Image()
+//     img.onload = () => {
+//         resolve({
+//             height: img.height,
+//             width: img.width
+//         })
+//     }
+//     img.src = dataURL
+// })
