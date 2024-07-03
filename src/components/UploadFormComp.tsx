@@ -3,13 +3,13 @@ const { Jimp } = window as any;
 
 import { Button, Group, Box, Text, Progress, Accordion, Grid, Select, NumberInput } from '@mantine/core';
 import { useState } from 'react';
-import { IconFileUpload } from '@tabler/icons-react';
+import { IconFileUpload, IconFileZip, IconImageInPicture, IconReload, IconZip } from '@tabler/icons-react';
 
 import toast from 'react-hot-toast';
 import { FileWithPath } from '@mantine/dropzone';
 import DropZoneComp from './common/DropZoneComp';
 import DisplayCarousel from './common/DisplayCarousel';
-import { toDownloadFile } from '../utils/downloadFile';
+import { toDownloadFile, toDownloadFileZip } from '../utils/downloadFile';
 
 type OPFormat = "jpeg" | "png" | "bmp"
 interface Settings {
@@ -136,7 +136,7 @@ function UploadFormComp() {
                                         label="Scale images"
                                         description="x times the image output res"
                                         value={settings.scale}
-                                        onChange={(v) => setSettings({ ...settings, scale: +v ?? 1 })}
+                                        onChange={(v) => setSettings({ ...settings, scale: +v || 1 })}
                                         min={0} max={30} step={0.1}
                                     />
                                 </Grid.Col>
@@ -147,7 +147,7 @@ function UploadFormComp() {
                                             label="Quality output"
                                             description="Only affect if you choosing jpeg 1 (Worst) - 100 (Best)"
                                             value={settings.quality}
-                                            onChange={(v) => setSettings({ ...settings, quality: +v ?? 1 })}
+                                            onChange={(v) => setSettings({ ...settings, quality: +v || 1 })}
                                             min={1} max={100} step={1}
                                         />
                                     </Grid.Col>
@@ -182,7 +182,9 @@ function UploadFormComp() {
                     <Box mx="auto" mt={32}>
                         <DisplayCarousel imgsList={outputFile} showsDownload={true} />
                         <Group justify="space-between" mb={16} mt={22}>
+
                             <Button
+                                leftSection={<IconReload />}
                                 variant='light'
                                 color="green"
                                 onClick={() => {
@@ -193,16 +195,29 @@ function UploadFormComp() {
                                 Convert again
                             </Button>
 
-                            <Button
-                                variant='light'
-                                onClick={() => {
-                                    for (let opFile of outputFile) {
-                                        toDownloadFile(opFile, "Hello")
-                                    }
-                                }}
-                            >
-                                Download All
-                            </Button>
+                            <Group>
+                                <Button
+                                    leftSection={<IconImageInPicture />}
+                                    variant='light'
+                                    onClick={() => {
+                                        for (let opFile of outputFile) {
+                                            toDownloadFile(opFile)
+                                        }
+                                    }}
+                                >
+                                    Download All
+                                </Button>
+
+                                <Button
+                                    leftSection={<IconFileZip />}
+                                    variant='light'
+                                    onClick={() => {
+                                        toDownloadFileZip(outputFile, settings.opFormat)
+                                    }}
+                                >
+                                    Download All by ZIP
+                                </Button>
+                            </Group>
                         </Group>
                     </Box>
                 )}

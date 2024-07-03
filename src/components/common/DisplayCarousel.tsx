@@ -31,7 +31,7 @@ function DisplayCarousel({ imgsList, showsDownload = false }: DisplayCarouselPro
                                     mt={18}
                                     // mb={18}
                                     variant='light' fullWidth
-                                    onClick={() => toDownloadFile(url, "Hello")}
+                                    onClick={() => toDownloadFile(url)}
                                 >
                                     Download
                                 </Button>
