@@ -3,7 +3,7 @@ const { Jimp } = window as any;
 
 import { Button, Group, Box, Text, Progress, Accordion, Grid, Select, NumberInput } from '@mantine/core';
 import { useState } from 'react';
-import { IconFileUpload, IconFileZip, IconImageInPicture, IconReload, IconZip } from '@tabler/icons-react';
+import { IconFileUpload, IconFileZip, IconImageInPicture, IconReload } from '@tabler/icons-react';
 
 import toast from 'react-hot-toast';
 import { FileWithPath } from '@mantine/dropzone';
