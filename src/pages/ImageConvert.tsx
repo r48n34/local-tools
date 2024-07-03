@@ -1,7 +1,7 @@
 import 'jimp/browser/lib/jimp';
 const { Jimp } = window as any;
 
-import { Button, Group, Box, Text, Progress, Accordion, Grid, Select, NumberInput, Container } from '@mantine/core';
+import { LoadingOverlay, Button, Group, Box, Text, Progress, Accordion, Grid, Select, NumberInput, Container } from '@mantine/core';
 import { useMemo, useState } from 'react';
 import { IconFileUpload, IconFileZip, IconImageInPicture, IconReload } from '@tabler/icons-react';
 
@@ -22,7 +22,11 @@ interface Settings {
 function UploadFormComp() {
 
     const [progressNumber, setProgressNumber] = useState<number>(-1);
+
+    // Input files
     const [files, setFiles] = useState<FileWithPath[]>([]);
+
+    // Output files
     const [outputFile, setOutputFile] = useState<string[]>([]);
 
     const [settings, setSettings] = useState<Settings>({
@@ -37,26 +41,23 @@ function UploadFormComp() {
             toast.success('Converting images...')
             setOutputFile([]);
 
-            let resultArr = []
-
-            // Jimp.MIME_PNG, Jimp.MIME_JPEG, Jimp.MIME_BMP
             const opType = settings.opFormat === "png"
                 ? Jimp.MIME_PNG
-                : settings.opFormat === "jpeg"
-                    ? Jimp.MIME_JPEG
-                    : settings.opFormat === "bmp"
-                        ? Jimp.MIME_BMP
-                        : Jimp.MIME_JPEG
+                : settings.opFormat === "bmp"
+                    ? Jimp.MIME_BMP
+                    : Jimp.MIME_JPEG // "jpeg"
 
+            let resultArr = []
             for (let file of files) {
-                
-                if(settings.opFormat === "webp"){
+
+                if (settings.opFormat === "webp") {
                     resultArr.push(
                         URL.createObjectURL(await imageToWebp(file, settings.quality))
                     )
                 }
                 else {
 
+                    // If it's webp, change to png first due to Jimp do not support webp input
                     const finalFile = file.type === "image/webp"
                         ? await webpimageToPng(file)
                         : file
@@ -67,9 +68,9 @@ function UploadFormComp() {
 
                     resultArr.push(
                         await jimpImage
-                        .scale(settings.scale)
-                        .quality(settings.quality)
-                        .getBase64Async(opType)
+                            .scale(settings.scale)
+                            .quality(settings.quality)
+                            .getBase64Async(opType)
                     )
                 }
 
@@ -82,7 +83,6 @@ function UploadFormComp() {
 
         }
         catch (error) {
-            // console.log(error);
             toast.error("Error. Please try another file", { position: 'top-right' })
         }
         finally {
@@ -92,8 +92,9 @@ function UploadFormComp() {
     }
 
     // Prevent flashing display rerender
-    const DisplayCarouselMemo = useMemo( () => 
-        <DisplayCarousel imgsList={files.map(v => URL.createObjectURL(v))} showsDownload={false} />, [files]
+    const DisplayCarouselMemo = useMemo(() =>
+        <DisplayCarousel imgsList={files.map(v => URL.createObjectURL(v))} showsDownload={false} />,
+        [files]
     );
 
     return (
@@ -109,7 +110,7 @@ function UploadFormComp() {
             <Box mx="auto" mt={32}>
 
                 {progressNumber >= 0 && (
-                    <Progress.Root size="xl">
+                    <Progress.Root size="xl" mb={12}>
                         <Progress.Section value={progressNumber}>
                             <Progress.Label>
                                 {progressNumber} %
@@ -119,7 +120,8 @@ function UploadFormComp() {
                 )}
 
                 {outputFile.length <= 0 && (
-                    <>
+                    <Box pos="relative">
+                        <LoadingOverlay visible={progressNumber >= 0} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
                         <DropZoneComp setFilesCb={setFiles} />
 
                         <Accordion defaultValue="Setting">
@@ -167,14 +169,16 @@ function UploadFormComp() {
                             </Accordion.Item>
                         </Accordion>
 
-                        <Box mt={24}>
+                        {files.length >= 1 && (
+                            <Box mt={24}>
 
-                            { DisplayCarouselMemo }
-                            
-                            <Text ta="right" mt={24} fz={18} fw={500} c="dimmed">
-                                Uploaded total: {files.length} files
-                            </Text>
-                        </Box>
+                                {DisplayCarouselMemo}
+
+                                <Text ta="right" mt={24} fz={18} fw={500} c="dimmed">
+                                    Uploaded total: {files.length} files
+                                </Text>
+                            </Box>
+                        )}
 
                         <Group justify="flex-end" mb={16} mt={22}>
                             <Button
@@ -182,15 +186,22 @@ function UploadFormComp() {
                                 leftSection={<IconFileUpload />}
                                 variant="light"
                                 onClick={transferFile}
+                                loading={progressNumber >= 0}
                             >
                                 Transfer all image
                             </Button>
                         </Group>
-                    </>
+
+                    </Box>
                 )}
 
                 {outputFile.length >= 1 && (
                     <Box mx="auto" mt={32}>
+                        
+                        <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
+                            Result images
+                        </Text>
+
                         <DisplayCarousel imgsList={outputFile} showsDownload={true} />
                         <Group justify="space-between" mb={16} mt={22}>
 

@@ -1,6 +1,7 @@
 import { Group, Text, rem } from '@mantine/core';
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
 import { Dropzone, FileWithPath } from '@mantine/dropzone';
+import toast from 'react-hot-toast';
 
 type DropZoneCompProps = {
     setFilesCb: (files: FileWithPath[]) => void;
@@ -9,10 +10,12 @@ type DropZoneCompProps = {
 function DropZoneComp({ setFilesCb, ...props }: DropZoneCompProps) {
     return (
         <Dropzone
-            onDrop={(files) => setFilesCb(files)}
+            onDrop={(files) => {
+                setFilesCb(files);
+                toast.success(`Success to upload ${files.length} images`)
+            }}
             onReject={(files) => console.log("Failed file", files)}
             maxSize={500 * 1024 ** 2}
-            // accept={IMAGE_MIME_TYPE}
             accept={["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif", "image/webp"]}
             {...props}
         >

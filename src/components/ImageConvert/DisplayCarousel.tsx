@@ -2,6 +2,7 @@ import { Box, Button, Card, Image } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import { toDownloadFile } from '../../utils/downloadFile';
 import { memo } from 'react';
+import { IconDownload } from '@tabler/icons-react';
 
 interface DisplayCarouselProps {
     imgsList: string[]
@@ -12,7 +13,7 @@ function DisplayCarousel({ imgsList, showsDownload = false }: DisplayCarouselPro
 
     return (
         <>
-            <Carousel slideSize="70%" slideGap="md" withIndicators height={430}>
+            <Carousel slideSize="70%" slideGap="md" withIndicators height={430} loop>
                 {imgsList.map((url) => (
                     <Carousel.Slide key={url}>
                         <Card shadow="sm" padding="lg" radius="md">
@@ -29,9 +30,9 @@ function DisplayCarousel({ imgsList, showsDownload = false }: DisplayCarouselPro
                             </Card.Section>
 
                             {showsDownload && (
-                                <Button 
+                                <Button
+                                    leftSection={<IconDownload />}
                                     mt={18}
-                                    // mb={18}
                                     variant='light' fullWidth
                                     onClick={() => toDownloadFile(url)}
                                 >

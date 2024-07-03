@@ -22,8 +22,7 @@ function HomePage() {
                         <Card 
                             component="a" href={v.link} 
                             onClick={(e) => {
-                                e.preventDefault();
-                                
+                                e.preventDefault();    
                                 navigate(v.link)
                             }}
                             shadow="sm" padding="lg" radius="md" withBorder
@@ -39,7 +38,6 @@ function HomePage() {
                                 {v.desc}
                             </Text>
 
-                            
                         </Card>
                     </Grid.Col>
                 )}
