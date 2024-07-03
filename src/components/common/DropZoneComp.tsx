@@ -11,7 +11,7 @@ function DropZoneComp({ setFilesCb, ...props }: DropZoneCompProps) {
         <Dropzone
             onDrop={(files) => setFilesCb(files)}
             onReject={(files) => console.log("Failed file", files)}
-            maxSize={20 * 1024 ** 2}
+            maxSize={500 * 1024 ** 2}
             // accept={IMAGE_MIME_TYPE}
             accept={["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif"]}
             {...props}
@@ -41,7 +41,7 @@ function DropZoneComp({ setFilesCb, ...props }: DropZoneCompProps) {
                         Drag images here or click to select files
                     </Text>
                     <Text size="sm" c="dimmed" inline mt={7}>
-                        Attach as many files as you like, each file should not exceed 5mb
+                        Attach as many images as you like
                     </Text>
                 </div>
             </Group>

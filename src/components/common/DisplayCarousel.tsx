@@ -1,23 +1,42 @@
-import { Image } from '@mantine/core';
+import { Box, Button, Card, Image } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
+import { toDownloadFile } from '../../utils/downloadFile';
 
 interface DisplayCarouselProps {
     imgsList: string[]
+    showsDownload: boolean
 }
 
-function DisplayCarousel({ imgsList }: DisplayCarouselProps) {
+function DisplayCarousel({ imgsList, showsDownload = false }: DisplayCarouselProps) {
     return (
         <>
-            <Carousel slideSize="70%" height={500} slideGap="md" withIndicators>
+            <Carousel slideSize="70%" slideGap="md" withIndicators height={430}>
                 {imgsList.map((url) => (
                     <Carousel.Slide key={url}>
-                        <Image
-                            src={url}
-                            style={{ borderRadius: "20px", objectFit: "cover" }}
-                            alt={"Images"}
-                            height={500}
-                            width="100%"
-                        />
+                        <Card shadow="sm" padding="lg" radius="md">
+                            <Card.Section>
+                                <Box>
+                                    <Image
+                                        src={url}
+                                        style={{ objectFit: "cover" }}
+                                        alt={"Images"}
+                                        height={300}
+                                        width="100%"
+                                    />
+                                </Box>
+                            </Card.Section>
+
+                            {showsDownload && (
+                                <Button 
+                                    mt={18}
+                                    // mb={18}
+                                    variant='light' fullWidth
+                                    onClick={() => toDownloadFile(url, "Hello")}
+                                >
+                                    Download
+                                </Button>
+                            )}
+                        </Card>
                     </Carousel.Slide>
                 ))}
             </Carousel>
