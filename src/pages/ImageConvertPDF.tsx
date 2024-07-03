@@ -1,6 +1,3 @@
-// import 'jimp/browser/lib/jimp';
-// const { Jimp } = window as any;
-
 import jsPDF from 'jspdf';
 import { Button, Group, Box, Text, Container, LoadingOverlay } from '@mantine/core';
 import { useMemo, useState } from 'react';
@@ -41,9 +38,10 @@ function ImageConvertPDF() {
                 }
 
                 grandPdf.addImage(currentImg, 'PNG', 0, 0, width, height);
-                setProgressNumber(Math.floor(( (i + 1) / files.length) * 100))
+                setProgressNumber(Math.floor(( (i + 1) / files.length) * 100 ))
             }
 
+            // Remove the first blank page
             grandPdf.deletePage(1);
             grandPdf.save('combinded_download.pdf')
         }
@@ -53,7 +51,6 @@ function ImageConvertPDF() {
         finally {
             setProgressNumber(-1)
         }
-
 
     }
 

@@ -5,6 +5,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { IconChevronRight, IconTools } from '@tabler/icons-react';
 import SpotLightSearch from './SpotLightSearch';
 import { categoryList } from '../../data/routeData';
+import ToggleThemeBtn from './ToggleThemeBtn';
 
 function Layout() {
     const navigate = useNavigate()
@@ -35,11 +36,12 @@ function Layout() {
 
                     <Group visibleFrom="sm">
                         <SpotLightSearch />
+                        <ToggleThemeBtn />
                     </Group>
 
                     <Group hiddenFrom="sm">
-                        {/* <HistoryLookUp /> */}
                         <Burger opened={opened} onClick={toggle} size="sm" />
+                        <ToggleThemeBtn />
                     </Group>
 
                 </Group>
