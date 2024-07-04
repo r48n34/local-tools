@@ -1,4 +1,4 @@
-import { Container, Group, Anchor, Text } from '@mantine/core';
+import { Container, Group, Anchor, Text, Box } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { IconTools } from '@tabler/icons-react';
 
@@ -6,6 +6,7 @@ import classes from '../../styles/FooterSimple.module.css';
 
 const links = [
     { link: '/', label: 'Home', format: "internal" },
+    { link: '/legal', label: 'Legal', format: "internal" },
     { link: 'https://github.com/r48n34/local-tools', label: 'Github', format: "external" },
 ];
 
@@ -35,13 +36,24 @@ function FooterComp() {
     return (
         <div className={classes.footer} style={{ minHeight: "100%" }}>
             <Container className={classes.inner}>
-                <Group>
-                    <IconTools size={24} />
-                    <Text fw={300} fz={20} ml={-10}>
-                        Tools Box
+                <Box>
+                    <Group>
+                        <IconTools size={24} />
+                        <Text fw={300} fz={20} ml={-10}>
+                            Tools Box
+                        </Text>
+                    </Group>
+
+                    <Text c="dimmed" fz={12} mt={4}>
+                        © {new Date().getFullYear()} Reemo Studio. All Rights Reserved.
                     </Text>
+                </Box>
+
+                <Group className={classes.links}>
+                    {items}
                 </Group>
-                <Group className={classes.links}>{items}</Group>
+
+
             </Container>
         </div>
     );

@@ -84,7 +84,7 @@ function Layout() {
 
             </AppShell.Navbar>
 
-            <AppShell.Main style={{ display: "flex", minHeight: "105vh", flexDirection: "column" }}>
+            <AppShell.Main style={{ display: "flex", minHeight: "100vh", flexDirection: "column" }}>
                 <Box style={{ flex: 1 }}>
                     <Outlet />
                 </Box>

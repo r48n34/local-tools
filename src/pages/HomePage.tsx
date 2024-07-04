@@ -21,7 +21,7 @@ function HomePage() {
                 {categoryList
                     .filter(v => v.displayAtHome)
                     .map(v =>
-                    <Grid.Col span={4}>
+                    <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
                         <Card 
                             component="a" href={v.link} 
                             onClick={(e) => {

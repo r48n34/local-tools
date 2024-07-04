@@ -15,9 +15,10 @@ import LoadingPage from './components/common/LoadingPage';
 import Layout from './components/common/Layout';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
-const ImageConvert = lazy(() => import('./pages/ImageConvert'));
-const ImageConvertPDF = lazy(() => import('./pages/ImageConvertPDF'));
-const PdfConvertImage = lazy(() => import('./pages/PdfConvertImage'));
+const LegalPage = lazy(() => import('./pages/LegalPage'));
+const ImageConvert = lazy(() => import('./pages/tools/ImageConvert'));
+const ImageConvertPDF = lazy(() => import('./pages/tools/ImageConvertPDF'));
+const PdfConvertImage = lazy(() => import('./pages/tools/PdfConvertImage'));
 
 const router = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
             {
                 path: "/",
                 element: <HomePage />,
+            },
+            {
+                path: "/legal",
+                element: <LegalPage />,
             },
             {
                 path: "/imageConvert",

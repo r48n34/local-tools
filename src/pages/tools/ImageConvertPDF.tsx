@@ -4,12 +4,12 @@ import { useMemo, useState } from 'react';
 import { IconFileUpload } from '@tabler/icons-react';
 
 import { FileWithPath } from '@mantine/dropzone';
-import DropZoneComp from '../components/ImageConvert/DropZoneComp';
+import DropZoneComp from '../../components/ImageConvert/DropZoneComp';
 
-import { getHeightAndWidthFromDataUrl } from '../utils/convertUtils';
-import DisplayCarouselPdf from '../components/convertPDF/DisplayCarouselPdf';
+import { getHeightAndWidthFromDataUrl } from '../../utils/convertUtils';
+import DisplayCarouselPdf from '../../components/convertPDF/DisplayCarouselPdf';
 import toast from 'react-hot-toast';
-import ProgressBar from '../components/ImageConvert/ProgressBar';
+import ProgressBar from '../../components/ImageConvert/ProgressBar';
 
 function ImageConvertPDF() {
 
