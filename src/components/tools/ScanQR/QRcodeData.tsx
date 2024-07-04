@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Accordion, Card, Group, Text, Textarea } from '@mantine/core';
 import QRCode from "react-qr-code";
 import { imageSrcToQR } from '../../../utils/qrUtils';
-// import { notifications } from '@mantine/notifications';
 import CopyTextBtn from './CopyTextBtn';
 import toast from 'react-hot-toast';
 
@@ -63,8 +62,6 @@ function QRcodeData({ src, title = "QR data" }: QRcodeDataProps) {
                         {qrCodeData}
                     </Text>
 
-
-
                     <Accordion defaultValue="Apples">
                         <Accordion.Item key={"Raw data"} value={"Raw data"}>
                             <Accordion.Control>
@@ -73,7 +70,6 @@ function QRcodeData({ src, title = "QR data" }: QRcodeDataProps) {
 
                             <Accordion.Panel>
                                 <Textarea
-                                    // label="Raw data"
                                     value={qrCodeData}
                                 />
 

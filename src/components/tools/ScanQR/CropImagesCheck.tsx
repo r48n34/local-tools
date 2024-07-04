@@ -73,7 +73,10 @@ function CropImagesCheck({ src }: CropImagesCheckProps) {
 
             </Grid>
 
-            <QRcodeData src={croppedImage} title={"Cropped images QR found"} /> 
+            <QRcodeData
+                src={croppedImage}
+                title={"Cropped images QR found"}
+            /> 
         </>
     )
 }

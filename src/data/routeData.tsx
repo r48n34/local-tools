@@ -1,4 +1,4 @@
-import { IconFileAnalytics, IconImageInPicture, IconPdf, IconQrcode } from "@tabler/icons-react";
+import { IconFileAnalytics, IconImageInPicture, IconPdf, IconPictureInPictureFilled, IconQrcode } from "@tabler/icons-react";
 
 export const categoryList = [
     {
@@ -36,6 +36,16 @@ export const categoryList = [
         link: "scanQR",
         desc: "Scan Qr code from upload image",
         icon: <IconQrcode size={60}/>,
+        categories: "QR",
+        tags: ["QR", "Image"],
+        displayAtHome: true,
+        displayAtNav: true
+    },
+    {
+        labels: "QR maker",
+        link: "makeQR",
+        desc: "Making your own QR code",
+        icon: <IconPictureInPictureFilled size={60}/>,
         categories: "QR",
         tags: ["QR", "Image"],
         displayAtHome: true,
