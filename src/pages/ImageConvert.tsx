@@ -94,7 +94,11 @@ function UploadFormComp() {
 
     // Prevent flashing display rerender
     const DisplayCarouselMemo = useMemo(() =>
-        <DisplayCarousel imgsList={files.map(v => URL.createObjectURL(v))} showsDownload={false} />,
+        <DisplayCarousel
+        imgsList={files.map(v => URL.createObjectURL(v))}
+        showsDownload={false}
+        deleteCb={(ind) => setFiles( (files) => files.filter( (_, i) => i !== ind ))}
+        />,
         [files]
     );
 

@@ -56,7 +56,10 @@ function ImageConvertPDF() {
 
     // Prevent flashing display rerender
     const DisplayCarouselMemo = useMemo(() =>
-        <DisplayCarouselPdf imgsList={files.map(v => URL.createObjectURL(v))} />,
+        <DisplayCarouselPdf
+            imgsList={files.map(v => URL.createObjectURL(v))}
+            deleteCb={(ind) => setFiles( (files) => files.filter( (_, i) => i !== ind ))}
+        />,
         [files]
     );
 

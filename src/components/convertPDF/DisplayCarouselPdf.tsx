@@ -1,16 +1,17 @@
-import { Box, Button, Card, Image } from '@mantine/core';
+import { ActionIcon, Box, Button, Card, Group, Image, Tooltip } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import { memo } from 'react';
-import { IconDownload } from '@tabler/icons-react';
+import { IconDownload, IconTrash } from '@tabler/icons-react';
 import toast from 'react-hot-toast';
 import jsPDF from 'jspdf';
 import { getHeightAndWidthFromDataUrl } from '../../utils/convertUtils';
 
 interface DisplayCarouselProps {
     imgsList: string[]
+    deleteCb?: (index: number) => void
 }
 
-function DisplayCarouselPdf({ imgsList }: DisplayCarouselProps) {
+function DisplayCarouselPdf({ imgsList, deleteCb }: DisplayCarouselProps) {
 
     async function transferFile(url: string) {
 
@@ -25,7 +26,7 @@ function DisplayCarouselPdf({ imgsList }: DisplayCarouselProps) {
 
             doc.addImage(currentImg, 'PNG', 0, 0, width, height);
             doc.save('download.pdf');
-    
+
             toast.success('Done, enjoy your PDF!')
         }
         catch (error) {
@@ -37,10 +38,19 @@ function DisplayCarouselPdf({ imgsList }: DisplayCarouselProps) {
     return (
         <>
             <Carousel slideSize="70%" slideGap="md" withIndicators height={430} loop>
-                {imgsList.map((url) => (
+                {imgsList.map((url, i) => (
                     <Carousel.Slide key={url}>
                         <Card shadow="sm" padding="lg" radius="md">
                             <Card.Section>
+                                {!!deleteCb && (
+                                    <Group justify='flex-end' >
+                                        <Tooltip label="Remove file">
+                                            <ActionIcon variant="light" aria-label="Settings" onClick={() => deleteCb(i)}>
+                                                <IconTrash style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                            </ActionIcon>
+                                        </Tooltip>
+                                    </Group>
+                                )}
                                 <Box>
                                     <Image
                                         src={url}
@@ -50,6 +60,7 @@ function DisplayCarouselPdf({ imgsList }: DisplayCarouselProps) {
                                         width="100%"
                                     />
                                 </Box>
+
                             </Card.Section>
 
                             <Button

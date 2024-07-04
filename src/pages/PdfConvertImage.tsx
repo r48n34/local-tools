@@ -12,7 +12,10 @@ function PdfConvertImage() {
 
     // Prevent flashing display rerender
     const DisplayCarouselMemo = useMemo(() =>
-        <DisplayCarouselPdfToImg fileList={files} />,
+        <DisplayCarouselPdfToImg
+            fileList={files}
+            deleteCb={(ind) => setFiles((files) => files.filter((_, i) => i !== ind))}
+        />,
         [files]
     );
 
@@ -28,7 +31,7 @@ function PdfConvertImage() {
 
             <Box mx="auto" mt={32}>
                 <Box pos="relative">
-                    
+
                     <DropZoneComp
                         setFilesCb={(files) => setFiles(currentFiles => [...currentFiles, ...files])}
                         acceptedTypesList={["application/pdf"]}
