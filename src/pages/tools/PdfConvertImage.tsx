@@ -2,8 +2,8 @@ import { Box, Text, Container } from '@mantine/core';
 import { useMemo, useState } from 'react';
 
 import { FileWithPath } from '@mantine/dropzone';
-import DropZoneComp from '../../components/ImageConvert/DropZoneComp';
-import DisplayCarouselPdfToImg from '../../components/PdfConvertImage/DisplayCarouselPdfToImg';
+import DropZoneComp from '../../components/tools/ImageConvert/DropZoneComp';
+import DisplayCarouselPdfToImg from '../../components/tools/PdfConvertImage/DisplayCarouselPdfToImg';
 
 function PdfConvertImage() {
 

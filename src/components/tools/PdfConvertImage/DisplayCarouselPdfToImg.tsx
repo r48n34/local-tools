@@ -10,7 +10,7 @@ import { Carousel } from '@mantine/carousel';
 import { memo, useState } from 'react';
 import { IconDownload, IconTrash } from '@tabler/icons-react';
 import toast from 'react-hot-toast';
-import { toDownloadFileZip } from '../../utils/downloadFile';
+import { toDownloadFileZip } from '../../../utils/downloadFile';
 import ProgressBar from '../ImageConvert/ProgressBar';
 
 interface DisplayCarouselProps {

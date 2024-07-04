@@ -19,6 +19,7 @@ const LegalPage = lazy(() => import('./pages/LegalPage'));
 const ImageConvert = lazy(() => import('./pages/tools/ImageConvert'));
 const ImageConvertPDF = lazy(() => import('./pages/tools/ImageConvertPDF'));
 const PdfConvertImage = lazy(() => import('./pages/tools/PdfConvertImage'));
+const ScanQR = lazy(() => import('./pages/tools/ScanQR'));
 
 const router = createBrowserRouter([
     {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
             {
                 path: "/pdfConvertImages",
                 element: <PdfConvertImage />,
+            },
+            {
+                path: "/scanQR",
+                element: <ScanQR />,
             },
         ]
     }

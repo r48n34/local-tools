@@ -7,11 +7,11 @@ import { IconFileUpload, IconFileZip, IconImageInPicture, IconReload } from '@ta
 
 import toast from 'react-hot-toast';
 import { FileWithPath } from '@mantine/dropzone';
-import DropZoneComp from '../../components/ImageConvert/DropZoneComp';
-import DisplayCarousel from '../../components/ImageConvert/DisplayCarousel';
+import DropZoneComp from '../../components/tools/ImageConvert/DropZoneComp';
+import DisplayCarousel from '../../components/tools/ImageConvert/DisplayCarousel';
 import { toDownloadFile, toDownloadFileZip } from '../../utils/downloadFile';
 import { imageToWebp, webpimageToPng } from '../../utils/convertUtils';
-import ProgressBar from '../../components/ImageConvert/ProgressBar';
+import ProgressBar from '../../components/tools/ImageConvert/ProgressBar';
 
 type OPFormat = "jpeg" | "png" | "bmp" | "webp"
 interface Settings {

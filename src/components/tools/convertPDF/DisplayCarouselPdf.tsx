@@ -4,7 +4,7 @@ import { memo } from 'react';
 import { IconDownload, IconTrash } from '@tabler/icons-react';
 import toast from 'react-hot-toast';
 import jsPDF from 'jspdf';
-import { getHeightAndWidthFromDataUrl } from '../../utils/convertUtils';
+import { getHeightAndWidthFromDataUrl } from '../../../utils/convertUtils';
 
 interface DisplayCarouselProps {
     imgsList: string[]

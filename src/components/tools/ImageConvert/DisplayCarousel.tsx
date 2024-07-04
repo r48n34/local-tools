@@ -1,6 +1,6 @@
 import { ActionIcon, Box, Button, Card, Group, Image, Tooltip } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
-import { toDownloadFile } from '../../utils/downloadFile';
+import { toDownloadFile } from '../../../utils/downloadFile';
 import { memo } from 'react';
 import { IconDownload, IconTrash } from '@tabler/icons-react';
 
