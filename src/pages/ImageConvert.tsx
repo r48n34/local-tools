@@ -116,8 +116,17 @@ function UploadFormComp() {
 
                 {outputFile.length <= 0 && (
                     <Box pos="relative">
-                        <LoadingOverlay visible={progressNumber >= 0} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
-                        <DropZoneComp setFilesCb={setFiles} acceptedTypesList={["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif", "image/webp"]} />
+
+                        <LoadingOverlay
+                            visible={progressNumber >= 0}
+                            zIndex={1000}
+                            overlayProps={{ radius: "sm", blur: 2 }}
+                        />
+
+                        <DropZoneComp 
+                            setFilesCb={(files) => setFiles( currentFiles => [...currentFiles, ...files] )}
+                            acceptedTypesList={["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif", "image/webp"]}
+                        />
 
                         <Accordion defaultValue="Setting">
                             <Accordion.Item key="Setting" value="Setting">

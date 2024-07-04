@@ -28,7 +28,11 @@ function PdfConvertImage() {
 
             <Box mx="auto" mt={32}>
                 <Box pos="relative">
-                    <DropZoneComp setFilesCb={setFiles} acceptedTypesList={["application/pdf"]} />
+                    
+                    <DropZoneComp
+                        setFilesCb={(files) => setFiles(currentFiles => [...currentFiles, ...files])}
+                        acceptedTypesList={["application/pdf"]}
+                    />
 
                     {files.length >= 1 && (
                         <Box mt={24}>

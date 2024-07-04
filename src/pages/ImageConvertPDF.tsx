@@ -38,7 +38,7 @@ function ImageConvertPDF() {
                 }
 
                 grandPdf.addImage(currentImg, 'PNG', 0, 0, width, height);
-                setProgressNumber(Math.floor(( (i + 1) / files.length) * 100 ))
+                setProgressNumber(Math.floor(((i + 1) / files.length) * 100))
             }
 
             // Remove the first blank page
@@ -77,8 +77,15 @@ function ImageConvertPDF() {
                 )}
 
                 <Box pos="relative">
-                    <LoadingOverlay visible={progressNumber >= 0} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
-                    <DropZoneComp setFilesCb={setFiles} acceptedTypesList={["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif", "image/webp"]} />
+                    <LoadingOverlay
+                        visible={progressNumber >= 0}
+                        zIndex={1000}
+                        overlayProps={{ radius: "sm", blur: 2 }}
+                    />
+                    <DropZoneComp
+                        setFilesCb={(files) => setFiles(currentFiles => [...currentFiles, ...files])}
+                        acceptedTypesList={["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif", "image/webp"]}
+                    />
 
                     {files.length >= 1 && (
                         <Box mt={24}>
