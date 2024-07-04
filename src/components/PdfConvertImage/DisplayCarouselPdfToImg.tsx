@@ -11,6 +11,7 @@ import { memo, useState } from 'react';
 import { IconDownload, IconTrash } from '@tabler/icons-react';
 import toast from 'react-hot-toast';
 import { toDownloadFileZip } from '../../utils/downloadFile';
+import ProgressBar from '../ImageConvert/ProgressBar';
 
 interface DisplayCarouselProps {
     fileList: File[]
@@ -55,7 +56,8 @@ function DisplayCarouselPdfToImg({ fileList, deleteCb }: DisplayCarouselProps) {
 
                 if (data.length === totalPages) {
                     toDownloadFileZip(data, "jpeg");
-                    setProgressNumber(-1)
+                    setProgressNumber(-1);
+                    toast.success("Done, enjoy your zip file!")
                 }
 
             }
@@ -90,9 +92,9 @@ function DisplayCarouselPdfToImg({ fileList, deleteCb }: DisplayCarouselProps) {
                                         </Tooltip>
                                     </Group>
                                 )}
-                                
+
                                 <Box>
-                                    <Text ta="center" fz={28} mt={12}>
+                                    <Text ta="center" fz={24} mt={12}>
                                         {file.name}
                                     </Text>
                                     <Text ta="center" fz={16} c="dimmed">
@@ -111,6 +113,10 @@ function DisplayCarouselPdfToImg({ fileList, deleteCb }: DisplayCarouselProps) {
                             >
                                 Download PDF
                             </Button>
+
+                            {progressNumber >= 0 && (
+                                <ProgressBar progressNumber={progressNumber} />
+                            )}
 
                         </Card>
                     </Carousel.Slide>

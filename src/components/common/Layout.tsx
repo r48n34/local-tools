@@ -66,7 +66,7 @@ function Layout() {
                     scrollbarSize={2}
                 >
                     {
-                        categoryList.map((v) => (
+                        categoryList.filter(v => v.displayAtNav).map((v) => (
                             <NavLink
                                 key={v.link}
                                 label={v.labels}

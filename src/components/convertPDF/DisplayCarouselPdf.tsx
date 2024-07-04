@@ -26,7 +26,7 @@ function DisplayCarouselPdf({ imgsList, deleteCb }: DisplayCarouselProps) {
 
             doc.addImage(currentImg, 'PNG', 0, 0, width, height);
             doc.save('download.pdf');
-
+    
             toast.success('Done, enjoy your PDF!')
         }
         catch (error) {
@@ -42,15 +42,15 @@ function DisplayCarouselPdf({ imgsList, deleteCb }: DisplayCarouselProps) {
                     <Carousel.Slide key={url}>
                         <Card shadow="sm" padding="lg" radius="md">
                             <Card.Section>
-                                {!!deleteCb && (
-                                    <Group justify='flex-end' >
-                                        <Tooltip label="Remove file">
-                                            <ActionIcon variant="light" aria-label="Settings" onClick={() => deleteCb(i)}>
-                                                <IconTrash style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                            </ActionIcon>
-                                        </Tooltip>
-                                    </Group>
-                                )}
+                                    {!!deleteCb && (
+                                        <Group justify='flex-end' >
+                                            <Tooltip label="Remove file">
+                                                <ActionIcon variant="light" aria-label="Settings" onClick={() => deleteCb(i)}>
+                                                    <IconTrash style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                                </ActionIcon>
+                                            </Tooltip>
+                                        </Group>
+                                    )}
                                 <Box>
                                     <Image
                                         src={url}

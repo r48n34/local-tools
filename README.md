@@ -1,30 +1,38 @@
-# React + TypeScript + Vite
+# Tools Box
+Collections of web base tools, no server uploading, privacy, efficiency, free, open sources.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+URL: https://local-tools-psi.vercel.app/  
 
-Currently, two official plugins are available:
+## Features  
+1. Free forever and open sources. 
+2. No server uplaod base tools, all process are in local devices (privacy).  
+3. No internet upload require (efficiency).   
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Roadmap
+- ✅ Deploy
+- ⬜️ i18n adapts in future
 
-## Expanding the ESLint configuration
+## Todo
+- ✅ Images convert   
+- ✅ PDF to Images convert   
+- ✅ Images to PDF convert  
+- ⬜️ More images processing related utils
+- ⬜️ Voice related utils
+- ⬜️ Text related utils
+- ⬜️ Drawing related utils
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- Configure the top-level `parserOptions` property like this:
+## Self hosting
+```bash
+# Install with yarn
+yarn
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+# Start with dev
+yarn dev
+
+# Build to production
+yarn build
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## License
+Distributed under the `MIT License`.

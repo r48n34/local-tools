@@ -1,4 +1,4 @@
-import { IconImageInPicture, IconPdf } from "@tabler/icons-react";
+import { IconFileAnalytics, IconImageInPicture, IconPdf } from "@tabler/icons-react";
 
 export const categoryList = [
     {
@@ -7,7 +7,9 @@ export const categoryList = [
         desc: "Convert any images to other format",
         icon: <IconImageInPicture size={60}/>,
         categories: "Media",
-        tags: ["Image"]
+        tags: ["Image"],
+        displayAtHome: true,
+        displayAtNav: true
     },
     {
         labels: "Image To PDF",
@@ -15,15 +17,19 @@ export const categoryList = [
         desc: "Convert images to PDF file",
         icon: <IconPdf size={60}/>,
         categories: "Media",
-        tags: ["Image", "PDF"]
+        tags: ["Image", "PDF"],
+        displayAtHome: true,
+        displayAtNav: true
     },
     {
         labels: "PDF to Images",
         link: "pdfConvertImages",
         desc: "Convert PDF file to images",
-        icon: <IconImageInPicture size={60}/>,
+        icon: <IconFileAnalytics size={60}/>,
         categories: "Media",
-        tags: ["PDF", "Image"]
+        tags: ["PDF", "Image"],
+        displayAtHome: true,
+        displayAtNav: true
     }
 ]
 

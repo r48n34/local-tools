@@ -20,13 +20,14 @@ export async function toDownloadFileZip(strs: string[], currentMineType: "jpeg" 
     for (let i = 0; i < strs.length; i++) {
         const response = await fetch(strs[i]);
         const blob = await response.blob();
-        zip.file(`${crypto.randomUUID()}.${currentMineType}`, blob);
+        zip.file(`${i + 1}_${crypto.randomUUID()}.${currentMineType}`, blob);
     }
 
     // Generate the zip file
     const zipData = await zip.generateAsync({
         type: "blob",
         streamFiles: true,
+        compression: "DEFLATE"
     });
 
     // Create a download link for the zip file
