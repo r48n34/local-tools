@@ -108,7 +108,7 @@ function UploadFormComp() {
                 Transfer file local
             </Text>
 
-            <Text ta={"center"} fz={16} fw={300} mt={-34} c='dimmed'>
+            <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>
                 Convert image in local run time, no server upload require
             </Text>
 

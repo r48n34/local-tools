@@ -1,11 +1,13 @@
-import { AppShell, Burger, Group, ScrollArea, Text, NavLink, UnstyledButton } from '@mantine/core';
+import { AppShell, Burger, Group, ScrollArea, Text, NavLink, UnstyledButton, Box } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 import { Outlet, useNavigate } from "react-router-dom";
-import { IconChevronRight, IconTools } from '@tabler/icons-react';
+import { IconBrandGithubFilled, IconChevronRight, IconTools } from '@tabler/icons-react';
 import SpotLightSearch from './SpotLightSearch';
 import { categoryList } from '../../data/routeData';
 import ToggleThemeBtn from './ToggleThemeBtn';
+import GoUrlBtn from './GoUrlBtn';
+import FooterComp from './FooterComp';
 
 function Layout() {
     const navigate = useNavigate()
@@ -37,11 +39,13 @@ function Layout() {
                     <Group visibleFrom="sm">
                         <SpotLightSearch />
                         <ToggleThemeBtn />
+                        <GoUrlBtn title="Github" url={"https://github.com/r48n34/local-tools"} icon={<IconBrandGithubFilled size={16}/>}/>
                     </Group>
 
                     <Group hiddenFrom="sm">
                         <Burger opened={opened} onClick={toggle} size="sm" />
                         <ToggleThemeBtn />
+                        <GoUrlBtn title="Github" url={"https://github.com/r48n34/local-tools"} icon={<IconBrandGithubFilled size={16}/>}/>
                     </Group>
 
                 </Group>
@@ -78,17 +82,15 @@ function Layout() {
                     )}
                 </AppShell.Section>
 
-                <AppShell.Section>
-                    <Group justify="space-between">
-
-                    </Group>
-                </AppShell.Section>
-
             </AppShell.Navbar>
 
-            <AppShell.Main>
-                <Outlet />
+            <AppShell.Main style={{ display: "flex", minHeight: "105vh", flexDirection: "column" }}>
+                <Box style={{ flex: 1 }}>
+                    <Outlet />
+                </Box>
+                <FooterComp />
             </AppShell.Main>
+
 
         </AppShell>
     );

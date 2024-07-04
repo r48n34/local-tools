@@ -25,7 +25,7 @@ function PdfConvertImage() {
                 PDF to images
             </Text>
 
-            <Text ta={"center"} fz={16} fw={300} mt={-34} c='dimmed'>
+            <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>
                 Convert PDF file to images in local run time, no server upload require
             </Text>
 

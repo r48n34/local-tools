@@ -1,6 +1,7 @@
 import { Container, Title, Text, Grid, Card } from "@mantine/core";
 import { categoryList } from "../data/routeData";
 import { useNavigate } from "react-router-dom";
+import { IconTools } from "@tabler/icons-react";
 
 function HomePage() {
 
@@ -9,11 +10,11 @@ function HomePage() {
     return (
         <Container size={"lg"}>
             <Title order={1} fw={300} fz={52} ta="center">
-                Tools Box
+                <IconTools size={42} /> Tools Box
             </Title>
 
-            <Text mb={48} fw={300} fz={18} mt={-2} c="dimmed" ta="center">
-                Collections of web base tools, no server uploading.
+            <Text mb={48} fw={300} fz={22} mt={-2} c="dimmed" ta="center">
+                Collections of web base tools, no server uploading, privacy, efficiency, free, open sources. 
             </Text>
 
             <Grid>

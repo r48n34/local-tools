@@ -69,7 +69,7 @@ function ImageConvertPDF() {
                 Image To PDF
             </Text>
 
-            <Text ta={"center"} fz={16} fw={300} mt={-34} c='dimmed'>
+            <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>
                 Convert images to PDF file in local run time, no server upload require
             </Text>
 
