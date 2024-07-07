@@ -16,6 +16,8 @@ URL: https://local-tools-psi.vercel.app/
 - ✅ Images convert   
 - ✅ PDF to Images convert   
 - ✅ Images to PDF convert  
+- ✅ Images get QR  
+- ✅ QR maker 
 - ⬜️ More images processing related utils
 - ⬜️ Voice related utils
 - ⬜️ Text related utils

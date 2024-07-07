@@ -2,12 +2,17 @@ import { Container, Title, Text, Grid, Card } from "@mantine/core";
 import { categoryList } from "../data/routeData";
 import { useNavigate } from "react-router-dom";
 import { IconTools } from "@tabler/icons-react";
+import { Helmet } from "react-helmet-async";
 
 function HomePage() {
 
     const navigate = useNavigate()
 
     return (
+        <>
+        <Helmet>
+            <title>Home | Local Tools</title>
+        </Helmet>
         <Container size={"lg"}>
             <Title order={1} fw={300} fz={52} ta="center">
                 <IconTools size={42} /> Tools Box
@@ -46,6 +51,7 @@ function HomePage() {
                 )}
             </Grid>
         </Container>
+        </>
     )
 }
 

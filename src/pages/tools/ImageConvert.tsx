@@ -1,3 +1,5 @@
+import { Helmet } from 'react-helmet-async';
+
 import 'jimp/browser/lib/jimp';
 const { Jimp } = window as any;
 
@@ -95,166 +97,172 @@ function UploadFormComp() {
     // Prevent flashing display rerender
     const DisplayCarouselMemo = useMemo(() =>
         <DisplayCarousel
-        imgsList={files.map(v => URL.createObjectURL(v))}
-        showsDownload={false}
-        deleteCb={(ind) => setFiles( (files) => files.filter( (_, i) => i !== ind ))}
+            imgsList={files.map(v => URL.createObjectURL(v))}
+            showsDownload={false}
+            deleteCb={(ind) => setFiles((files) => files.filter((_, i) => i !== ind))}
         />,
         [files]
     );
 
     return (
-        <Container size={"lg"}>
-            <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
-                Transfer file local
-            </Text>
+        <>
+            <Helmet>
+                <title>Image Converter | Local Tools</title>
+            </Helmet>
+            
+            <Container size={"lg"}>
+                <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
+                    Transfer file local
+                </Text>
 
-            <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>
-                Convert image in local run time, no server upload require
-            </Text>
+                <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>
+                    Convert image in local run time, no server upload require
+                </Text>
 
-            <Box mx="auto" mt={32}>
+                <Box mx="auto" mt={32}>
 
-                {progressNumber >= 0 && (
-                    <ProgressBar progressNumber={progressNumber}/>
-                )}
+                    {progressNumber >= 0 && (
+                        <ProgressBar progressNumber={progressNumber} />
+                    )}
 
-                {outputFile.length <= 0 && (
-                    <Box pos="relative">
+                    {outputFile.length <= 0 && (
+                        <Box pos="relative">
 
-                        <LoadingOverlay
-                            visible={progressNumber >= 0}
-                            zIndex={1000}
-                            overlayProps={{ radius: "sm", blur: 2 }}
-                        />
+                            <LoadingOverlay
+                                visible={progressNumber >= 0}
+                                zIndex={1000}
+                                overlayProps={{ radius: "sm", blur: 2 }}
+                            />
 
-                        <DropZoneComp 
-                            setFilesCb={(files) => setFiles( currentFiles => [...currentFiles, ...files] )}
-                            acceptedTypesList={["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif", "image/webp"]}
-                        />
+                            <DropZoneComp
+                                setFilesCb={(files) => setFiles(currentFiles => [...currentFiles, ...files])}
+                                acceptedTypesList={["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif", "image/webp"]}
+                            />
 
-                        <Accordion defaultValue="Setting">
-                            <Accordion.Item key="Setting" value="Setting">
-                                <Accordion.Control>
-                                    Basic setting
-                                </Accordion.Control>
+                            <Accordion defaultValue="Setting">
+                                <Accordion.Item key="Setting" value="Setting">
+                                    <Accordion.Control>
+                                        Basic setting
+                                    </Accordion.Control>
 
-                                <Accordion.Panel>
-                                    <Grid>
-                                        <Grid.Col span={6}>
-                                            <Select
-                                                label="Output format"
-                                                description="Select your output format"
-                                                data={["jpeg", "png", "bmp", "webp"]}
-                                                value={settings.opFormat}
-                                                onChange={(v) => setSettings({ ...settings, opFormat: v as OPFormat || "jpeg" })}
-                                            />
-                                        </Grid.Col>
-
-                                        <Grid.Col span={6}>
-                                            <NumberInput
-                                                label="Scale images"
-                                                description="x times the image output res (1 = normal)"
-                                                value={settings.scale}
-                                                onChange={(v) => setSettings({ ...settings, scale: +v || 1 })}
-                                                min={0} max={30} step={0.1}
-                                            />
-                                        </Grid.Col>
-
-                                        {["jpeg", "webp"].includes(settings.opFormat) && (
+                                    <Accordion.Panel>
+                                        <Grid>
                                             <Grid.Col span={6}>
-                                                <NumberInput
-                                                    label="Quality output"
-                                                    description="Only affect if you choosing jpeg 1 (Worst) - 100 (Best)"
-                                                    value={settings.quality}
-                                                    onChange={(v) => setSettings({ ...settings, quality: +v || 1 })}
-                                                    min={1} max={100} step={1}
+                                                <Select
+                                                    label="Output format"
+                                                    description="Select your output format"
+                                                    data={["jpeg", "png", "bmp", "webp"]}
+                                                    value={settings.opFormat}
+                                                    onChange={(v) => setSettings({ ...settings, opFormat: v as OPFormat || "jpeg" })}
                                                 />
                                             </Grid.Col>
-                                        )}
-                                    </Grid>
-                                </Accordion.Panel>
 
-                            </Accordion.Item>
-                        </Accordion>
+                                            <Grid.Col span={6}>
+                                                <NumberInput
+                                                    label="Scale images"
+                                                    description="x times the image output res (1 = normal)"
+                                                    value={settings.scale}
+                                                    onChange={(v) => setSettings({ ...settings, scale: +v || 1 })}
+                                                    min={0} max={30} step={0.1}
+                                                />
+                                            </Grid.Col>
 
-                        {files.length >= 1 && (
-                            <Box mt={24}>
+                                            {["jpeg", "webp"].includes(settings.opFormat) && (
+                                                <Grid.Col span={6}>
+                                                    <NumberInput
+                                                        label="Quality output"
+                                                        description="Only affect if you choosing jpeg 1 (Worst) - 100 (Best)"
+                                                        value={settings.quality}
+                                                        onChange={(v) => setSettings({ ...settings, quality: +v || 1 })}
+                                                        min={1} max={100} step={1}
+                                                    />
+                                                </Grid.Col>
+                                            )}
+                                        </Grid>
+                                    </Accordion.Panel>
 
-                                {DisplayCarouselMemo}
+                                </Accordion.Item>
+                            </Accordion>
 
-                                <Text ta="right" mt={24} fz={18} fw={500} c="dimmed">
-                                    Uploaded total: {files.length} files
-                                </Text>
-                            </Box>
-                        )}
+                            {files.length >= 1 && (
+                                <Box mt={24}>
 
-                        <Group justify="flex-end" mb={16} mt={22}>
-                            <Button
-                                disabled={files.length <= 0}
-                                leftSection={<IconFileUpload />}
-                                variant="light"
-                                onClick={transferFile}
-                                loading={progressNumber >= 0}
-                            >
-                                Transfer all image
-                            </Button>
-                        </Group>
+                                    {DisplayCarouselMemo}
 
-                    </Box>
-                )}
+                                    <Text ta="right" mt={24} fz={18} fw={500} c="dimmed">
+                                        Uploaded total: {files.length} files
+                                    </Text>
+                                </Box>
+                            )}
 
-                {outputFile.length >= 1 && (
-                    <Box mx="auto" mt={32}>
-                        
-                        <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
-                            Result images
-                        </Text>
-
-                        <DisplayCarousel imgsList={outputFile} showsDownload={true} />
-                        <Group justify="space-between" mb={16} mt={22}>
-
-                            <Button
-                                leftSection={<IconReload />}
-                                variant='light'
-                                color="green"
-                                onClick={() => {
-                                    setFiles([]);
-                                    setOutputFile([]);
-                                }}
-                            >
-                                Convert again
-                            </Button>
-
-                            <Group>
+                            <Group justify="flex-end" mb={16} mt={22}>
                                 <Button
-                                    leftSection={<IconImageInPicture />}
-                                    variant='light'
-                                    onClick={() => {
-                                        for (let opFile of outputFile) {
-                                            toDownloadFile(opFile)
-                                        }
-                                    }}
+                                    disabled={files.length <= 0}
+                                    leftSection={<IconFileUpload />}
+                                    variant="light"
+                                    onClick={transferFile}
+                                    loading={progressNumber >= 0}
                                 >
-                                    Download All
-                                </Button>
-
-                                <Button
-                                    leftSection={<IconFileZip />}
-                                    variant='light'
-                                    onClick={() => {
-                                        toDownloadFileZip(outputFile, settings.opFormat)
-                                    }}
-                                >
-                                    Download All with ZIP
+                                    Transfer all image
                                 </Button>
                             </Group>
-                        </Group>
-                    </Box>
-                )}
 
-            </Box>
+                        </Box>
+                    )}
 
-        </Container>
+                    {outputFile.length >= 1 && (
+                        <Box mx="auto" mt={32}>
+
+                            <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
+                                Result images
+                            </Text>
+
+                            <DisplayCarousel imgsList={outputFile} showsDownload={true} />
+                            <Group justify="space-between" mb={16} mt={22}>
+
+                                <Button
+                                    leftSection={<IconReload />}
+                                    variant='light'
+                                    color="green"
+                                    onClick={() => {
+                                        setFiles([]);
+                                        setOutputFile([]);
+                                    }}
+                                >
+                                    Convert again
+                                </Button>
+
+                                <Group>
+                                    <Button
+                                        leftSection={<IconImageInPicture />}
+                                        variant='light'
+                                        onClick={() => {
+                                            for (let opFile of outputFile) {
+                                                toDownloadFile(opFile)
+                                            }
+                                        }}
+                                    >
+                                        Download All
+                                    </Button>
+
+                                    <Button
+                                        leftSection={<IconFileZip />}
+                                        variant='light'
+                                        onClick={() => {
+                                            toDownloadFileZip(outputFile, settings.opFormat)
+                                        }}
+                                    >
+                                        Download All with ZIP
+                                    </Button>
+                                </Group>
+                            </Group>
+                        </Box>
+                    )}
+
+                </Box>
+
+            </Container>
+        </>
     );
 }
 

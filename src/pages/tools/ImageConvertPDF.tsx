@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import jsPDF from 'jspdf';
 import { Button, Group, Box, Text, Container, LoadingOverlay } from '@mantine/core';
 import { useMemo, useState } from 'react';
@@ -58,65 +59,71 @@ function ImageConvertPDF() {
     const DisplayCarouselMemo = useMemo(() =>
         <DisplayCarouselPdf
             imgsList={files.map(v => URL.createObjectURL(v))}
-            deleteCb={(ind) => setFiles( (files) => files.filter( (_, i) => i !== ind ))}
+            deleteCb={(ind) => setFiles((files) => files.filter((_, i) => i !== ind))}
         />,
         [files]
     );
 
     return (
-        <Container size={"lg"}>
-            <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
-                Image To PDF
-            </Text>
+        <>
+            <Helmet>
+                <title>Image Convert PDF | Local Tools</title>
+            </Helmet>
+            
+            <Container size={"lg"}>
+                <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
+                    Image To PDF
+                </Text>
 
-            <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>
-                Convert images to PDF file in local run time, no server upload require
-            </Text>
+                <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>
+                    Convert images to PDF file in local run time, no server upload require
+                </Text>
 
-            <Box mx="auto" mt={32}>
+                <Box mx="auto" mt={32}>
 
-                {progressNumber >= 0 && (
-                    <ProgressBar progressNumber={progressNumber} />
-                )}
-
-                <Box pos="relative">
-                    <LoadingOverlay
-                        visible={progressNumber >= 0}
-                        zIndex={1000}
-                        overlayProps={{ radius: "sm", blur: 2 }}
-                    />
-                    <DropZoneComp
-                        setFilesCb={(files) => setFiles(currentFiles => [...currentFiles, ...files])}
-                        acceptedTypesList={["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif", "image/webp"]}
-                    />
-
-                    {files.length >= 1 && (
-                        <Box mt={24}>
-                            {DisplayCarouselMemo}
-
-                            <Text ta="right" mt={24} fz={18} fw={500} c="dimmed">
-                                Uploaded total: {files.length} files
-                            </Text>
-                        </Box>
+                    {progressNumber >= 0 && (
+                        <ProgressBar progressNumber={progressNumber} />
                     )}
 
-                    <Group justify="flex-end" mb={16} mt={22}>
-                        <Button
-                            disabled={files.length <= 0}
-                            leftSection={<IconFileUpload />}
-                            variant="light"
-                            onClick={combindAllToPdf}
-                        >
-                            Combinded all images to single PDF
-                        </Button>
-                    </Group>
+                    <Box pos="relative">
+                        <LoadingOverlay
+                            visible={progressNumber >= 0}
+                            zIndex={1000}
+                            overlayProps={{ radius: "sm", blur: 2 }}
+                        />
+                        <DropZoneComp
+                            setFilesCb={(files) => setFiles(currentFiles => [...currentFiles, ...files])}
+                            acceptedTypesList={["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif", "image/webp"]}
+                        />
+
+                        {files.length >= 1 && (
+                            <Box mt={24}>
+                                {DisplayCarouselMemo}
+
+                                <Text ta="right" mt={24} fz={18} fw={500} c="dimmed">
+                                    Uploaded total: {files.length} files
+                                </Text>
+                            </Box>
+                        )}
+
+                        <Group justify="flex-end" mb={16} mt={22}>
+                            <Button
+                                disabled={files.length <= 0}
+                                leftSection={<IconFileUpload />}
+                                variant="light"
+                                onClick={combindAllToPdf}
+                            >
+                                Combinded all images to single PDF
+                            </Button>
+                        </Group>
+
+                    </Box>
+
 
                 </Box>
 
-
-            </Box>
-
-        </Container>
+            </Container>
+        </>
     );
 }
 

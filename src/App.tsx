@@ -3,6 +3,8 @@ import '@mantine/dropzone/styles.css';
 import '@mantine/carousel/styles.css';
 import '@mantine/spotlight/styles.css';
 
+import { HelmetProvider } from 'react-helmet-async';
+
 import { lazy, Suspense } from 'react';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -61,6 +63,7 @@ const router = createBrowserRouter([
 
 function App() {
     return (
+        <HelmetProvider>
         <MantineProvider>
             <Toaster position="top-right" />
             <ErrorBoundary fallback={<ErrorComp />}>
@@ -69,6 +72,7 @@ function App() {
                 </Suspense>
             </ErrorBoundary>
         </MantineProvider>
+        </HelmetProvider>
     )
 }
 

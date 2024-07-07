@@ -4,6 +4,7 @@ import { IconUpload } from '@tabler/icons-react';
 
 import QRcodeData from '../../components/tools/ScanQR/QRcodeData';
 import CropImagesCheck from '../../components/tools/ScanQR/CropImagesCheck';
+import { Helmet } from 'react-helmet-async';
 
 interface FormObject {
     file: File | null
@@ -26,37 +27,43 @@ function ScanQR() {
     });
 
     return (
-        <Container size={"lg"}>
-            <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
-                QR scan
-            </Text>
+        <>
+            <Helmet>
+                <title>Scan QR | Local Tools</title>
+            </Helmet>
 
-            <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>
-                Your website serverless QR scan
-            </Text>
+            <Container size={"lg"}>
+                <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
+                    QR scan
+                </Text>
 
-            <form onSubmit={form.onSubmit((values) => console.log(values))}>
+                <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>
+                    Your website serverless QR scan
+                </Text>
 
-                <FileInput
-                    placeholder="hello.png"
-                    label="Image file"
-                    withAsterisk
-                    accept="image/png, image/jpg, image/jpeg"
-                    leftSection={<IconUpload size={12} />}
-                    {...form.getInputProps('file')}
-                    mb={16}
-                />
+                <form onSubmit={form.onSubmit((values) => console.log(values))}>
 
-                {form.values.file
-                    ? (<>
-                        <QRcodeData title={"Original images QR found"} src={URL.createObjectURL(form.values.file)} />
-                        <CropImagesCheck src={URL.createObjectURL(form.values.file)} />
-                    </>)
-                    : <></>
-                }
+                    <FileInput
+                        placeholder="hello.png"
+                        label="Image file"
+                        withAsterisk
+                        accept="image/png, image/jpg, image/jpeg"
+                        leftSection={<IconUpload size={12} />}
+                        {...form.getInputProps('file')}
+                        mb={16}
+                    />
 
-            </form>
-        </Container>
+                    {form.values.file
+                        ? (<>
+                            <QRcodeData title={"Original images QR found"} src={URL.createObjectURL(form.values.file)} />
+                            <CropImagesCheck src={URL.createObjectURL(form.values.file)} />
+                        </>)
+                        : <></>
+                    }
+
+                </form>
+            </Container>
+        </>
     )
 }
 
