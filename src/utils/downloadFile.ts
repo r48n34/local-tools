@@ -5,6 +5,8 @@ export function toDownloadFile(str: string) {
     if (typeof window !== "undefined") {
         const link = document.createElement("a");
         link.href = str;
+
+        // File name
         link.download = crypto.randomUUID();
 
         link.click();
@@ -12,7 +14,10 @@ export function toDownloadFile(str: string) {
 
 }
 
-export async function toDownloadFileZip(strs: string[], currentMineType: "jpeg" | "png" | "bmp" | "webp") {
+export async function toDownloadFileZip(
+    strs: string[],
+    currentMineType: "jpeg" | "png" | "bmp" | "webp"
+) {
 
     const zip = new JSZip();
 

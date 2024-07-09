@@ -6,7 +6,7 @@ import { categoryList } from "../../data/routeData";
 
 function SpotLightSearch({ ...props }) {
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const actions: (SpotlightActionGroupData | SpotlightActionData)[] = [
         {

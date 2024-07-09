@@ -2,11 +2,11 @@ import { AppShell, Burger, Group, ScrollArea, Text, NavLink, UnstyledButton, Box
 import { useDisclosure } from '@mantine/hooks';
 
 import { Outlet, useNavigate } from "react-router-dom";
-import { IconBrandGithubFilled, IconChevronRight, IconTools } from '@tabler/icons-react';
+import { IconChevronRight, IconTools } from '@tabler/icons-react';
 import SpotLightSearch from './SpotLightSearch';
 import { categoryList } from '../../data/routeData';
 import ToggleThemeBtn from './ToggleThemeBtn';
-import GoUrlBtn from './GoUrlBtn';
+// import GoUrlBtn from './GoUrlBtn';
 import FooterComp from './FooterComp';
 
 function Layout() {
@@ -39,13 +39,13 @@ function Layout() {
                     <Group visibleFrom="sm">
                         <SpotLightSearch />
                         <ToggleThemeBtn />
-                        <GoUrlBtn title="Github" url={"https://github.com/r48n34/local-tools"} icon={<IconBrandGithubFilled size={16}/>}/>
+                        {/* <GoUrlBtn title="Github" url={"https://github.com/r48n34/local-tools"} icon={<IconBrandGithubFilled size={16}/>}/> */}
                     </Group>
 
                     <Group hiddenFrom="sm">
                         <Burger opened={opened} onClick={toggle} size="sm" />
                         <ToggleThemeBtn />
-                        <GoUrlBtn title="Github" url={"https://github.com/r48n34/local-tools"} icon={<IconBrandGithubFilled size={16}/>}/>
+                        {/* <GoUrlBtn title="Github" url={"https://github.com/r48n34/local-tools"} icon={<IconBrandGithubFilled size={16}/>}/> */}
                     </Group>
 
                 </Group>

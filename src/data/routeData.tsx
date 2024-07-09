@@ -9,6 +9,7 @@ export const categoryList = [
         categories: "Media",
         tags: ["Image"],
         displayAtHome: true,
+        avaiableAtHome: true,
         displayAtNav: true
     },
     {
@@ -19,6 +20,7 @@ export const categoryList = [
         categories: "Media",
         tags: ["Image", "PDF"],
         displayAtHome: true,
+        avaiableAtHome: true,
         displayAtNav: true
     },
     {
@@ -29,6 +31,7 @@ export const categoryList = [
         categories: "Media",
         tags: ["PDF", "Image"],
         displayAtHome: true,
+        avaiableAtHome: true,
         displayAtNav: true
     },
     {
@@ -39,6 +42,7 @@ export const categoryList = [
         categories: "QR",
         tags: ["QR", "Image"],
         displayAtHome: true,
+        avaiableAtHome: true,
         displayAtNav: true
     },
     {
@@ -49,6 +53,7 @@ export const categoryList = [
         categories: "QR",
         tags: ["QR", "Image"],
         displayAtHome: true,
+        avaiableAtHome: true,
         displayAtNav: true
     }
 ]

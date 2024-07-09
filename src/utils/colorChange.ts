@@ -1,3 +1,4 @@
+// Not in use, TBD
 const random = (max: number, min: number) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 export function colorCodeToNumber(str: string = "rgb(24, 40, 50)") { // rgb(24, 40, 50) => [24, 50, 50]

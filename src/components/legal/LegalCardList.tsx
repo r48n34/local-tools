@@ -25,7 +25,7 @@ function LegalCardList(){
         <Grid>
                 {legalItems
                     .map(v =>
-                    <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
+                    <Grid.Col span={{ base: 12, md: 6, lg: 4 }} key={v.labels}>
                         <Card 
                             shadow="sm" padding="lg" radius="md" withBorder
                         >
