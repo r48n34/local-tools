@@ -5,7 +5,7 @@ const { Jimp } = window as any;
 
 import { LoadingOverlay, Button, Group, Box, Text, Accordion, Grid, Select, NumberInput, Container } from '@mantine/core';
 import { useMemo, useState } from 'react';
-import { IconFileUpload, IconFileZip, IconImageInPicture, IconReload } from '@tabler/icons-react';
+import { IconFileUpload, IconFileZip, IconImageInPicture, IconReload, IconTrash } from '@tabler/icons-react';
 
 import toast from 'react-hot-toast';
 import { FileWithPath } from '@mantine/dropzone';
@@ -109,10 +109,10 @@ function UploadFormComp() {
             <Helmet>
                 <title>Image Converter | Local Tools</title>
             </Helmet>
-            
+
             <Container size={"lg"}>
                 <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
-                    Transfer file local
+                    <IconImageInPicture size={30}/> Transfer file local
                 </Text>
 
                 <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>
@@ -147,17 +147,7 @@ function UploadFormComp() {
 
                                     <Accordion.Panel>
                                         <Grid>
-                                            <Grid.Col span={6}>
-                                                <Select
-                                                    label="Output format"
-                                                    description="Select your output format"
-                                                    data={["jpeg", "png", "bmp", "webp"]}
-                                                    value={settings.opFormat}
-                                                    onChange={(v) => setSettings({ ...settings, opFormat: v as OPFormat || "jpeg" })}
-                                                />
-                                            </Grid.Col>
-
-                                            <Grid.Col span={6}>
+                                            <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
                                                 <NumberInput
                                                     label="Scale images"
                                                     description="x times the image output res (1 = normal)"
@@ -167,8 +157,18 @@ function UploadFormComp() {
                                                 />
                                             </Grid.Col>
 
+                                            <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
+                                                <Select
+                                                    label="Output format"
+                                                    description="Select your output format"
+                                                    data={["jpeg", "png", "bmp", "webp"]}
+                                                    value={settings.opFormat}
+                                                    onChange={(v) => setSettings({ ...settings, opFormat: v as OPFormat || "jpeg" })}
+                                                />
+                                            </Grid.Col>
+
                                             {["jpeg", "webp"].includes(settings.opFormat) && (
-                                                <Grid.Col span={6}>
+                                                <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
                                                     <NumberInput
                                                         label="Quality output"
                                                         description="Only affect if you choosing jpeg 1 (Worst) - 100 (Best)"
@@ -195,7 +195,19 @@ function UploadFormComp() {
                                 </Box>
                             )}
 
-                            <Group justify="flex-end" mb={16} mt={22}>
+                            <Group justify="space-between" mb={16} mt={22}>
+                                <Button
+                                    disabled={files.length <= 0}
+                                    leftSection={<IconTrash />}
+                                    variant="light"
+                                    color='red'
+                                    onClick={() => {
+                                        setFiles([])
+                                    }}
+                                    loading={progressNumber >= 0}
+                                >
+                                    Remove all files
+                                </Button>
                                 <Button
                                     disabled={files.length <= 0}
                                     leftSection={<IconFileUpload />}

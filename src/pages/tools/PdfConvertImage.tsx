@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import { FileWithPath } from '@mantine/dropzone';
 import DropZoneComp from '../../components/tools/ImageConvert/DropZoneComp';
 import DisplayCarouselPdfToImg from '../../components/tools/PdfConvertImage/DisplayCarouselPdfToImg';
+import { IconFileAnalytics } from '@tabler/icons-react';
 
 function PdfConvertImage() {
 
@@ -25,10 +26,10 @@ function PdfConvertImage() {
             <Helmet>
                 <title>Pdf Convert Image | Local Tools</title>
             </Helmet>
-            
+
             <Container size={"lg"}>
                 <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
-                    PDF to images
+                    <IconFileAnalytics size={30} /> PDF to images
                 </Text>
 
                 <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>

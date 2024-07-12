@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import jsPDF from 'jspdf';
 import { Button, Group, Box, Text, Container, LoadingOverlay } from '@mantine/core';
 import { useMemo, useState } from 'react';
-import { IconFileUpload } from '@tabler/icons-react';
+import { IconDeviceMobileMessage, IconFileUpload, IconTrash } from '@tabler/icons-react';
 
 import { FileWithPath } from '@mantine/dropzone';
 import DropZoneComp from '../../components/tools/ImageConvert/DropZoneComp';
@@ -69,10 +69,10 @@ function ImageConvertPDF() {
             <Helmet>
                 <title>Image Convert PDF | Local Tools</title>
             </Helmet>
-            
+
             <Container size={"lg"}>
                 <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
-                    Image To PDF
+                    <IconDeviceMobileMessage size={40}/> Image To PDF
                 </Text>
 
                 <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>
@@ -106,7 +106,20 @@ function ImageConvertPDF() {
                             </Box>
                         )}
 
-                        <Group justify="flex-end" mb={16} mt={22}>
+                        <Group justify="space-between" mb={16} mt={22}>
+                            <Button
+                                disabled={files.length <= 0}
+                                leftSection={<IconTrash />}
+                                variant="light"
+                                color='red'
+                                onClick={() => {
+                                    setFiles([])
+                                }}
+                                loading={progressNumber >= 0}
+                            >
+                                Remove all files
+                            </Button>
+
                             <Button
                                 disabled={files.length <= 0}
                                 leftSection={<IconFileUpload />}

@@ -1,6 +1,6 @@
 import { Container, FileInput, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { IconUpload } from '@tabler/icons-react';
+import { IconQrcode, IconUpload } from '@tabler/icons-react';
 
 import QRcodeData from '../../components/tools/ScanQR/QRcodeData';
 import CropImagesCheck from '../../components/tools/ScanQR/CropImagesCheck';
@@ -34,7 +34,7 @@ function ScanQR() {
 
             <Container size={"lg"}>
                 <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
-                    QR scan
+                    <IconQrcode size={30} /> QR scan
                 </Text>
 
                 <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>
@@ -45,7 +45,7 @@ function ScanQR() {
 
                     <FileInput
                         placeholder="hello.png"
-                        label="Image file"
+                        label="QR image"
                         withAsterisk
                         accept="image/png, image/jpg, image/jpeg"
                         leftSection={<IconUpload size={12} />}
