@@ -98,6 +98,7 @@ function UploadFormComp() {
     const DisplayCarouselMemo = useMemo(() =>
         <DisplayCarousel
             imgsList={files.map(v => URL.createObjectURL(v))}
+            nameList={files.map(v => v.name)}
             showsDownload={false}
             deleteCb={(ind) => setFiles((files) => files.filter((_, i) => i !== ind))}
         />,

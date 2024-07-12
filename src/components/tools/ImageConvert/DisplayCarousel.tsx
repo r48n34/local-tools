@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Button, Card, Group, Image, Tooltip } from '@mantine/core';
+import { ActionIcon, Box, Button, Card, Group, Image, Tooltip, Text } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import { toDownloadFile } from '../../../utils/downloadFile';
 import { memo } from 'react';
@@ -6,11 +6,12 @@ import { IconDownload, IconTrash } from '@tabler/icons-react';
 
 interface DisplayCarouselProps {
     imgsList: string[]
+    nameList?: string[]
     showsDownload: boolean
     deleteCb?: (index: number) => void
 }
 
-function DisplayCarousel({ imgsList, deleteCb, showsDownload = false }: DisplayCarouselProps) {
+function DisplayCarousel({ imgsList, nameList, deleteCb, showsDownload = false }: DisplayCarouselProps) {
 
     return (
         <>
@@ -28,12 +29,18 @@ function DisplayCarousel({ imgsList, deleteCb, showsDownload = false }: DisplayC
                                         width="100%"
                                     />
 
+                                    {!!nameList && !!nameList[i] && (
+                                        <Text ta="center" fw={300} fz={14} mt={12}>
+                                            {nameList[i]}
+                                        </Text>
+                                    )}
+
                                     {!!deleteCb && (
                                         <Group justify='flex-end' >
                                             <Tooltip label="Remove file">
-                                            <ActionIcon variant="light" aria-label="Settings" onClick={() => deleteCb(i)}>
-                                                <IconTrash style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                            </ActionIcon>
+                                                <ActionIcon variant="light" aria-label="Settings" onClick={() => deleteCb(i)}>
+                                                    <IconTrash style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                                </ActionIcon>
                                             </Tooltip>
                                         </Group>
                                     )}
