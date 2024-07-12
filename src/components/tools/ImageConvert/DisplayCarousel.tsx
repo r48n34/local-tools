@@ -5,13 +5,18 @@ import { memo } from 'react';
 import { IconDownload, IconTrash } from '@tabler/icons-react';
 
 interface DisplayCarouselProps {
-    imgsList: string[]
-    nameList?: string[]
-    showsDownload: boolean
-    deleteCb?: (index: number) => void
+    imgsList: string[] // URL.createObjectURL list
+    nameList?: string[] // Regarding URL.createObjectURL name list
+    showsDownload: boolean // disable download button from the display only mode
+    deleteCb?: (index: number) => void // Call back to delete one file
 }
 
-function DisplayCarousel({ imgsList, nameList, deleteCb, showsDownload = false }: DisplayCarouselProps) {
+function DisplayCarousel({ 
+    imgsList,
+    nameList,
+    deleteCb,
+    showsDownload = false
+}: DisplayCarouselProps) {
 
     return (
         <>
