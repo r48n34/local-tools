@@ -151,7 +151,7 @@ function UploadFormComp() {
                                             <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
                                                 <NumberInput
                                                     label="Scale images"
-                                                    description="x times the image output res (1 = normal)"
+                                                    description="x times each images output res (1 = normal)"
                                                     value={settings.scale}
                                                     onChange={(v) => setSettings({ ...settings, scale: +v || 1 })}
                                                     min={0} max={30} step={0.1}
@@ -171,8 +171,8 @@ function UploadFormComp() {
                                             {["jpeg", "webp"].includes(settings.opFormat) && (
                                                 <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
                                                     <NumberInput
-                                                        label="Quality output"
-                                                        description="Only affect if you choosing jpeg 1 (Worst) - 100 (Best)"
+                                                        label="Quality"
+                                                        description="1 (Worst) - 100 (Best)"
                                                         value={settings.quality}
                                                         onChange={(v) => setSettings({ ...settings, quality: +v || 1 })}
                                                         min={1} max={100} step={1}

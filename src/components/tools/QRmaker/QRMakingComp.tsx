@@ -1,4 +1,4 @@
-import { ActionIcon, Card, ColorInput, FileInput, Grid, Group, Textarea, Tooltip, Text, Select } from '@mantine/core';
+import { Card, ColorInput, FileInput, Grid, Group, Textarea, Tooltip, Text, Select, Button } from '@mantine/core';
 import { IconArrowBarToDown } from '@tabler/icons-react';
 import { useRef, useState } from 'react';
 import { QRCode } from 'react-qrcode-logo';
@@ -17,11 +17,11 @@ function QRMakingComp() {
 
     return (
         <>
-            <Grid mt={24}>
+            <Grid mt={48}>
                 <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
 
-                    <Text ta="center" fz={20}>
-                        Required
+                    <Text ta="center" fz={20} c="dimmed">
+                        Required field
                     </Text>
                     <Textarea
                         label="Qr content"
@@ -32,8 +32,8 @@ function QRMakingComp() {
                         onChange={(event) => setQrContent(event.currentTarget.value)}
                     />
 
-                    <Text ta="center" mt={16} fz={20} >
-                        Optional settings
+                    <Text ta="center" mt={16} fz={20} c="dimmed">
+                        Optional
                     </Text>
 
                     <FileInput
@@ -74,14 +74,6 @@ function QRMakingComp() {
                 <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
                     <Card shadow="sm" padding="lg" radius="md" withBorder>
 
-                        <Group justify='flex-end'>
-                            <Tooltip label={"Download QR"}>
-                                <ActionIcon onClick={() => qrRef.current!.download('png')} variant='light'>
-                                    <IconArrowBarToDown size="1.125rem" />
-                                </ActionIcon>
-                            </Tooltip>
-                        </Group>
-
                         <Group justify='center'>
                             <QRCode
                                 size={350}
@@ -94,6 +86,43 @@ function QRMakingComp() {
                                 qrStyle={qrStyle}
                             />
                         </Group>
+
+                        <Group justify='center' mt={24}>
+                            <Tooltip label={"Download png QR"}>
+                                <Button
+                                    size="xs"
+                                    leftSection={<IconArrowBarToDown size="1.125rem" />}
+                                    onClick={() => qrRef.current!.download('png')}
+                                    variant='light'
+                                >
+                                    png
+                                </Button>
+                            </Tooltip>
+
+                            <Tooltip label={"Download jpg QR"}>
+                                <Button
+                                    size="xs"
+                                    leftSection={<IconArrowBarToDown size="1.125rem" />}
+                                    onClick={() => qrRef.current!.download('jpg')}
+                                    variant='light'
+                                >
+                                    jpg
+                                </Button>
+                            </Tooltip>
+
+                            <Tooltip label={"Download webp QR"}>
+                                <Button
+                                    size="xs"
+                                    leftSection={<IconArrowBarToDown size="1.125rem" />}
+                                    onClick={() => qrRef.current!.download('webp')}
+                                    variant='light'
+                                >
+                                    webp
+                                </Button>
+                            </Tooltip>
+                        </Group>
+
+
 
                     </Card>
                 </Grid.Col>
