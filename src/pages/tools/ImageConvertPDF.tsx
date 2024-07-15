@@ -59,6 +59,7 @@ function ImageConvertPDF() {
     const DisplayCarouselMemo = useMemo(() =>
         <DisplayCarouselPdf
             imgsList={files.map(v => URL.createObjectURL(v))}
+            nameList={files.map(v => v.name)}
             deleteCb={(ind) => setFiles((files) => files.filter((_, i) => i !== ind))}
         />,
         [files]
@@ -126,7 +127,7 @@ function ImageConvertPDF() {
                                 variant="light"
                                 onClick={combindAllToPdf}
                             >
-                                Combinded all images to single PDF
+                                Combind to one PDF
                             </Button>
                         </Group>
 

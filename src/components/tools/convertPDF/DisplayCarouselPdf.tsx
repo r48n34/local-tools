@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Button, Card, Group, Image, Tooltip } from '@mantine/core';
+import { ActionIcon, Box, Button, Card, Group, Image, Tooltip, Text } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import { memo } from 'react';
 import { IconDownload, IconTrash } from '@tabler/icons-react';
@@ -7,11 +7,12 @@ import jsPDF from 'jspdf';
 import { getHeightAndWidthFromDataUrl } from '../../../utils/convertUtils';
 
 interface DisplayCarouselProps {
-    imgsList: string[]
+    imgsList: string[] // URL.createObjectURL list
+    nameList: string[] // Regarding URL.createObjectURL name list
     deleteCb?: (index: number) => void
 }
 
-function DisplayCarouselPdf({ imgsList, deleteCb }: DisplayCarouselProps) {
+function DisplayCarouselPdf({ imgsList, nameList, deleteCb }: DisplayCarouselProps) {
 
     async function transferFile(url: string) {
 
@@ -26,7 +27,7 @@ function DisplayCarouselPdf({ imgsList, deleteCb }: DisplayCarouselProps) {
 
             doc.addImage(currentImg, 'PNG', 0, 0, width, height);
             doc.save('download.pdf');
-    
+
             toast.success('Done, enjoy your PDF!')
         }
         catch (error) {
@@ -42,15 +43,15 @@ function DisplayCarouselPdf({ imgsList, deleteCb }: DisplayCarouselProps) {
                     <Carousel.Slide key={url}>
                         <Card shadow="sm" padding="lg" radius="md">
                             <Card.Section>
-                                    {!!deleteCb && (
-                                        <Group justify='flex-end' >
-                                            <Tooltip label="Remove file">
-                                                <ActionIcon variant="light" aria-label="Settings" onClick={() => deleteCb(i)}>
-                                                    <IconTrash style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                                                </ActionIcon>
-                                            </Tooltip>
-                                        </Group>
-                                    )}
+                                {!!deleteCb && (
+                                    <Group justify='flex-end' >
+                                        <Tooltip label="Remove file">
+                                            <ActionIcon variant="light" aria-label="Settings" onClick={() => deleteCb(i)}>
+                                                <IconTrash style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                            </ActionIcon>
+                                        </Tooltip>
+                                    </Group>
+                                )}
                                 <Box>
                                     <Image
                                         src={url}
@@ -62,6 +63,12 @@ function DisplayCarouselPdf({ imgsList, deleteCb }: DisplayCarouselProps) {
                                 </Box>
 
                             </Card.Section>
+
+                            {!!nameList && !!nameList[i] && (
+                                <Text ta="center" fw={300} fz={14} mt={12}>
+                                    {nameList[i]}
+                                </Text>
+                            )}
 
                             <Button
                                 leftSection={<IconDownload />}

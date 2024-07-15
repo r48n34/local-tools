@@ -111,7 +111,7 @@ function DisplayCarouselPdfToImg({ fileList, deleteCb }: DisplayCarouselProps) {
                                 variant='light' fullWidth
                                 onClick={() => transferFile(file)}
                             >
-                                Download PDF
+                                Download images
                             </Button>
 
                             {progressNumber >= 0 && (

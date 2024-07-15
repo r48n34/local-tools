@@ -1,11 +1,11 @@
 import { Helmet } from 'react-helmet-async';
-import { Box, Text, Container } from '@mantine/core';
+import { Box, Text, Container, Button, Group } from '@mantine/core';
 import { useMemo, useState } from 'react';
 
 import { FileWithPath } from '@mantine/dropzone';
 import DropZoneComp from '../../components/tools/ImageConvert/DropZoneComp';
 import DisplayCarouselPdfToImg from '../../components/tools/PdfConvertImage/DisplayCarouselPdfToImg';
-import { IconFileAnalytics } from '@tabler/icons-react';
+import { IconFileAnalytics, IconTrash } from '@tabler/icons-react';
 
 function PdfConvertImage() {
 
@@ -53,6 +53,20 @@ function PdfConvertImage() {
                                 </Text>
                             </Box>
                         )}
+
+                        <Group justify="flex-start" mb={16} mt={22}>
+                            <Button
+                                disabled={files.length <= 0}
+                                leftSection={<IconTrash />}
+                                variant="light"
+                                color='red'
+                                onClick={() => {
+                                    setFiles([])
+                                }}
+                            >
+                                Remove all files
+                            </Button>
+                        </Group>
                     </Box>
                 </Box>
 

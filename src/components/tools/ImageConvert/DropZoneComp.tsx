@@ -4,8 +4,8 @@ import { Dropzone, FileWithPath } from '@mantine/dropzone';
 import toast from 'react-hot-toast';
 
 type DropZoneCompProps = {
-    setFilesCb: (files: FileWithPath[]) => void;
-    acceptedTypesList: string[];
+    setFilesCb: (files: FileWithPath[]) => void; // Set the uploaded files to external CB functions
+    acceptedTypesList: string[]; // e.g. ["image/png", "image/jpeg", "image/bmp"]
 }
 
 function DropZoneComp({ setFilesCb, acceptedTypesList,  ...props }: DropZoneCompProps) {
@@ -15,10 +15,8 @@ function DropZoneComp({ setFilesCb, acceptedTypesList,  ...props }: DropZoneComp
                 setFilesCb(files);
                 toast.success(`Success to upload ${files.length} images`)
             }}
-            onReject={(files) => console.log("Failed file", files)}
+            onReject={() => {}}
             maxSize={500 * 1024 ** 2}
-
-            // ["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif", "image/webp"]
             accept={acceptedTypesList}
             
             {...props}
