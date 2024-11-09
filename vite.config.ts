@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { VitePWA } from 'vite-plugin-pwa'
 // import Sitemap from 'vite-plugin-sitemap'
 
 // https://vitejs.dev/config/
@@ -18,7 +19,23 @@ export default defineConfig(({ command }) => {
         return {
             plugins: [
                 react(),
-                // Sitemap(),
+                VitePWA({
+                    registerType: 'autoUpdate',
+                    includeAssets: ['logo.ico'],
+                    manifest: {
+                        name: 'Local Tools',
+                        short_name: 'Local Tools',
+                        description: 'Collections of web base tools, no server uploading, privacy, efficiency, free, open sources',
+                        theme_color: '#ffffff',
+                        icons: [
+                            {
+                                src: 'logo.ico',
+                                sizes: '192x192',
+                                type: 'image/x-icon'
+                            }
+                        ]
+                    }
+                })
             ],
             esbuild: {
                 drop: ['console', 'debugger'],

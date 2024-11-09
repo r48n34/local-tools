@@ -32,7 +32,8 @@
     "react-hot-toast": "^2.4.1",
     "react-qr-code": "^2.0.15",
     "react-qrcode-logo": "^3.0.0",
-    "react-router-dom": "^6.24.0"
+    "react-router-dom": "^6.24.0",
+    "vite-plugin-pwa": "^0.20.5"
   },
   "devDependencies": {
     "@types/pica": "^9.0.4",
