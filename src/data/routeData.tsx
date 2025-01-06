@@ -1,4 +1,4 @@
-import { IconFileAnalytics, IconImageInPicture, IconPdf, IconPictureInPictureFilled, IconQrcode } from "@tabler/icons-react";
+import { IconFileAnalytics, IconImageInPicture, IconPdf, IconPictureInPictureFilled, IconQrcode,IconFileTypeTs } from "@tabler/icons-react";
 
 export const categoryList = [
     {
@@ -52,6 +52,17 @@ export const categoryList = [
         icon: <IconPictureInPictureFilled size={60}/>,
         categories: "QR",
         tags: ["QR", "Image"],
+        displayAtHome: true,
+        avaiableAtHome: true,
+        displayAtNav: true
+    },
+    {
+        labels: "TS Interface Generate",
+        link: "types",
+        desc: "Turn Your json / ts object to TS interface",
+        icon: <IconFileTypeTs size={60}/>,
+        categories: "Developers",
+        tags: ["Developers"],
         displayAtHome: true,
         avaiableAtHome: true,
         displayAtNav: true

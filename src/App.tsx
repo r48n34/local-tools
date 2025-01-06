@@ -24,6 +24,8 @@ const PdfConvertImage = lazy(() => import('./pages/tools/PdfConvertImage'));
 const ScanQR = lazy(() => import('./pages/tools/ScanQR'));
 const QRmaker = lazy(() => import('./pages/tools/QRmaker'));
 
+const GenerateTypes = lazy(() => import('./pages/tools/GenerateTypes'));
+
 const router = createBrowserRouter([
     {
         path: "/",
@@ -56,6 +58,10 @@ const router = createBrowserRouter([
             {
                 path: "/makeQR",
                 element: <QRmaker />,
+            },
+            {
+                path: "/types",
+                element: <GenerateTypes />,
             },
         ]
     }
