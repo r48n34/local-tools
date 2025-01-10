@@ -26,7 +26,7 @@ const QRmaker = lazy(() => import('./pages/tools/QRmaker'));
 
 const GenerateTypes = lazy(() => import('./pages/tools/GenerateTypes'));
 
-const router = createBrowserRouter([
+export const mainRouteObj = [
     {
         path: "/",
         element: <Layout />,
@@ -65,19 +65,21 @@ const router = createBrowserRouter([
             },
         ]
     }
-]);
+]
+
+const router = createBrowserRouter(mainRouteObj);
 
 function App() {
     return (
         <HelmetProvider>
-        <MantineProvider>
-            <Toaster position="top-right" />
-            <ErrorBoundary fallback={<ErrorComp />}>
-                <Suspense fallback={<LoadingPage />}>
-                    <RouterProvider router={router} />
-                </Suspense>
-            </ErrorBoundary>
-        </MantineProvider>
+            <MantineProvider>
+                <Toaster position="top-right" />
+                <ErrorBoundary fallback={<ErrorComp />}>
+                    <Suspense fallback={<LoadingPage />}>
+                        <RouterProvider router={router} />
+                    </Suspense>
+                </ErrorBoundary>
+            </MantineProvider>
         </HelmetProvider>
     )
 }

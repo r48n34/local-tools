@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
-// import Sitemap from 'vite-plugin-sitemap'
+import Sitemap from 'vite-plugin-sitemap'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
@@ -16,8 +16,21 @@ export default defineConfig(({ command }) => {
         }
     } else {
         // command === 'build'
+
+        const dynamicRoutes = [
+            "/",
+            "/legal",
+            "/imageConvert",
+            "/imageConvertPDF",
+            "/pdfConvertImages",       
+            "/scanQR",       
+            "/makeQR",       
+            "/types"
+        ]
+
         return {
             plugins: [
+                Sitemap({ hostname: 'https://media-local-tools.vercel.app/', dynamicRoutes }),
                 react(),
                 VitePWA({
                     registerType: 'autoUpdate',
