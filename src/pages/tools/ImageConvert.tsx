@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import 'jimp/browser/lib/jimp';
 const { Jimp } = window as any;
 
-import { LoadingOverlay, Button, Group, Box, Text, Accordion, Grid, Select, NumberInput, Container } from '@mantine/core';
+import { LoadingOverlay, Button, Group, Box, Text, Accordion, Grid, Select, NumberInput, Container, Checkbox } from '@mantine/core';
 import { useMemo, useState } from 'react';
 import { IconFileUpload, IconFileZip, IconImageInPicture, IconReload, IconTrash } from '@tabler/icons-react';
 
@@ -20,6 +20,10 @@ interface Settings {
     opFormat: OPFormat
     quality: number
     scale: number
+
+    enableNewWidthHeight: boolean
+    newWidth: number
+    newHeight: number
 }
 
 function UploadFormComp() {
@@ -35,7 +39,11 @@ function UploadFormComp() {
     const [settings, setSettings] = useState<Settings>({
         opFormat: "jpeg",
         quality: 100, // 1 - 100
-        scale: 1 // 0.1 - A bigger numbers
+        scale: 1, // 0.1 - A bigger numbers
+
+        enableNewWidthHeight: false,
+        newWidth: 1000,
+        newHeight: 1000,
     });
 
     async function transferFile() {
@@ -69,16 +77,27 @@ function UploadFormComp() {
                         URL.createObjectURL(finalFile)
                     );
 
-                    resultArr.push(
-                        await jimpImage
-                            .scale(settings.scale)
-                            .quality(settings.quality)
-                            .getBase64Async(opType)
-                    )
+                    if (settings.enableNewWidthHeight) {
+                        resultArr.push(
+                            await jimpImage
+                                .resize(settings.newWidth || 1, settings.newHeight || 1)
+                                .quality(settings.quality)
+                                .getBase64Async(opType)
+                        )
+                    }
+                    else {
+                        resultArr.push(
+                            await jimpImage
+                                .scale(settings.scale)
+                                .quality(settings.quality)
+                                .getBase64Async(opType)
+                        )
+                    }
+
+
                 }
 
                 setProgressNumber(Math.floor((resultArr.length / files.length) * 100))
-
             }
 
             setOutputFile(resultArr);
@@ -113,7 +132,7 @@ function UploadFormComp() {
 
             <Container size={"lg"}>
                 <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
-                    <IconImageInPicture size={30}/> Transfer file local
+                    <IconImageInPicture size={30} /> Transfer file local
                 </Text>
 
                 <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>
@@ -149,13 +168,15 @@ function UploadFormComp() {
                                     <Accordion.Panel>
                                         <Grid>
                                             <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
-                                                <NumberInput
-                                                    label="Scale images"
-                                                    description="x times each images output res (1 = normal)"
-                                                    value={settings.scale}
-                                                    onChange={(v) => setSettings({ ...settings, scale: +v || 1 })}
-                                                    min={0} max={30} step={0.1}
-                                                />
+                                                {!settings.enableNewWidthHeight && (
+                                                    <NumberInput
+                                                        label="Scale images"
+                                                        description="x times each images output res (1 = normal)"
+                                                        value={settings.scale}
+                                                        onChange={(v) => setSettings({ ...settings, scale: +v || 1 })}
+                                                        min={0} max={30} step={0.1}
+                                                    />
+                                                )}
                                             </Grid.Col>
 
                                             <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
@@ -179,6 +200,41 @@ function UploadFormComp() {
                                                     />
                                                 </Grid.Col>
                                             )}
+                                        </Grid>
+
+                                        <Grid mt={12}>
+                                            <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
+                                                <Checkbox
+                                                    label="Set my width and height"
+                                                    checked={settings.enableNewWidthHeight}
+                                                    onChange={(event) => setSettings({ ...settings, enableNewWidthHeight: event.currentTarget.checked })}
+                                                />
+                                            </Grid.Col>
+
+                                            {settings.enableNewWidthHeight && (
+                                                <>
+                                                    <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
+                                                        <NumberInput
+                                                            label="New Width (px)"
+                                                            description="All images will be apply to this width after convert"
+                                                            value={settings.newWidth}
+                                                            onChange={(v) => setSettings({ ...settings, newWidth: +v || 1 })}
+                                                            min={1} step={1}
+                                                        />
+                                                    </Grid.Col>
+
+                                                    <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
+                                                        <NumberInput
+                                                            label="New Height (px)"
+                                                            description="All images will be apply to this height after convert"
+                                                            value={settings.newHeight}
+                                                            onChange={(v) => setSettings({ ...settings, newHeight: +v || 1 })}
+                                                            min={1} step={1}
+                                                        />
+                                                    </Grid.Col>
+                                                </>
+                                            )}
+
                                         </Grid>
                                     </Accordion.Panel>
 
