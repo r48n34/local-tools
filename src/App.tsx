@@ -23,6 +23,7 @@ const ImageConvertPDF = lazy(() => import('./pages/tools/ImageConvertPDF'));
 const PdfConvertImage = lazy(() => import('./pages/tools/PdfConvertImage'));
 const ScanQR = lazy(() => import('./pages/tools/ScanQR'));
 const QRmaker = lazy(() => import('./pages/tools/QRmaker'));
+const ScanDocs = lazy(() => import('./pages/tools/ScanDocs'));
 
 const GenerateTypes = lazy(() => import('./pages/tools/GenerateTypes'));
 
@@ -54,6 +55,10 @@ export const mainRouteObj = [
             {
                 path: "/scanQR",
                 element: <ScanQR />,
+            },
+            {
+                path: "/scanDocs",
+                element: <ScanDocs />,
             },
             {
                 path: "/makeQR",

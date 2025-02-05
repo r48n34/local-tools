@@ -1,4 +1,4 @@
-import { IconFileAnalytics, IconImageInPicture, IconPdf, IconPictureInPictureFilled, IconQrcode,IconFileTypeTs } from "@tabler/icons-react";
+import { IconFileAnalytics, IconImageInPicture, IconPdf, IconPictureInPictureFilled, IconQrcode,IconFileTypeTs, IconFileSpreadsheet } from "@tabler/icons-react";
 
 export const categoryList = [
     {
@@ -30,6 +30,17 @@ export const categoryList = [
         icon: <IconFileAnalytics size={60}/>,
         categories: "Media",
         tags: ["PDF", "Image"],
+        displayAtHome: true,
+        avaiableAtHome: true,
+        displayAtNav: true
+    },
+    {
+        labels: "Documents extractor",
+        link: "scanDocs",
+        desc: "Extract document image",
+        icon: <IconFileSpreadsheet size={60}/>,
+        categories: "Media",
+        tags: ["Document", "Image"],
         displayAtHome: true,
         avaiableAtHome: true,
         displayAtNav: true
