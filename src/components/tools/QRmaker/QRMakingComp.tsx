@@ -21,7 +21,7 @@ function QRMakingComp() {
 
     return (
         <>
-            <Grid mt={48}>
+            <Grid>
                 <Grid.Col span={{ base: 12, md: 5, lg: 6 }}>
 
                     <Text ta="center" fz={20} c="dimmed">
