@@ -2,6 +2,8 @@ import { Box, Divider, Grid, Group, PasswordInput, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import CopyBtn from "../../common/CopyBtn";
 import { specialCharactersStr } from "../../../utils/specialCharacters";
+import GoUrlBtn from "../../common/GoUrlBtn";
+import { IconQuestionMark } from "@tabler/icons-react";
 
 
 function PercentEncodingComp() {
@@ -12,11 +14,9 @@ function PercentEncodingComp() {
         try {
             setDecodedStr(decodeURIComponent(inputString))
         } catch (error) {
-            setDecodedStr("<Error - Not valid UTF-8 encoded URI>") 
+            setDecodedStr("<Error - Not valid UTF-8 encoded URI>")
         }
     }, [inputString])
-
-
 
     return (
         <>
@@ -44,6 +44,11 @@ function PercentEncodingComp() {
                         />
 
                         <Group justify="flex-end" mt={6}>
+                            <GoUrlBtn
+                                title={"Know More"}
+                                url={"https://developer.mozilla.org/en-US/docs/Glossary/Percent-encoding"}
+                                icon={<IconQuestionMark size={18} />}
+                            />
                             <CopyBtn value={encodeURIComponent(inputString)} />
                         </Group>
                     </Box>
@@ -58,6 +63,11 @@ function PercentEncodingComp() {
                         />
 
                         <Group justify="flex-end" mt={6}>
+                            <GoUrlBtn
+                                title={"Know More"}
+                                url={"https://developer.mozilla.org/en-US/docs/Glossary/Percent-encoding"}
+                                icon={<IconQuestionMark size={18} />}
+                            />
                             <CopyBtn value={decodedStr} />
                         </Group>
                     </Box>
@@ -72,6 +82,11 @@ function PercentEncodingComp() {
                         />
 
                         <Group justify="flex-end" mt={6}>
+                            <GoUrlBtn
+                                title={"Know More"}
+                                url={"https://learn.microsoft.com/en-us/sql/relational-databases/json/how-for-json-escapes-special-characters-and-control-characters-sql-server?view=sql-server-ver16"}
+                                icon={<IconQuestionMark size={18} />}
+                            />
                             <CopyBtn value={specialCharactersStr(inputString)} />
                         </Group>
                     </Box>
