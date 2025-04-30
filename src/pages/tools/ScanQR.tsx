@@ -47,6 +47,7 @@ function ScanQR() {
                         placeholder="hello.png"
                         label="QR image"
                         withAsterisk
+                        description="Upload you image to check QR content"
                         accept="image/png, image/jpg, image/jpeg"
                         leftSection={<IconUpload size={12} />}
                         {...form.getInputProps('file')}
