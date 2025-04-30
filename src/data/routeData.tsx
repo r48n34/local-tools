@@ -1,4 +1,4 @@
-import { IconFileAnalytics, IconImageInPicture, IconPdf, IconScan, IconQrcode,IconFileTypeTs, IconFileSpreadsheet } from "@tabler/icons-react";
+import { IconFileAnalytics, IconImageInPicture, IconPdf, IconScan, IconQrcode,IconFileTypeTs, IconFileSpreadsheet, IconDeviceImacCode } from "@tabler/icons-react";
 
 export const categoryList = [
     {
@@ -72,6 +72,17 @@ export const categoryList = [
         link: "types",
         desc: "Turn Your json / ts object to TS interface",
         icon: <IconFileTypeTs size={60}/>,
+        categories: "Developers",
+        tags: ["Developers"],
+        displayAtHome: true,
+        avaiableAtHome: true,
+        displayAtNav: true
+    },
+    {
+        labels: "Percent Encoding",
+        link: "percentEncoding",
+        desc: "Turn Your string to percent encoding",
+        icon: <IconDeviceImacCode size={60}/>,
         categories: "Developers",
         tags: ["Developers"],
         displayAtHome: true,

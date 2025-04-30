@@ -38,6 +38,7 @@
     "react-qr-code": "^2.0.15",
     "react-qrcode-logo": "^3.0.0",
     "react-router-dom": "^6.24.0",
+    "remeda": "^2.21.3",
     "vite-plugin-pwa": "^0.20.5"
   },
   "devDependencies": {

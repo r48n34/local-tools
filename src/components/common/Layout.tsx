@@ -9,6 +9,8 @@ import ToggleThemeBtn from './ToggleThemeBtn';
 // import GoUrlBtn from './GoUrlBtn';
 import FooterComp from './FooterComp';
 
+import { groupBy, prop } from "remeda"
+
 function Layout() {
     const navigate = useNavigate()
     const [opened, { toggle, close }] = useDisclosure();
@@ -55,9 +57,9 @@ function Layout() {
 
                 <AppShell.Section>
                     <SpotLightSearch mb={16} hiddenFrom="sm" />
-                    <Text fz={14} fw={300}>
+                    {/* <Text fz={14} fw={300}>
                         Tools
-                    </Text>
+                    </Text> */}
                 </AppShell.Section>
 
                 <AppShell.Section
@@ -65,7 +67,28 @@ function Layout() {
                     component={ScrollArea}
                     scrollbarSize={2}
                 >
-                    {
+                    {Object.entries(groupBy(categoryList, prop("categories"))).map(category => (
+                        <Box key={category[0]} mb={24}>
+                            <Text fz={14} fw={300}>
+                                {category[0]}
+                            </Text>
+                            {category[1].filter(v => v.displayAtNav).map((v) => (
+                                <NavLink
+                                    key={v.link}
+                                    label={v.labels}
+                                    leftSection={
+                                        <IconChevronRight size="0.8rem" stroke={1.5} className="mantine-rotate-rtl" />
+                                    }
+                                    onClick={() => {
+                                        navigate(`/${v.link}`);
+                                        close();
+                                    }}
+                                />
+                            ))}
+                        </Box>
+                    ))}
+
+                    {/* {
                         categoryList.filter(v => v.displayAtNav).map((v) => (
                             <NavLink
                                 key={v.link}
@@ -78,8 +101,8 @@ function Layout() {
                                     close();
                                 }}
                             />
-                        )
-                    )}
+                        ))
+                    } */}
                 </AppShell.Section>
 
             </AppShell.Navbar>

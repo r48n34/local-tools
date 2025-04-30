@@ -15,6 +15,7 @@ import { Toaster } from 'react-hot-toast';
 import ErrorComp from './components/common/ErrorComp';
 import LoadingPage from './components/common/LoadingPage';
 import Layout from './components/common/Layout';
+import PercentEncoding from './pages/tools/PercentEncoding';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const LegalPage = lazy(() => import('./pages/LegalPage'));
@@ -67,6 +68,10 @@ export const mainRouteObj = [
             {
                 path: "/types",
                 element: <GenerateTypes />,
+            },
+            {
+                path: "/percentEncoding",
+                element: <PercentEncoding />,
             },
         ]
     }
