@@ -1,8 +1,8 @@
-import { AppShell, Burger, Group, ScrollArea, Text, NavLink, UnstyledButton, Box } from '@mantine/core';
+import { AppShell, Burger, Group, ScrollArea, Text, NavLink, UnstyledButton, Box, ThemeIcon } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 import { Outlet, useNavigate } from "react-router-dom";
-import { IconChevronRight, IconTools } from '@tabler/icons-react';
+import { IconTools } from '@tabler/icons-react';
 import SpotLightSearch from './SpotLightSearch';
 import { categoryList } from '../../data/routeData';
 import ToggleThemeBtn from './ToggleThemeBtn';
@@ -77,7 +77,9 @@ function Layout() {
                                     key={v.link}
                                     label={v.labels}
                                     leftSection={
-                                        <IconChevronRight size="0.8rem" stroke={1.5} className="mantine-rotate-rtl" />
+                                        <ThemeIcon variant='light' size={24}>
+                                            {v.icon}
+                                        </ThemeIcon>
                                     }
                                     onClick={() => {
                                         navigate(`/${v.link}`);

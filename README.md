@@ -29,6 +29,10 @@ URL: https://media-local-tools.vercel.app/
 
 
 ## 🏠 Self Hosting
+
+May Install node-gyp
+https://github.com/nodejs/node-gyp
+
 ```bash
 # Install with yarn
 yarn
