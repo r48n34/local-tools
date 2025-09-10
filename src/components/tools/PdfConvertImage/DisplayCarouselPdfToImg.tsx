@@ -55,7 +55,10 @@ function DisplayCarouselPdfToImg({ fileList, deleteCb }: DisplayCarouselProps) {
                 setProgressNumber(Math.floor((pageNumber / totalPages) * 100))
 
                 if (data.length === totalPages) {
-                    toDownloadFileZip(data, "jpeg");
+                    toDownloadFileZip(data.map(v => ({
+                        originalName: crypto.randomUUID(),
+                        data: v
+                    })), "jpeg");
                     setProgressNumber(-1);
                     toast.success("Done, enjoy your zip file!")
                 }
