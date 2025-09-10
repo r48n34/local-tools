@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import 'jimp/browser/lib/jimp';
 const { Jimp } = window as any;
 
-import { LoadingOverlay, Button, Group, Box, Text, Accordion, Grid, Select, NumberInput, Container, Checkbox } from '@mantine/core';
+import { LoadingOverlay, Button, Group, Box, Text, Accordion, Grid, Select, NumberInput, Container, Checkbox, Tooltip } from '@mantine/core';
 import { useMemo, useState } from 'react';
 import { IconFileUpload, IconFileZip, IconImageInPicture, IconReload, IconTrash } from '@tabler/icons-react';
 
@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 import { FileWithPath } from '@mantine/dropzone';
 import DropZoneComp from '../../components/tools/ImageConvert/DropZoneComp';
 import DisplayCarousel from '../../components/tools/ImageConvert/DisplayCarousel';
-import { toDownloadFile, toDownloadFileZip } from '../../utils/downloadFile';
+import { getAllBaseTotalSize, toDownloadFile, toDownloadFileZip } from '../../utils/downloadFile';
 import { imageToWebp, webpimageToPng } from '../../utils/convertUtils';
 import ProgressBar from '../../components/tools/ImageConvert/ProgressBar';
 
@@ -26,6 +26,11 @@ interface Settings {
     newHeight: number
 }
 
+export interface ImageOutputScheme {
+    originalName: string // Name
+    data: string         // Base64
+}
+
 function UploadFormComp() {
 
     const [progressNumber, setProgressNumber] = useState<number>(-1);
@@ -34,7 +39,7 @@ function UploadFormComp() {
     const [files, setFiles] = useState<FileWithPath[]>([]);
 
     // Output files
-    const [outputFile, setOutputFile] = useState<string[]>([]);
+    const [outputFile, setOutputFile] = useState<ImageOutputScheme[]>([]);
 
     const [settings, setSettings] = useState<Settings>({
         opFormat: "jpeg",
@@ -58,13 +63,22 @@ function UploadFormComp() {
                     ? Jimp.MIME_BMP
                     : Jimp.MIME_JPEG // "jpeg"
 
-            let resultArr = []
+            let resultArr: {
+                originalName: string // Name
+                data: string         // Base64
+            }[] = []
+
             for (let file of files) {
 
+                const originalName = file.name.split(".").slice(0, -1).join(".");
+
                 if (settings.opFormat === "webp") {
-                    resultArr.push(
-                        URL.createObjectURL(await imageToWebp(file, settings.quality))
-                    )
+                    resultArr.push({
+                        originalName,
+                        data: URL.createObjectURL(
+                            await imageToWebp(file, settings.quality)
+                        )
+                    })
                 }
                 else {
 
@@ -78,26 +92,30 @@ function UploadFormComp() {
                     );
 
                     if (settings.enableNewWidthHeight) {
-                        resultArr.push(
-                            await jimpImage
+                        resultArr.push({
+                            originalName,
+                            data: await jimpImage
                                 .resize(settings.newWidth || 1, settings.newHeight || 1)
                                 .quality(settings.quality)
                                 .getBase64Async(opType)
-                        )
+                        })
                     }
                     else {
-                        resultArr.push(
-                            await jimpImage
+                        resultArr.push({
+                            originalName,
+                            data: await jimpImage
                                 .scale(settings.scale)
                                 .quality(settings.quality)
                                 .getBase64Async(opType)
-                        )
+                        })
                     }
 
 
                 }
 
-                setProgressNumber(Math.floor((resultArr.length / files.length) * 100))
+                setProgressNumber(
+                    Math.floor((resultArr.length / files.length) * 100)
+                )
             }
 
             setOutputFile(resultArr);
@@ -286,7 +304,7 @@ function UploadFormComp() {
                                 Result images
                             </Text>
 
-                            <DisplayCarousel imgsList={outputFile} showsDownload={true} />
+                            <DisplayCarousel imgsList={outputFile.map(v => v.data)} showsDownload={true} />
                             <Group justify="space-between" mb={16} mt={22}>
 
                                 <Button
@@ -302,27 +320,34 @@ function UploadFormComp() {
                                 </Button>
 
                                 <Group>
+
+                                    <Tooltip label={"Please Allow Browser Multi-download"}>
                                     <Button
                                         leftSection={<IconImageInPicture />}
                                         variant='light'
                                         onClick={() => {
                                             for (let opFile of outputFile) {
-                                                toDownloadFile(opFile)
+                                                toDownloadFile(opFile.data, opFile.originalName)
                                             }
                                         }}
                                     >
                                         Download All
                                     </Button>
+                                    </Tooltip>
 
-                                    <Button
-                                        leftSection={<IconFileZip />}
-                                        variant='light'
-                                        onClick={() => {
-                                            toDownloadFileZip(outputFile, settings.opFormat)
-                                        }}
-                                    >
-                                        Download All with ZIP
-                                    </Button>
+                                    {getAllBaseTotalSize(outputFile.map(v => v.data)).mb <= 4.99 && (
+                                        <Button
+                                            leftSection={<IconFileZip />}
+                                            variant='light'
+                                            onClick={() => {
+                                                // console.log("getAllBaseTotalSize(outputFile.map( v => v.data))", getAllBaseTotalSize(outputFile.map( v => v.data)))
+                                                toDownloadFileZip(outputFile, settings.opFormat)
+                                            }}
+                                        >
+                                            Download All with ZIP
+                                        </Button>
+                                    )}
+
                                 </Group>
                             </Group>
                         </Box>
