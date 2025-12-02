@@ -59,7 +59,7 @@ export async function toDownloadFileZip(
     const zipData = await zip.generateAsync({
         type: "blob",
         streamFiles: true,
-        compression: "DEFLATE"
+        // compression: "DEFLATE"
     });
 
     // Create a download link for the zip file

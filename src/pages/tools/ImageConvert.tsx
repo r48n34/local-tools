@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 import { FileWithPath } from '@mantine/dropzone';
 import DropZoneComp from '../../components/tools/ImageConvert/DropZoneComp';
 import DisplayCarousel from '../../components/tools/ImageConvert/DisplayCarousel';
-import { getAllBaseTotalSize, toDownloadFile, toDownloadFileZip } from '../../utils/downloadFile';
+import { toDownloadFile, toDownloadFileZip } from '../../utils/downloadFile';
 import { imageToWebp, webpimageToPng } from '../../utils/convertUtils';
 import ProgressBar from '../../components/tools/ImageConvert/ProgressBar';
 
