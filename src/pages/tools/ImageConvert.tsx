@@ -335,7 +335,8 @@ function UploadFormComp() {
                                     </Button>
                                     </Tooltip>
 
-                                    {getAllBaseTotalSize(outputFile.map(v => v.data)).mb <= 4.99 && (
+                                    {outputFile.length >= 1 && (
+                                    // {getAllBaseTotalSize(outputFile.map(v => v.data)).mb <= 4.99 && (
                                         <Button
                                             leftSection={<IconFileZip />}
                                             variant='light'
