@@ -29,7 +29,7 @@ function getoneBaseTotalSize(base64Data: string) {
     return Math.ceil((length * 3) / 4);
 }
 
-export function getAllBaseTotalSize(baseStrLs: string[]) { // In 
+export function getAllBaseTotalSize(baseStrLs: string[]) {
     const totalByte =  baseStrLs.reduce((acc, str) => {
         return acc + getoneBaseTotalSize(str)
     }, 0);
