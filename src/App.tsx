@@ -60,10 +60,10 @@ export const mainRouteObj = [
                 path: "/scanQR",
                 element: <ScanQR />,
             },
-            {
-                path: "/scanDocs",
-                element: <ScanDocs />,
-            },
+            // {
+            //     path: "/scanDocs",
+            //     element: <ScanDocs />,
+            // },
             {
                 path: "/makeQR",
                 element: <QRmaker />,

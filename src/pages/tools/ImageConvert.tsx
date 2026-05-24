@@ -4,17 +4,18 @@ import "jimp/browser/lib/jimp";
 const { Jimp } = window as any;
 
 import {
-    LoadingOverlay,
-    Button,
-    Group,
-    Box,
-    Text,
     Accordion,
-    Grid,
-    Select,
-    NumberInput,
-    Container,
+    Box,
+    Button,
     Checkbox,
+    Container,
+    Grid,
+    Group,
+    LoadingOverlay,
+    NumberInput,
+    Select,
+    Slider,
+    Text,
     Tooltip,
 } from "@mantine/core";
 import { useMemo, useState } from "react";
@@ -74,12 +75,11 @@ function UploadFormComp() {
             toast.success("Converting images...");
             setOutputFile([]);
 
-            const opType =
-                settings.opFormat === "png"
-                    ? Jimp.MIME_PNG
-                    : settings.opFormat === "bmp"
-                      ? Jimp.MIME_BMP
-                      : Jimp.MIME_JPEG; // "jpeg"
+            const opType = settings.opFormat === "png"
+                ? Jimp.MIME_PNG
+                : settings.opFormat === "bmp"
+                ? Jimp.MIME_BMP
+                : Jimp.MIME_JPEG; // "jpeg"
 
             let resultArr: {
                 originalName: string; // Name
@@ -87,25 +87,35 @@ function UploadFormComp() {
             }[] = [];
 
             for (let file of files) {
-                const originalName = file.name.split(".").slice(0, -1).join(".");
+                const originalName = file.name.split(".").slice(0, -1).join(
+                    ".",
+                );
 
                 if (settings.opFormat === "webp") {
                     resultArr.push({
                         originalName,
-                        data: URL.createObjectURL(await imageToWebp(file, settings.quality)),
+                        data: URL.createObjectURL(
+                            await imageToWebp(file, settings.quality),
+                        ),
                     });
                 } else {
                     // If it's webp, change to png first due to Jimp do not support webp input
-                    const finalFile =
-                        file.type === "image/webp" ? await webpimageToPng(file) : file;
+                    const finalFile = file.type === "image/webp"
+                        ? await webpimageToPng(file)
+                        : file;
 
-                    const jimpImage = await Jimp.read(URL.createObjectURL(finalFile));
+                    const jimpImage = await Jimp.read(
+                        URL.createObjectURL(finalFile),
+                    );
 
                     if (settings.enableNewWidthHeight) {
                         resultArr.push({
                             originalName,
                             data: await jimpImage
-                                .resize(settings.newWidth || 1, settings.newHeight || 1)
+                                .resize(
+                                    settings.newWidth || 1,
+                                    settings.newHeight || 1,
+                                )
                                 .quality(settings.quality)
                                 .getBase64Async(opType),
                         });
@@ -120,13 +130,17 @@ function UploadFormComp() {
                     }
                 }
 
-                setProgressNumber(Math.floor((resultArr.length / files.length) * 100));
+                setProgressNumber(
+                    Math.floor((resultArr.length / files.length) * 100),
+                );
             }
 
             setOutputFile(resultArr);
             toast.success("Done, enjoy your images!");
-        } catch  {
-            toast.error("Error. Please try another file", { position: "top-right" });
+        } catch {
+            toast.error("Error. Please try another file", {
+                position: "top-right",
+            });
         } finally {
             setProgressNumber(-1);
         }
@@ -139,7 +153,8 @@ function UploadFormComp() {
                 imgsList={files.map((v) => URL.createObjectURL(v))}
                 nameList={files.map((v) => v.name)}
                 showsDownload={false}
-                deleteCb={(ind) => setFiles((files) => files.filter((_, i) => i !== ind))}
+                deleteCb={(ind) =>
+                    setFiles((files) => files.filter((_, i) => i !== ind))}
             />
         ),
         [files],
@@ -161,7 +176,9 @@ function UploadFormComp() {
                 </Text>
 
                 <Box mx="auto" mt={32}>
-                    {progressNumber >= 0 && <ProgressBar progressNumber={progressNumber} />}
+                    {progressNumber >= 0 && (
+                        <ProgressBar progressNumber={progressNumber} />
+                    )}
 
                     {outputFile.length <= 0 && (
                         <Box pos="relative">
@@ -173,8 +190,9 @@ function UploadFormComp() {
 
                             <DropZoneComp
                                 setFilesCb={(files) =>
-                                    setFiles((currentFiles) => [...currentFiles, ...files])
-                                }
+                                    setFiles((
+                                        currentFiles,
+                                    ) => [...currentFiles, ...files])}
                                 acceptedTypesList={[
                                     "image/png",
                                     "image/jpeg",
@@ -187,12 +205,21 @@ function UploadFormComp() {
 
                             <Accordion defaultValue="Setting">
                                 <Accordion.Item key="Setting" value="Setting">
-                                    <Accordion.Control>Basic setting</Accordion.Control>
+                                    <Accordion.Control>
+                                        Basic setting
+                                    </Accordion.Control>
 
                                     <Accordion.Panel>
                                         <Grid>
-                                            <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
-                                                {!settings.enableNewWidthHeight && (
+                                            <Grid.Col
+                                                span={{
+                                                    base: 12,
+                                                    md: 6,
+                                                    lg: 4,
+                                                }}
+                                            >
+                                                {!settings
+                                                    .enableNewWidthHeight && (
                                                     <NumberInput
                                                         label="Scale images"
                                                         description="x times each images output res (1 = normal)"
@@ -201,8 +228,7 @@ function UploadFormComp() {
                                                             setSettings({
                                                                 ...settings,
                                                                 scale: +v || 1,
-                                                            })
-                                                        }
+                                                            })}
                                                         min={0}
                                                         max={30}
                                                         step={0.1}
@@ -210,85 +236,158 @@ function UploadFormComp() {
                                                 )}
                                             </Grid.Col>
 
-                                            <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
+                                            <Grid.Col
+                                                span={{
+                                                    base: 12,
+                                                    md: 6,
+                                                    lg: 4,
+                                                }}
+                                            >
                                                 <Select
                                                     label="Output format"
                                                     description="Select your output format"
-                                                    data={["jpeg", "png", "bmp", "webp"]}
+                                                    data={[
+                                                        "jpeg",
+                                                        "png",
+                                                        "bmp",
+                                                        "webp",
+                                                    ]}
                                                     value={settings.opFormat}
                                                     onChange={(v) =>
                                                         setSettings({
                                                             ...settings,
-                                                            opFormat: (v as OPFormat) || "jpeg",
-                                                        })
-                                                    }
+                                                            opFormat:
+                                                                (v as OPFormat) ||
+                                                                "jpeg",
+                                                        })}
                                                 />
                                             </Grid.Col>
 
-                                            {["jpeg", "webp"].includes(settings.opFormat) && (
-                                                <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
-                                                    <NumberInput
-                                                        label="Quality"
-                                                        description="1 (Worst) - 100 (Best)"
+                                            {["jpeg", "webp"].includes(
+                                                settings.opFormat,
+                                            ) && (
+                                                <Grid.Col
+                                                    span={{
+                                                        base: 12,
+                                                        md: 6,
+                                                        lg: 4,
+                                                    }}
+                                                >
+                                                    <Text fw={500} fz={14}>
+                                                        Quality
+                                                    </Text>
+                                                    <Text c="dimmed" fz={12}>
+                                                        1 (Worst) - 100 (Best)
+                                                    </Text>
+                                                    <Slider
+                                                        mt={12}
                                                         value={settings.quality}
                                                         onChange={(v) =>
                                                             setSettings({
                                                                 ...settings,
-                                                                quality: +v || 1,
-                                                            })
-                                                        }
+                                                                quality: +v ||
+                                                                    1,
+                                                            })}
                                                         min={1}
                                                         max={100}
                                                         step={1}
+                                                        marks={[
+                                                            {
+                                                                value: 1,
+                                                                label: "1%",
+                                                            },
+                                                            {
+                                                                value: 20,
+                                                                label: "20%",
+                                                            },
+                                                            {
+                                                                value: 40,
+                                                                label: "40%",
+                                                            },
+                                                            {
+                                                                value: 60,
+                                                                label: "60%",
+                                                            },
+                                                            {
+                                                                value: 80,
+                                                                label: "80%",
+                                                            },
+                                                            {
+                                                                value: 100,
+                                                                label: "100%",
+                                                            },
+                                                        ]}
                                                     />
                                                 </Grid.Col>
                                             )}
                                         </Grid>
 
                                         <Grid mt={12}>
-                                            <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
+                                            <Grid.Col
+                                                span={{
+                                                    base: 12,
+                                                    md: 6,
+                                                    lg: 4,
+                                                }}
+                                            >
                                                 <Checkbox
                                                     label="Set my width and height"
-                                                    checked={settings.enableNewWidthHeight}
+                                                    checked={settings
+                                                        .enableNewWidthHeight}
                                                     onChange={(event) =>
                                                         setSettings({
                                                             ...settings,
                                                             enableNewWidthHeight:
-                                                                event.currentTarget.checked,
-                                                        })
-                                                    }
+                                                                event
+                                                                    .currentTarget
+                                                                    .checked,
+                                                        })}
                                                 />
                                             </Grid.Col>
 
                                             {settings.enableNewWidthHeight && (
                                                 <>
-                                                    <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
+                                                    <Grid.Col
+                                                        span={{
+                                                            base: 12,
+                                                            md: 6,
+                                                            lg: 4,
+                                                        }}
+                                                    >
                                                         <NumberInput
                                                             label="New Width (px)"
                                                             description="All images will be apply to this width after convert"
-                                                            value={settings.newWidth}
+                                                            value={settings
+                                                                .newWidth}
                                                             onChange={(v) =>
                                                                 setSettings({
                                                                     ...settings,
-                                                                    newWidth: +v || 1,
-                                                                })
-                                                            }
+                                                                    newWidth:
+                                                                        +v || 1,
+                                                                })}
                                                             min={1}
                                                             step={1}
                                                         />
                                                     </Grid.Col>
 
-                                                    <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
+                                                    <Grid.Col
+                                                        span={{
+                                                            base: 12,
+                                                            md: 6,
+                                                            lg: 4,
+                                                        }}
+                                                    >
                                                         <NumberInput
                                                             label="New Height (px)"
                                                             description="All images will be apply to this height after convert"
-                                                            value={settings.newHeight}
+                                                            value={settings
+                                                                .newHeight}
                                                             onChange={(v) =>
                                                                 setSettings({
                                                                     ...settings,
-                                                                    newHeight: +v || 1,
-                                                                })
-                                                            }
+                                                                    newHeight:
+                                                                        +v || 1,
+                                                                })}
                                                             min={1}
                                                             step={1}
                                                         />
@@ -304,7 +403,13 @@ function UploadFormComp() {
                                 <Box mt={24}>
                                     {DisplayCarouselMemo}
 
-                                    <Text ta="right" mt={24} fz={18} fw={500} c="dimmed">
+                                    <Text
+                                        ta="right"
+                                        mt={24}
+                                        fz={18}
+                                        fw={500}
+                                        c="dimmed"
+                                    >
                                         Uploaded total: {files.length} files
                                     </Text>
                                 </Box>
@@ -338,13 +443,21 @@ function UploadFormComp() {
 
                     {outputFile.length >= 1 && (
                         <Box mx="auto" mt={32}>
-                            <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
+                            <Text
+                                ta={"center"}
+                                fz={38}
+                                fw={300}
+                                mb={32}
+                                mt={12}
+                            >
                                 Result images
                             </Text>
 
                             <DisplayCarousel
                                 imgsList={outputFile.map((v) => v.data)}
-                                nameList={outputFile.map((v) => v.originalName + "." + settings.opFormat)}
+                                nameList={outputFile.map((v) =>
+                                    v.originalName + "." + settings.opFormat
+                                )}
                                 showsDownload={true}
                             />
                             <Group justify="space-between" mb={16} mt={22}>
@@ -361,7 +474,9 @@ function UploadFormComp() {
                                 </Button>
 
                                 <Group>
-                                    <Tooltip label={"Please Allow Browser Multi-download"}>
+                                    <Tooltip
+                                        label={"Please Allow Browser Multi-download"}
+                                    >
                                         <Button
                                             leftSection={<IconImageInPicture />}
                                             variant="light"
@@ -385,7 +500,10 @@ function UploadFormComp() {
                                             variant="light"
                                             onClick={() => {
                                                 // console.log("getAllBaseTotalSize(outputFile.map( v => v.data))", getAllBaseTotalSize(outputFile.map( v => v.data)))
-                                                toDownloadFileZip(outputFile, settings.opFormat);
+                                                toDownloadFileZip(
+                                                    outputFile,
+                                                    settings.opFormat,
+                                                );
                                             }}
                                         >
                                             Download All with ZIP
