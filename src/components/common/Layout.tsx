@@ -1,13 +1,12 @@
 import {
     AppShell,
+    Box,
     Burger,
     Group,
+    NavLink,
     ScrollArea,
     Text,
-    NavLink,
     UnstyledButton,
-    Box,
-    ThemeIcon,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
@@ -16,7 +15,6 @@ import { IconTools } from "@tabler/icons-react";
 import SpotLightSearch from "./SpotLightSearch";
 import { categoryList } from "../../data/routeData";
 import ToggleThemeBtn from "./ToggleThemeBtn";
-// import GoUrlBtn from './GoUrlBtn';
 import FooterComp from "./FooterComp";
 
 import { groupBy, prop } from "remeda";
@@ -63,38 +61,50 @@ function Layout() {
             <AppShell.Navbar p="md">
                 <AppShell.Section>
                     <SpotLightSearch mb={16} hiddenFrom="sm" />
-                    {/* <Text fz={14} fw={300}>
+                    {
+                        /* <Text fz={14} fw={300}>
                         Tools
-                    </Text> */}
+                    </Text> */
+                    }
                 </AppShell.Section>
 
-                <AppShell.Section grow my="md" component={ScrollArea} scrollbarSize={2}>
-                    {Object.entries(groupBy(categoryList, prop("categories"))).map((category) => (
-                        <Box key={category[0]} mb={24}>
-                            <Text fz={14} fw={300}>
-                                {category[0]}
-                            </Text>
-                            {category[1]
-                                .filter((v) => v.displayAtNav)
-                                .map((v) => (
-                                    <NavLink
-                                        key={v.link}
-                                        label={v.labels}
-                                        leftSection={
-                                            <ThemeIcon variant="light" size={24}>
-                                                {v.icon}
-                                            </ThemeIcon>
-                                        }
-                                        onClick={() => {
-                                            navigate(`/${v.link}`);
-                                            close();
-                                        }}
-                                    />
-                                ))}
-                        </Box>
-                    ))}
+                <AppShell.Section
+                    grow
+                    my="md"
+                    component={ScrollArea}
+                    scrollbarSize={2}
+                >
+                    {Object.entries(groupBy(categoryList, prop("categories")))
+                        .map((category) => (
+                            <Box key={category[0]} mb={24}>
+                                <Text fz={14} fw={300}>
+                                    {category[0]}
+                                </Text>
+                                {category[1]
+                                    .filter((v) => v.displayAtNav)
+                                    .map((v) => {
 
-                    {/* {
+                                        const Icon = <v.icon size={20} />;
+
+                                        return (
+                                            <NavLink
+                                                key={v.link}
+                                                label={v.labels}
+                                                leftSection={
+                                                    Icon
+                                                }
+                                                onClick={() => {
+                                                    navigate(`/${v.link}`);
+                                                    close();
+                                                }}
+                                            />
+                                        );
+                                    })}
+                            </Box>
+                        ))}
+
+                    {
+                        /* {
                         categoryList.filter(v => v.displayAtNav).map((v) => (
                             <NavLink
                                 key={v.link}
@@ -108,11 +118,18 @@ function Layout() {
                                 }}
                             />
                         ))
-                    } */}
+                    } */
+                    }
                 </AppShell.Section>
             </AppShell.Navbar>
 
-            <AppShell.Main style={{ display: "flex", minHeight: "100vh", flexDirection: "column" }}>
+            <AppShell.Main
+                style={{
+                    display: "flex",
+                    minHeight: "100vh",
+                    flexDirection: "column",
+                }}
+            >
                 <Box style={{ flex: 1 }}>
                     <Outlet />
                 </Box>

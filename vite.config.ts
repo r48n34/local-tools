@@ -1,18 +1,29 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 import Sitemap from "vite-plugin-sitemap";
+import { reactClickToComponent } from "vite-plugin-react-click-to-component";
 
-// https://vitejs.dev/config/
-export default defineConfig(({ command }) => {
+export default defineConfig(({ command, mode }) => {
+    const env = loadEnv(mode, process.cwd());
+
+    if (!process.env.VITE_LAUNCH_EDITOR) {
+        process.env.LAUNCH_EDITOR = "code";
+    } else {
+        process.env.LAUNCH_EDITOR = process.env.VITE_LAUNCH_EDITOR;
+    }
+
     if (command === "serve") {
         // dev
         return {
-            plugins: [react()],
+            plugins: [reactClickToComponent(), react()],
             build: {
                 sourcemap: false,
             },
-        };
+            resolve: {
+                tsconfigPaths: true,
+            },
+        } as any;
     } else {
         // command === 'build'
 
@@ -25,11 +36,17 @@ export default defineConfig(({ command }) => {
             "/scanQR",
             "/makeQR",
             "/types",
+            "/percentEncoding",
+            "/textConvert",
         ];
 
         return {
             plugins: [
-                Sitemap({ hostname: "https://media-local-tools.vercel.app/", dynamicRoutes }),
+                reactClickToComponent(),
+                Sitemap({
+                    hostname: "https://media-local-tools.vercel.app/",
+                    dynamicRoutes,
+                }),
                 react(),
                 VitePWA({
                     registerType: "autoUpdate",
@@ -50,7 +67,7 @@ export default defineConfig(({ command }) => {
                     },
                 }),
             ],
-            esbuild: {
+            oxc: {
                 drop: ["console", "debugger"],
             },
             build: {

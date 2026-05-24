@@ -1,3 +1,4 @@
+import "vite-plugin-react-click-to-component/client";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";

@@ -1,4 +1,4 @@
-import { Tooltip, ActionIcon, useMantineColorScheme } from "@mantine/core";
+import { Switch, Tooltip, useMantineColorScheme } from "@mantine/core";
 import { IconSunHigh, IconMoonFilled } from "@tabler/icons-react";
 
 function ToggleThemeBtn() {
@@ -7,13 +7,14 @@ function ToggleThemeBtn() {
 
     return (
         <Tooltip label={"Toggle color scheme"}>
-            <ActionIcon
-                variant="light"
-                color={dark ? "yellow" : "blue"}
-                onClick={() => toggleColorScheme()}
-            >
-                {dark ? <IconSunHigh size={16} /> : <IconMoonFilled size={16} />}
-            </ActionIcon>
+            <Switch
+                checked={dark}
+                color="dark"
+                onChange={() => toggleColorScheme()}
+                onLabel={<IconMoonFilled size={14} stroke={2.5} />}
+                offLabel={<IconSunHigh size={14} stroke={2.5} />}
+                aria-label="Toggle color scheme"
+            />
         </Tooltip>
     );
 }
