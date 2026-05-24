@@ -344,6 +344,7 @@ function UploadFormComp() {
 
                             <DisplayCarousel
                                 imgsList={outputFile.map((v) => v.data)}
+                                nameList={outputFile.map((v) => v.originalName + "." + settings.opFormat)}
                                 showsDownload={true}
                             />
                             <Group justify="space-between" mb={16} mt={22}>

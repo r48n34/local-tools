@@ -19,7 +19,7 @@ function DisplayCarousel({
 }: DisplayCarouselProps) {
     return (
         <>
-            <Carousel slideSize="70%" slideGap="md" withIndicators height={430} loop>
+            <Carousel slideSize="30%" slideGap="md" withIndicators height={400}>
                 {imgsList.map((url, i) => (
                     <Carousel.Slide key={url}>
                         <Card shadow="sm" padding="lg" radius="md">
@@ -29,7 +29,7 @@ function DisplayCarousel({
                                         src={url}
                                         style={{ objectFit: "cover" }}
                                         alt={"Images"}
-                                        height={300}
+                                        height={260}
                                         width="100%"
                                     />
 
@@ -64,7 +64,7 @@ function DisplayCarousel({
                                     mt={18}
                                     variant="light"
                                     fullWidth
-                                    onClick={() => toDownloadFile(url)}
+                                    onClick={() => toDownloadFile(url, !!nameList && !!nameList[i] ? nameList[i] :  "image.png")}
                                 >
                                     Download
                                 </Button>
