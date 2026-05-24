@@ -2,7 +2,6 @@ import JSZip from "jszip";
 import { ImageOutputScheme } from "../pages/tools/ImageConvert";
 
 export function toDownloadFile(str: string, fileName: string = crypto.randomUUID()) {
-
     if (typeof window !== "undefined") {
         const link = document.createElement("a");
         link.href = str;
@@ -12,16 +11,15 @@ export function toDownloadFile(str: string, fileName: string = crypto.randomUUID
 
         link.click();
     }
-
 }
 
 function getoneBaseTotalSize(base64Data: string) {
     let length = base64Data.length;
 
     // Account for padding characters
-    if (base64Data.endsWith('==')) {
+    if (base64Data.endsWith("==")) {
         length -= 2;
-    } else if (base64Data.endsWith('=')) {
+    } else if (base64Data.endsWith("=")) {
         length -= 1;
     }
 
@@ -30,22 +28,21 @@ function getoneBaseTotalSize(base64Data: string) {
 }
 
 export function getAllBaseTotalSize(baseStrLs: string[]) {
-    const totalByte =  baseStrLs.reduce((acc, str) => {
-        return acc + getoneBaseTotalSize(str)
+    const totalByte = baseStrLs.reduce((acc, str) => {
+        return acc + getoneBaseTotalSize(str);
     }, 0);
 
     return {
         byte: totalByte,
         kb: totalByte / 1024,
         mb: totalByte / 1024 / 1024,
-    }
+    };
 }
 
 export async function toDownloadFileZip(
     strs: ImageOutputScheme[],
-    currentMineType: "jpeg" | "png" | "bmp" | "webp"
+    currentMineType: "jpeg" | "png" | "bmp" | "webp",
 ) {
-
     const zip = new JSZip();
 
     // Add Images to the zip file
@@ -67,5 +64,4 @@ export async function toDownloadFileZip(
     link.href = window.URL.createObjectURL(zipData);
     link.download = `${crypto.randomUUID()}.zip`;
     link.click();
-
 }

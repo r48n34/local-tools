@@ -1,22 +1,21 @@
-import '@mantine/code-highlight/styles.css';
-import { useEffect, useState } from 'react';
-import { Container, Textarea, Text } from '@mantine/core';
-import { CodeHighlightTabs } from '@mantine/code-highlight';
-import { Helmet } from 'react-helmet-async';
+import "@mantine/code-highlight/styles.css";
+import { useEffect, useState } from "react";
+import { Container, Textarea, Text } from "@mantine/core";
+import { CodeHighlightTabs } from "@mantine/code-highlight";
+import { Helmet } from "react-helmet-async";
 
-import Splitter from '@devbookhq/splitter'
-import JsonToTS from 'json-to-ts';
+import Splitter from "@devbookhq/splitter";
+import JsonToTS from "json-to-ts";
 
 // @ts-ignore
-import dJSON from 'dirty-json';
-import { IconFileTypeTs, IconTypeface } from '@tabler/icons-react';
+import dJSON from "dirty-json";
+import { IconFileTypeTs, IconTypeface } from "@tabler/icons-react";
 
 function GenerateTypes() {
     const [jsonValue, setJsonValue] = useState<string>("");
     const [finalResult, setFinalResult] = useState<string>("");
 
     useEffect(() => {
-
         if (!jsonValue) {
             return;
         }
@@ -26,13 +25,11 @@ function GenerateTypes() {
             let result = JsonToTS(obj);
 
             let str = result.join("\n");
-            setFinalResult(str)
+            setFinalResult(str);
+        } catch  {
+            setFinalResult("//Invalid input object.");
         }
-        catch (e: any) {
-            setFinalResult("//Invalid input object.")
-        }
-
-    }, [jsonValue])
+    }, [jsonValue]);
 
     return (
         <>
@@ -45,12 +42,11 @@ function GenerateTypes() {
                     <IconFileTypeTs size={30} /> Typescript Interface Generate
                 </Text>
 
-                <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed' mb={36}>
+                <Text ta={"center"} fz={22} fw={300} mt={-34} c="dimmed" mb={36}>
                     Turn Your json / ts object to TS interface
                 </Text>
 
                 <Splitter>
-
                     <div>
                         <Text size="md" mb={6} w={400} c="dimmed">
                             Your object
@@ -73,20 +69,18 @@ function GenerateTypes() {
                         <CodeHighlightTabs
                             code={[
                                 {
-                                    fileName: 'Type.ts',
+                                    fileName: "Type.ts",
                                     code: finalResult,
-                                    language: 'tsx',
-                                    icon: <IconTypeface size={16}/>,
-                                }
+                                    language: "tsx",
+                                    icon: <IconTypeface size={16} />,
+                                },
                             ]}
                         />
                     </div>
-
                 </Splitter>
-
             </Container>
         </>
-    )
+    );
 }
 
-export default GenerateTypes
+export default GenerateTypes;

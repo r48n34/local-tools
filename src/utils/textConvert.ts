@@ -5,9 +5,15 @@ export function capitalizeFirstLetter(val: string) {
 }
 
 export function capitalizeFirstLetterSentences(val: string) {
-    return val.split(" ")
-        .map( v => v.split("\n").map(k => capitalizeFirstLetter(k)).join("\n") )
-        .join(" ")
+    return val
+        .split(" ")
+        .map((v) =>
+            v
+                .split("\n")
+                .map((k) => capitalizeFirstLetter(k))
+                .join("\n"),
+        )
+        .join(" ");
 }
 
 /** Lower */
@@ -16,16 +22,21 @@ export function lowerFirstLetter(val: string) {
 }
 
 export function lowerFirstLetterSentences(val: string) {
-    return val.split(" ")
-        .map( v => v.split("\n").map(k => lowerFirstLetter(k)).join("\n") )
-        .join(" ")
+    return val
+        .split(" ")
+        .map((v) =>
+            v
+                .split("\n")
+                .map((k) => lowerFirstLetter(k))
+                .join("\n"),
+        )
+        .join(" ");
 }
 
 /** Chaos */
 export function chaosLetter(val: string) {
-    return val.split("")
-    .map( s => Math.random() >= 0.5 
-        ? s.toUpperCase()
-        : s.toLowerCase()
-    ).join("")
+    return val
+        .split("")
+        .map((s) => (Math.random() >= 0.5 ? s.toUpperCase() : s.toLowerCase()))
+        .join("");
 }

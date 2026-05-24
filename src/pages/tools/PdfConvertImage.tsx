@@ -1,24 +1,25 @@
-import { Helmet } from 'react-helmet-async';
-import { Box, Text, Container, Button, Group } from '@mantine/core';
-import { useMemo, useState } from 'react';
+import { Helmet } from "react-helmet-async";
+import { Box, Text, Container, Button, Group } from "@mantine/core";
+import { useMemo, useState } from "react";
 
-import { FileWithPath } from '@mantine/dropzone';
-import DropZoneComp from '../../components/tools/ImageConvert/DropZoneComp';
-import DisplayCarouselPdfToImg from '../../components/tools/PdfConvertImage/DisplayCarouselPdfToImg';
-import { IconFileAnalytics, IconTrash } from '@tabler/icons-react';
+import { FileWithPath } from "@mantine/dropzone";
+import DropZoneComp from "../../components/tools/ImageConvert/DropZoneComp";
+import DisplayCarouselPdfToImg from "../../components/tools/PdfConvertImage/DisplayCarouselPdfToImg";
+import { IconFileAnalytics, IconTrash } from "@tabler/icons-react";
 
 function PdfConvertImage() {
-
     // Input files
     const [files, setFiles] = useState<FileWithPath[]>([]);
 
     // Prevent flashing display rerender
-    const DisplayCarouselMemo = useMemo(() =>
-        <DisplayCarouselPdfToImg
-            fileList={files}
-            deleteCb={(ind) => setFiles((files) => files.filter((_, i) => i !== ind))}
-        />,
-        [files]
+    const DisplayCarouselMemo = useMemo(
+        () => (
+            <DisplayCarouselPdfToImg
+                fileList={files}
+                deleteCb={(ind) => setFiles((files) => files.filter((_, i) => i !== ind))}
+            />
+        ),
+        [files],
     );
 
     return (
@@ -32,15 +33,16 @@ function PdfConvertImage() {
                     <IconFileAnalytics size={30} /> PDF to images
                 </Text>
 
-                <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>
+                <Text ta={"center"} fz={22} fw={300} mt={-34} c="dimmed">
                     Convert PDF file to images in local run time, no server upload require
                 </Text>
 
                 <Box mx="auto" mt={32}>
                     <Box pos="relative">
-
                         <DropZoneComp
-                            setFilesCb={(files) => setFiles(currentFiles => [...currentFiles, ...files])}
+                            setFilesCb={(files) =>
+                                setFiles((currentFiles) => [...currentFiles, ...files])
+                            }
                             acceptedTypesList={["application/pdf"]}
                         />
 
@@ -59,9 +61,9 @@ function PdfConvertImage() {
                                 disabled={files.length <= 0}
                                 leftSection={<IconTrash />}
                                 variant="light"
-                                color='red'
+                                color="red"
                                 onClick={() => {
-                                    setFiles([])
+                                    setFiles([]);
                                 }}
                             >
                                 Remove all files
@@ -69,10 +71,9 @@ function PdfConvertImage() {
                         </Group>
                     </Box>
                 </Box>
-
             </Container>
         </>
     );
 }
 
-export default PdfConvertImage
+export default PdfConvertImage;

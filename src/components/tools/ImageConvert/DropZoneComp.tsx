@@ -1,42 +1,53 @@
-import { Group, Text, rem } from '@mantine/core';
-import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
-import { Dropzone, FileWithPath } from '@mantine/dropzone';
-import toast from 'react-hot-toast';
+import { Group, Text, rem } from "@mantine/core";
+import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
+import { Dropzone, FileWithPath } from "@mantine/dropzone";
+import toast from "react-hot-toast";
 
 type DropZoneCompProps = {
     setFilesCb: (files: FileWithPath[]) => void; // Set the uploaded files to external CB functions
     acceptedTypesList: string[]; // e.g. ["image/png", "image/jpeg", "image/bmp"]
-}
+};
 
-function DropZoneComp({ setFilesCb, acceptedTypesList,  ...props }: DropZoneCompProps) {
+function DropZoneComp({ setFilesCb, acceptedTypesList, ...props }: DropZoneCompProps) {
     return (
         <Dropzone
             onDrop={(files) => {
                 setFilesCb(files);
-                toast.success(`Success to upload ${files.length} images`)
+                toast.success(`Success to upload ${files.length} images`);
             }}
             onReject={() => {}}
             maxSize={500 * 1024 ** 2}
             accept={acceptedTypesList}
-            
             {...props}
         >
-            <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
+            <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: "none" }}>
                 <Dropzone.Accept>
                     <IconUpload
-                        style={{ width: rem(52), height: rem(52), color: 'var(--mantine-color-blue-6)' }}
+                        style={{
+                            width: rem(52),
+                            height: rem(52),
+                            color: "var(--mantine-color-blue-6)",
+                        }}
                         stroke={1.5}
                     />
                 </Dropzone.Accept>
                 <Dropzone.Reject>
                     <IconX
-                        style={{ width: rem(52), height: rem(52), color: 'var(--mantine-color-red-6)' }}
+                        style={{
+                            width: rem(52),
+                            height: rem(52),
+                            color: "var(--mantine-color-red-6)",
+                        }}
                         stroke={1.5}
                     />
                 </Dropzone.Reject>
                 <Dropzone.Idle>
                     <IconPhoto
-                        style={{ width: rem(52), height: rem(52), color: 'var(--mantine-color-dimmed)' }}
+                        style={{
+                            width: rem(52),
+                            height: rem(52),
+                            color: "var(--mantine-color-dimmed)",
+                        }}
                         stroke={1.5}
                     />
                 </Dropzone.Idle>
@@ -54,7 +65,7 @@ function DropZoneComp({ setFilesCb, acceptedTypesList,  ...props }: DropZoneComp
                 </div>
             </Group>
         </Dropzone>
-    )
+    );
 }
 
-export default DropZoneComp
+export default DropZoneComp;

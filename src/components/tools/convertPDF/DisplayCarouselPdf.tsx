@@ -1,39 +1,35 @@
-import { ActionIcon, Box, Button, Card, Group, Image, Tooltip, Text } from '@mantine/core';
-import { Carousel } from '@mantine/carousel';
-import { memo } from 'react';
-import { IconDownload, IconTrash } from '@tabler/icons-react';
-import toast from 'react-hot-toast';
-import jsPDF from 'jspdf';
-import { getHeightAndWidthFromDataUrl } from '../../../utils/convertUtils';
+import { ActionIcon, Box, Button, Card, Group, Image, Tooltip, Text } from "@mantine/core";
+import { Carousel } from "@mantine/carousel";
+import { memo } from "react";
+import { IconDownload, IconTrash } from "@tabler/icons-react";
+import toast from "react-hot-toast";
+import jsPDF from "jspdf";
+import { getHeightAndWidthFromDataUrl } from "../../../utils/convertUtils";
 
 interface DisplayCarouselProps {
-    imgsList: string[] // URL.createObjectURL list
-    nameList: string[] // Regarding URL.createObjectURL name list
-    deleteCb?: (index: number) => void
+    imgsList: string[]; // URL.createObjectURL list
+    nameList: string[]; // Regarding URL.createObjectURL name list
+    deleteCb?: (index: number) => void;
 }
 
 function DisplayCarouselPdf({ imgsList, nameList, deleteCb }: DisplayCarouselProps) {
-
     async function transferFile(url: string) {
-
         try {
-
             const currentImg = url;
             const { width, height } = await getHeightAndWidthFromDataUrl(currentImg);
 
-            let doc = width > height
-                ? new jsPDF('l', 'mm', [width, height])
-                : new jsPDF('p', 'mm', [height, width])
+            let doc =
+                width > height
+                    ? new jsPDF("l", "mm", [width, height])
+                    : new jsPDF("p", "mm", [height, width]);
 
-            doc.addImage(currentImg, 'PNG', 0, 0, width, height);
-            doc.save('download.pdf');
+            doc.addImage(currentImg, "PNG", 0, 0, width, height);
+            doc.save("download.pdf");
 
-            toast.success('Done, enjoy your PDF!')
+            toast.success("Done, enjoy your PDF!");
+        } catch  {
+            toast.error("Error. Please try another file", { position: "top-right" });
         }
-        catch (error) {
-            toast.error("Error. Please try another file", { position: 'top-right' })
-        }
-
     }
 
     return (
@@ -44,10 +40,17 @@ function DisplayCarouselPdf({ imgsList, nameList, deleteCb }: DisplayCarouselPro
                         <Card shadow="sm" padding="lg" radius="md">
                             <Card.Section>
                                 {!!deleteCb && (
-                                    <Group justify='flex-end' >
+                                    <Group justify="flex-end">
                                         <Tooltip label="Remove file">
-                                            <ActionIcon variant="light" aria-label="Settings" onClick={() => deleteCb(i)}>
-                                                <IconTrash style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                            <ActionIcon
+                                                variant="light"
+                                                aria-label="Settings"
+                                                onClick={() => deleteCb(i)}
+                                            >
+                                                <IconTrash
+                                                    style={{ width: "70%", height: "70%" }}
+                                                    stroke={1.5}
+                                                />
                                             </ActionIcon>
                                         </Tooltip>
                                     </Group>
@@ -61,7 +64,6 @@ function DisplayCarouselPdf({ imgsList, nameList, deleteCb }: DisplayCarouselPro
                                         width="100%"
                                     />
                                 </Box>
-
                             </Card.Section>
 
                             {!!nameList && !!nameList[i] && (
@@ -73,18 +75,18 @@ function DisplayCarouselPdf({ imgsList, nameList, deleteCb }: DisplayCarouselPro
                             <Button
                                 leftSection={<IconDownload />}
                                 mt={18}
-                                variant='light' fullWidth
+                                variant="light"
+                                fullWidth
                                 onClick={() => transferFile(url)}
                             >
                                 Download PDF
                             </Button>
-
                         </Card>
                     </Carousel.Slide>
                 ))}
             </Carousel>
         </>
-    )
+    );
 }
 
-export default memo(DisplayCarouselPdf)
+export default memo(DisplayCarouselPdf);

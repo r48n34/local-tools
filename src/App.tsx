@@ -1,35 +1,35 @@
-import '@mantine/core/styles.css';
-import '@mantine/dropzone/styles.css';
-import '@mantine/carousel/styles.css';
-import '@mantine/spotlight/styles.css';
+import "@mantine/core/styles.css";
+import "@mantine/dropzone/styles.css";
+import "@mantine/carousel/styles.css";
+import "@mantine/spotlight/styles.css";
 
-import { HelmetProvider } from 'react-helmet-async';
+import { HelmetProvider } from "react-helmet-async";
 
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { MantineProvider } from '@mantine/core';
+import { MantineProvider } from "@mantine/core";
 import { ErrorBoundary } from "react-error-boundary";
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
 
-import ErrorComp from './components/common/ErrorComp';
-import LoadingPage from './components/common/LoadingPage';
-import Layout from './components/common/Layout';
+import ErrorComp from "./components/common/ErrorComp";
+import LoadingPage from "./components/common/LoadingPage";
+import Layout from "./components/common/Layout";
 // import PercentEncoding from './pages/tools/PercentEncoding';
 
-const HomePage = lazy(() => import('./pages/HomePage'));
-const LegalPage = lazy(() => import('./pages/LegalPage'));
-const ImageConvert = lazy(() => import('./pages/tools/ImageConvert'));
-const ImageConvertPDF = lazy(() => import('./pages/tools/ImageConvertPDF'));
-const PdfConvertImage = lazy(() => import('./pages/tools/PdfConvertImage'));
-const ScanQR = lazy(() => import('./pages/tools/ScanQR'));
-const QRmaker = lazy(() => import('./pages/tools/QRmaker'));
-const ScanDocs = lazy(() => import('./pages/tools/ScanDocs'));
+const HomePage = lazy(() => import("./pages/HomePage"));
+const LegalPage = lazy(() => import("./pages/LegalPage"));
+const ImageConvert = lazy(() => import("./pages/tools/ImageConvert"));
+const ImageConvertPDF = lazy(() => import("./pages/tools/ImageConvertPDF"));
+const PdfConvertImage = lazy(() => import("./pages/tools/PdfConvertImage"));
+const ScanQR = lazy(() => import("./pages/tools/ScanQR"));
+const QRmaker = lazy(() => import("./pages/tools/QRmaker"));
+const ScanDocs = lazy(() => import("./pages/tools/ScanDocs"));
 
-const PercentEncoding = lazy(() => import('./pages/tools/PercentEncoding'));
-const TextConvert = lazy(() => import('./pages/tools/TextConvert'));
+const PercentEncoding = lazy(() => import("./pages/tools/PercentEncoding"));
+const TextConvert = lazy(() => import("./pages/tools/TextConvert"));
 
-const GenerateTypes = lazy(() => import('./pages/tools/GenerateTypes'));
+const GenerateTypes = lazy(() => import("./pages/tools/GenerateTypes"));
 
 export const mainRouteObj = [
     {
@@ -80,9 +80,9 @@ export const mainRouteObj = [
                 path: "/textConvert",
                 element: <TextConvert />,
             },
-        ]
-    }
-]
+        ],
+    },
+];
 
 const router = createBrowserRouter(mainRouteObj);
 
@@ -98,7 +98,7 @@ function App() {
                 </ErrorBoundary>
             </MantineProvider>
         </HelmetProvider>
-    )
+    );
 }
 
-export default App
+export default App;

@@ -1,16 +1,13 @@
-import { ActionIcon, Tooltip } from '@mantine/core';
+import { ActionIcon, Tooltip } from "@mantine/core";
 
-function GoUrlBtn({ title, url, icon }: { title: string, url: string, icon: JSX.Element }) {
+function GoUrlBtn({ title, url, icon }: { title: string; url: string; icon: JSX.Element }) {
     return (
         <Tooltip label={title}>
-            <ActionIcon
-                variant="light"
-                onClick={() => !!window && window.open(url, '_blank')}
-            >
+            <ActionIcon variant="light" onClick={() => !!window && window.open(url, "_blank")}>
                 {icon}
             </ActionIcon>
         </Tooltip>
     );
 }
 
-export default GoUrlBtn
+export default GoUrlBtn;

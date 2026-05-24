@@ -15,14 +15,14 @@ function PercentEncoding() {
                     <IconImageInPicture size={30} /> SQL Percent Encoding
                 </Text>
 
-                <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>
+                <Text ta={"center"} fz={22} fw={300} mt={-34} c="dimmed">
                     Convert SQL Percent Encoding password / string
                 </Text>
 
                 <PercentEncodingComp />
             </Container>
         </>
-    )
+    );
 }
 
-export default PercentEncoding
+export default PercentEncoding;

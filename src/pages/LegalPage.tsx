@@ -1,6 +1,6 @@
-import { Container, Title, Text } from "@mantine/core"
-import LegalCardList from "../components/legal/LegalCardList"
-import { Helmet } from "react-helmet-async"
+import { Container, Title, Text } from "@mantine/core";
+import LegalCardList from "../components/legal/LegalCardList";
+import { Helmet } from "react-helmet-async";
 
 function LegalPage() {
     return (
@@ -15,13 +15,14 @@ function LegalPage() {
                 </Title>
 
                 <Text mb={48} fw={300} fz={22} c="dimmed" ta="center">
-                    This website aims to create no server uploading, privacy, efficiency, free, open sources.
+                    This website aims to create no server uploading, privacy, efficiency, free, open
+                    sources.
                 </Text>
 
                 <LegalCardList />
             </Container>
         </>
-    )
+    );
 }
 
-export default LegalPage
+export default LegalPage;

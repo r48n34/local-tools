@@ -1,38 +1,56 @@
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
-import 'jimp/browser/lib/jimp';
+import "jimp/browser/lib/jimp";
 const { Jimp } = window as any;
 
-import { LoadingOverlay, Button, Group, Box, Text, Accordion, Grid, Select, NumberInput, Container, Checkbox, Tooltip } from '@mantine/core';
-import { useMemo, useState } from 'react';
-import { IconFileUpload, IconFileZip, IconImageInPicture, IconReload, IconTrash } from '@tabler/icons-react';
+import {
+    LoadingOverlay,
+    Button,
+    Group,
+    Box,
+    Text,
+    Accordion,
+    Grid,
+    Select,
+    NumberInput,
+    Container,
+    Checkbox,
+    Tooltip,
+} from "@mantine/core";
+import { useMemo, useState } from "react";
+import {
+    IconFileUpload,
+    IconFileZip,
+    IconImageInPicture,
+    IconReload,
+    IconTrash,
+} from "@tabler/icons-react";
 
-import toast from 'react-hot-toast';
-import { FileWithPath } from '@mantine/dropzone';
-import DropZoneComp from '../../components/tools/ImageConvert/DropZoneComp';
-import DisplayCarousel from '../../components/tools/ImageConvert/DisplayCarousel';
-import { toDownloadFile, toDownloadFileZip } from '../../utils/downloadFile';
-import { imageToWebp, webpimageToPng } from '../../utils/convertUtils';
-import ProgressBar from '../../components/tools/ImageConvert/ProgressBar';
+import toast from "react-hot-toast";
+import { FileWithPath } from "@mantine/dropzone";
+import DropZoneComp from "../../components/tools/ImageConvert/DropZoneComp";
+import DisplayCarousel from "../../components/tools/ImageConvert/DisplayCarousel";
+import { toDownloadFile, toDownloadFileZip } from "../../utils/downloadFile";
+import { imageToWebp, webpimageToPng } from "../../utils/convertUtils";
+import ProgressBar from "../../components/tools/ImageConvert/ProgressBar";
 
-type OPFormat = "jpeg" | "png" | "bmp" | "webp"
+type OPFormat = "jpeg" | "png" | "bmp" | "webp";
 interface Settings {
-    opFormat: OPFormat
-    quality: number
-    scale: number
+    opFormat: OPFormat;
+    quality: number;
+    scale: number;
 
-    enableNewWidthHeight: boolean
-    newWidth: number
-    newHeight: number
+    enableNewWidthHeight: boolean;
+    newWidth: number;
+    newHeight: number;
 }
 
 export interface ImageOutputScheme {
-    originalName: string // Name
-    data: string         // Base64
+    originalName: string; // Name
+    data: string; // Base64
 }
 
 function UploadFormComp() {
-
     const [progressNumber, setProgressNumber] = useState<number>(-1);
 
     // Input files
@@ -52,44 +70,36 @@ function UploadFormComp() {
     });
 
     async function transferFile() {
-
         try {
-            toast.success('Converting images...')
+            toast.success("Converting images...");
             setOutputFile([]);
 
-            const opType = settings.opFormat === "png"
-                ? Jimp.MIME_PNG
-                : settings.opFormat === "bmp"
-                    ? Jimp.MIME_BMP
-                    : Jimp.MIME_JPEG // "jpeg"
+            const opType =
+                settings.opFormat === "png"
+                    ? Jimp.MIME_PNG
+                    : settings.opFormat === "bmp"
+                      ? Jimp.MIME_BMP
+                      : Jimp.MIME_JPEG; // "jpeg"
 
             let resultArr: {
-                originalName: string // Name
-                data: string         // Base64
-            }[] = []
+                originalName: string; // Name
+                data: string; // Base64
+            }[] = [];
 
             for (let file of files) {
-
                 const originalName = file.name.split(".").slice(0, -1).join(".");
 
                 if (settings.opFormat === "webp") {
                     resultArr.push({
                         originalName,
-                        data: URL.createObjectURL(
-                            await imageToWebp(file, settings.quality)
-                        )
-                    })
-                }
-                else {
-
+                        data: URL.createObjectURL(await imageToWebp(file, settings.quality)),
+                    });
+                } else {
                     // If it's webp, change to png first due to Jimp do not support webp input
-                    const finalFile = file.type === "image/webp"
-                        ? await webpimageToPng(file)
-                        : file
+                    const finalFile =
+                        file.type === "image/webp" ? await webpimageToPng(file) : file;
 
-                    const jimpImage = await Jimp.read(
-                        URL.createObjectURL(finalFile)
-                    );
+                    const jimpImage = await Jimp.read(URL.createObjectURL(finalFile));
 
                     if (settings.enableNewWidthHeight) {
                         resultArr.push({
@@ -97,49 +107,42 @@ function UploadFormComp() {
                             data: await jimpImage
                                 .resize(settings.newWidth || 1, settings.newHeight || 1)
                                 .quality(settings.quality)
-                                .getBase64Async(opType)
-                        })
-                    }
-                    else {
+                                .getBase64Async(opType),
+                        });
+                    } else {
                         resultArr.push({
                             originalName,
                             data: await jimpImage
                                 .scale(settings.scale)
                                 .quality(settings.quality)
-                                .getBase64Async(opType)
-                        })
+                                .getBase64Async(opType),
+                        });
                     }
-
-
                 }
 
-                setProgressNumber(
-                    Math.floor((resultArr.length / files.length) * 100)
-                )
+                setProgressNumber(Math.floor((resultArr.length / files.length) * 100));
             }
 
             setOutputFile(resultArr);
-            toast.success('Done, enjoy your images!')
-
+            toast.success("Done, enjoy your images!");
+        } catch  {
+            toast.error("Error. Please try another file", { position: "top-right" });
+        } finally {
+            setProgressNumber(-1);
         }
-        catch (error) {
-            toast.error("Error. Please try another file", { position: 'top-right' })
-        }
-        finally {
-            setProgressNumber(-1)
-        }
-
     }
 
     // Prevent flashing display rerender
-    const DisplayCarouselMemo = useMemo(() =>
-        <DisplayCarousel
-            imgsList={files.map(v => URL.createObjectURL(v))}
-            nameList={files.map(v => v.name)}
-            showsDownload={false}
-            deleteCb={(ind) => setFiles((files) => files.filter((_, i) => i !== ind))}
-        />,
-        [files]
+    const DisplayCarouselMemo = useMemo(
+        () => (
+            <DisplayCarousel
+                imgsList={files.map((v) => URL.createObjectURL(v))}
+                nameList={files.map((v) => v.name)}
+                showsDownload={false}
+                deleteCb={(ind) => setFiles((files) => files.filter((_, i) => i !== ind))}
+            />
+        ),
+        [files],
     );
 
     return (
@@ -153,19 +156,15 @@ function UploadFormComp() {
                     <IconImageInPicture size={30} /> Transfer file local
                 </Text>
 
-                <Text ta={"center"} fz={22} fw={300} mt={-34} c='dimmed'>
+                <Text ta={"center"} fz={22} fw={300} mt={-34} c="dimmed">
                     Convert image in local run time, no server upload require
                 </Text>
 
                 <Box mx="auto" mt={32}>
-
-                    {progressNumber >= 0 && (
-                        <ProgressBar progressNumber={progressNumber} />
-                    )}
+                    {progressNumber >= 0 && <ProgressBar progressNumber={progressNumber} />}
 
                     {outputFile.length <= 0 && (
                         <Box pos="relative">
-
                             <LoadingOverlay
                                 visible={progressNumber >= 0}
                                 zIndex={1000}
@@ -173,15 +172,22 @@ function UploadFormComp() {
                             />
 
                             <DropZoneComp
-                                setFilesCb={(files) => setFiles(currentFiles => [...currentFiles, ...files])}
-                                acceptedTypesList={["image/png", "image/jpeg", "image/bmp", "image/tiff", "image/gif", "image/webp"]}
+                                setFilesCb={(files) =>
+                                    setFiles((currentFiles) => [...currentFiles, ...files])
+                                }
+                                acceptedTypesList={[
+                                    "image/png",
+                                    "image/jpeg",
+                                    "image/bmp",
+                                    "image/tiff",
+                                    "image/gif",
+                                    "image/webp",
+                                ]}
                             />
 
                             <Accordion defaultValue="Setting">
                                 <Accordion.Item key="Setting" value="Setting">
-                                    <Accordion.Control>
-                                        Basic setting
-                                    </Accordion.Control>
+                                    <Accordion.Control>Basic setting</Accordion.Control>
 
                                     <Accordion.Panel>
                                         <Grid>
@@ -191,8 +197,15 @@ function UploadFormComp() {
                                                         label="Scale images"
                                                         description="x times each images output res (1 = normal)"
                                                         value={settings.scale}
-                                                        onChange={(v) => setSettings({ ...settings, scale: +v || 1 })}
-                                                        min={0} max={30} step={0.1}
+                                                        onChange={(v) =>
+                                                            setSettings({
+                                                                ...settings,
+                                                                scale: +v || 1,
+                                                            })
+                                                        }
+                                                        min={0}
+                                                        max={30}
+                                                        step={0.1}
                                                     />
                                                 )}
                                             </Grid.Col>
@@ -203,7 +216,12 @@ function UploadFormComp() {
                                                     description="Select your output format"
                                                     data={["jpeg", "png", "bmp", "webp"]}
                                                     value={settings.opFormat}
-                                                    onChange={(v) => setSettings({ ...settings, opFormat: v as OPFormat || "jpeg" })}
+                                                    onChange={(v) =>
+                                                        setSettings({
+                                                            ...settings,
+                                                            opFormat: (v as OPFormat) || "jpeg",
+                                                        })
+                                                    }
                                                 />
                                             </Grid.Col>
 
@@ -213,8 +231,15 @@ function UploadFormComp() {
                                                         label="Quality"
                                                         description="1 (Worst) - 100 (Best)"
                                                         value={settings.quality}
-                                                        onChange={(v) => setSettings({ ...settings, quality: +v || 1 })}
-                                                        min={1} max={100} step={1}
+                                                        onChange={(v) =>
+                                                            setSettings({
+                                                                ...settings,
+                                                                quality: +v || 1,
+                                                            })
+                                                        }
+                                                        min={1}
+                                                        max={100}
+                                                        step={1}
                                                     />
                                                 </Grid.Col>
                                             )}
@@ -225,7 +250,13 @@ function UploadFormComp() {
                                                 <Checkbox
                                                     label="Set my width and height"
                                                     checked={settings.enableNewWidthHeight}
-                                                    onChange={(event) => setSettings({ ...settings, enableNewWidthHeight: event.currentTarget.checked })}
+                                                    onChange={(event) =>
+                                                        setSettings({
+                                                            ...settings,
+                                                            enableNewWidthHeight:
+                                                                event.currentTarget.checked,
+                                                        })
+                                                    }
                                                 />
                                             </Grid.Col>
 
@@ -236,8 +267,14 @@ function UploadFormComp() {
                                                             label="New Width (px)"
                                                             description="All images will be apply to this width after convert"
                                                             value={settings.newWidth}
-                                                            onChange={(v) => setSettings({ ...settings, newWidth: +v || 1 })}
-                                                            min={1} step={1}
+                                                            onChange={(v) =>
+                                                                setSettings({
+                                                                    ...settings,
+                                                                    newWidth: +v || 1,
+                                                                })
+                                                            }
+                                                            min={1}
+                                                            step={1}
                                                         />
                                                     </Grid.Col>
 
@@ -246,22 +283,25 @@ function UploadFormComp() {
                                                             label="New Height (px)"
                                                             description="All images will be apply to this height after convert"
                                                             value={settings.newHeight}
-                                                            onChange={(v) => setSettings({ ...settings, newHeight: +v || 1 })}
-                                                            min={1} step={1}
+                                                            onChange={(v) =>
+                                                                setSettings({
+                                                                    ...settings,
+                                                                    newHeight: +v || 1,
+                                                                })
+                                                            }
+                                                            min={1}
+                                                            step={1}
                                                         />
                                                     </Grid.Col>
                                                 </>
                                             )}
-
                                         </Grid>
                                     </Accordion.Panel>
-
                                 </Accordion.Item>
                             </Accordion>
 
                             {files.length >= 1 && (
                                 <Box mt={24}>
-
                                     {DisplayCarouselMemo}
 
                                     <Text ta="right" mt={24} fz={18} fw={500} c="dimmed">
@@ -275,9 +315,9 @@ function UploadFormComp() {
                                     disabled={files.length <= 0}
                                     leftSection={<IconTrash />}
                                     variant="light"
-                                    color='red'
+                                    color="red"
                                     onClick={() => {
-                                        setFiles([])
+                                        setFiles([]);
                                     }}
                                     loading={progressNumber >= 0}
                                 >
@@ -293,23 +333,23 @@ function UploadFormComp() {
                                     Transfer all image
                                 </Button>
                             </Group>
-
                         </Box>
                     )}
 
                     {outputFile.length >= 1 && (
                         <Box mx="auto" mt={32}>
-
                             <Text ta={"center"} fz={38} fw={300} mb={32} mt={12}>
                                 Result images
                             </Text>
 
-                            <DisplayCarousel imgsList={outputFile.map(v => v.data)} showsDownload={true} />
+                            <DisplayCarousel
+                                imgsList={outputFile.map((v) => v.data)}
+                                showsDownload={true}
+                            />
                             <Group justify="space-between" mb={16} mt={22}>
-
                                 <Button
                                     leftSection={<IconReload />}
-                                    variant='light'
+                                    variant="light"
                                     color="green"
                                     onClick={() => {
                                         setFiles([]);
@@ -320,45 +360,44 @@ function UploadFormComp() {
                                 </Button>
 
                                 <Group>
-
                                     <Tooltip label={"Please Allow Browser Multi-download"}>
-                                    <Button
-                                        leftSection={<IconImageInPicture />}
-                                        variant='light'
-                                        onClick={() => {
-                                            for (let opFile of outputFile) {
-                                                toDownloadFile(opFile.data, opFile.originalName)
-                                            }
-                                        }}
-                                    >
-                                        Download All
-                                    </Button>
+                                        <Button
+                                            leftSection={<IconImageInPicture />}
+                                            variant="light"
+                                            onClick={() => {
+                                                for (let opFile of outputFile) {
+                                                    toDownloadFile(
+                                                        opFile.data,
+                                                        opFile.originalName,
+                                                    );
+                                                }
+                                            }}
+                                        >
+                                            Download All
+                                        </Button>
                                     </Tooltip>
 
                                     {outputFile.length >= 1 && (
-                                    // {getAllBaseTotalSize(outputFile.map(v => v.data)).mb <= 4.99 && (
+                                        // {getAllBaseTotalSize(outputFile.map(v => v.data)).mb <= 4.99 && (
                                         <Button
                                             leftSection={<IconFileZip />}
-                                            variant='light'
+                                            variant="light"
                                             onClick={() => {
                                                 // console.log("getAllBaseTotalSize(outputFile.map( v => v.data))", getAllBaseTotalSize(outputFile.map( v => v.data)))
-                                                toDownloadFileZip(outputFile, settings.opFormat)
+                                                toDownloadFileZip(outputFile, settings.opFormat);
                                             }}
                                         >
                                             Download All with ZIP
                                         </Button>
                                     )}
-
                                 </Group>
                             </Group>
                         </Box>
                     )}
-
                 </Box>
-
             </Container>
         </>
     );
 }
 
-export default UploadFormComp
+export default UploadFormComp;

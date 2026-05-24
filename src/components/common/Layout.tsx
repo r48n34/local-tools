@@ -1,18 +1,28 @@
-import { AppShell, Burger, Group, ScrollArea, Text, NavLink, UnstyledButton, Box, ThemeIcon } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import {
+    AppShell,
+    Burger,
+    Group,
+    ScrollArea,
+    Text,
+    NavLink,
+    UnstyledButton,
+    Box,
+    ThemeIcon,
+} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 
 import { Outlet, useNavigate } from "react-router-dom";
-import { IconTools } from '@tabler/icons-react';
-import SpotLightSearch from './SpotLightSearch';
-import { categoryList } from '../../data/routeData';
-import ToggleThemeBtn from './ToggleThemeBtn';
+import { IconTools } from "@tabler/icons-react";
+import SpotLightSearch from "./SpotLightSearch";
+import { categoryList } from "../../data/routeData";
+import ToggleThemeBtn from "./ToggleThemeBtn";
 // import GoUrlBtn from './GoUrlBtn';
-import FooterComp from './FooterComp';
+import FooterComp from "./FooterComp";
 
-import { groupBy, prop } from "remeda"
+import { groupBy, prop } from "remeda";
 
 function Layout() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [opened, { toggle, close }] = useDisclosure();
 
     return (
@@ -20,15 +30,13 @@ function Layout() {
             header={{ height: 60 }}
             navbar={{
                 width: 250,
-                breakpoint: 'sm',
-                collapsed: { mobile: !opened }
+                breakpoint: "sm",
+                collapsed: { mobile: !opened },
             }}
             padding="md"
         >
-
             <AppShell.Header>
                 <Group h="100%" px="md" justify="space-between">
-
                     <UnstyledButton onClick={() => navigate(`/`)}>
                         <Group>
                             <IconTools size={24} />
@@ -49,12 +57,10 @@ function Layout() {
                         <ToggleThemeBtn />
                         {/* <GoUrlBtn title="Github" url={"https://github.com/r48n34/local-tools"} icon={<IconBrandGithubFilled size={16}/>}/> */}
                     </Group>
-
                 </Group>
             </AppShell.Header>
 
             <AppShell.Navbar p="md">
-
                 <AppShell.Section>
                     <SpotLightSearch mb={16} hiddenFrom="sm" />
                     {/* <Text fz={14} fw={300}>
@@ -62,31 +68,29 @@ function Layout() {
                     </Text> */}
                 </AppShell.Section>
 
-                <AppShell.Section
-                    grow my="md"
-                    component={ScrollArea}
-                    scrollbarSize={2}
-                >
-                    {Object.entries(groupBy(categoryList, prop("categories"))).map(category => (
+                <AppShell.Section grow my="md" component={ScrollArea} scrollbarSize={2}>
+                    {Object.entries(groupBy(categoryList, prop("categories"))).map((category) => (
                         <Box key={category[0]} mb={24}>
                             <Text fz={14} fw={300}>
                                 {category[0]}
                             </Text>
-                            {category[1].filter(v => v.displayAtNav).map((v) => (
-                                <NavLink
-                                    key={v.link}
-                                    label={v.labels}
-                                    leftSection={
-                                        <ThemeIcon variant='light' size={24}>
-                                            {v.icon}
-                                        </ThemeIcon>
-                                    }
-                                    onClick={() => {
-                                        navigate(`/${v.link}`);
-                                        close();
-                                    }}
-                                />
-                            ))}
+                            {category[1]
+                                .filter((v) => v.displayAtNav)
+                                .map((v) => (
+                                    <NavLink
+                                        key={v.link}
+                                        label={v.labels}
+                                        leftSection={
+                                            <ThemeIcon variant="light" size={24}>
+                                                {v.icon}
+                                            </ThemeIcon>
+                                        }
+                                        onClick={() => {
+                                            navigate(`/${v.link}`);
+                                            close();
+                                        }}
+                                    />
+                                ))}
                         </Box>
                     ))}
 
@@ -106,7 +110,6 @@ function Layout() {
                         ))
                     } */}
                 </AppShell.Section>
-
             </AppShell.Navbar>
 
             <AppShell.Main style={{ display: "flex", minHeight: "100vh", flexDirection: "column" }}>
@@ -115,10 +118,8 @@ function Layout() {
                 </Box>
                 <FooterComp />
             </AppShell.Main>
-
-
         </AppShell>
     );
 }
 
-export default Layout
+export default Layout;

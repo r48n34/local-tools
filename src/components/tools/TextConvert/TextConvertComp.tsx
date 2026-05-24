@@ -1,10 +1,13 @@
 import { Textarea, Divider, Text, Grid, Box } from "@mantine/core";
 import { useState } from "react";
 import CopyBtn from "../../common/CopyBtn";
-import { capitalizeFirstLetterSentences, chaosLetter, lowerFirstLetterSentences } from "../../../utils/textConvert";
+import {
+    capitalizeFirstLetterSentences,
+    chaosLetter,
+    lowerFirstLetterSentences,
+} from "../../../utils/textConvert";
 
 function TextConvertComp() {
-
     const [inputString, setInputString] = useState<string>("");
 
     return (
@@ -47,7 +50,9 @@ function TextConvertComp() {
                             label="🔼 First Letter Upper"
                             description="Each Word First Letter Will Be Upper"
                             value={capitalizeFirstLetterSentences(inputString)}
-                            rightSection={<CopyBtn value={capitalizeFirstLetterSentences(inputString)} />}
+                            rightSection={
+                                <CopyBtn value={capitalizeFirstLetterSentences(inputString)} />
+                            }
                             autosize
                             minRows={4}
                             maxRows={6}
@@ -75,7 +80,9 @@ function TextConvertComp() {
                             label="🔽 First Letter Lower"
                             description="Each Word First Letter Will Be Lower"
                             value={lowerFirstLetterSentences(inputString)}
-                            rightSection={<CopyBtn value={lowerFirstLetterSentences(inputString)} />}
+                            rightSection={
+                                <CopyBtn value={lowerFirstLetterSentences(inputString)} />
+                            }
                             autosize
                             minRows={4}
                             maxRows={6}
@@ -88,8 +95,22 @@ function TextConvertComp() {
                         <Textarea
                             label="⏭️ Well Trim"
                             description="Remove All Unnecessary Spacing (Start, End, Middle Multi-spacing)"
-                            value={inputString.replace(/ +(?= )/g, '').split("\n").map( v => v.trim()).join("\n").trim()}
-                            rightSection={<CopyBtn value={inputString.replace(/ +(?= )/g, '').split("\n").map( v => v.trim()).join("\n").trim()} />}
+                            value={inputString
+                                .replace(/ +(?= )/g, "")
+                                .split("\n")
+                                .map((v) => v.trim())
+                                .join("\n")
+                                .trim()}
+                            rightSection={
+                                <CopyBtn
+                                    value={inputString
+                                        .replace(/ +(?= )/g, "")
+                                        .split("\n")
+                                        .map((v) => v.trim())
+                                        .join("\n")
+                                        .trim()}
+                                />
+                            }
                             autosize
                             minRows={4}
                             maxRows={6}
@@ -110,11 +131,9 @@ function TextConvertComp() {
                         />
                     </Box>
                 </Grid.Col>
-
-
             </Grid>
         </>
-    )
+    );
 }
 
-export default TextConvertComp
+export default TextConvertComp;
