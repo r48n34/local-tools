@@ -24,7 +24,7 @@ const ImageConvertPDF = lazy(() => import("./pages/tools/ImageConvertPDF"));
 const PdfConvertImage = lazy(() => import("./pages/tools/PdfConvertImage"));
 const ScanQR = lazy(() => import("./pages/tools/ScanQR"));
 const QRmaker = lazy(() => import("./pages/tools/QRmaker"));
-const ScanDocs = lazy(() => import("./pages/tools/ScanDocs"));
+// const ScanDocs = lazy(() => import("./pages/tools/ScanDocs"));
 
 const PercentEncoding = lazy(() => import("./pages/tools/PercentEncoding"));
 const TextConvert = lazy(() => import("./pages/tools/TextConvert"));
