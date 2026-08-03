@@ -21,6 +21,8 @@ const HomePage = lazy(() => import("./pages/HomePage"));
 const LegalPage = lazy(() => import("./pages/LegalPage"));
 const ImageConvert = lazy(() => import("./pages/tools/ImageConvert"));
 const ImageConvertPDF = lazy(() => import("./pages/tools/ImageConvertPDF"));
+const ImageToText = lazy(() => import("./pages/tools/ImageToText"));
+const LuckyDraw = lazy(() => import("./pages/tools/LuckyDraw"));
 const PdfConvertImage = lazy(() => import("./pages/tools/PdfConvertImage"));
 const PdfOrganizer = lazy(() => import("./pages/tools/PdfOrganizer"));
 const VideoEditor = lazy(() => import("./pages/tools/VideoEditor"));
@@ -53,6 +55,14 @@ export const mainRouteObj = [
             {
                 path: "/imageConvertPDF",
                 element: <ImageConvertPDF />,
+            },
+            {
+                path: "/imageToText",
+                element: <ImageToText />,
+            },
+            {
+                path: "/luckyDraw",
+                element: <LuckyDraw />,
             },
             {
                 path: "/pdfConvertImages",

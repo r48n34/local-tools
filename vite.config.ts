@@ -40,7 +40,78 @@ function ffmpegCoreAssets(): Plugin {
                 this.emitFile({
                     type: "asset",
                     fileName: requestPath.slice(1),
-                    source: readFileSync(asset.path),
+                    source: new Uint8Array(readFileSync(asset.path)),
+                });
+            }
+        },
+    };
+}
+
+function tesseractAssets(): Plugin {
+    const coreFiles = [
+        "tesseract-core-lstm.js",
+        "tesseract-core-lstm.wasm",
+        "tesseract-core-lstm.wasm.js",
+        "tesseract-core-simd-lstm.js",
+        "tesseract-core-simd-lstm.wasm",
+        "tesseract-core-simd-lstm.wasm.js",
+        "tesseract-core-relaxedsimd-lstm.js",
+        "tesseract-core-relaxedsimd-lstm.wasm",
+        "tesseract-core-relaxedsimd-lstm.wasm.js",
+    ];
+    const assets: Record<string, { path: string; mimeType: string }> = {
+        "/tesseract/worker.min.js": {
+            path: resolve("node_modules/tesseract.js/dist/worker.min.js"),
+            mimeType: "text/javascript",
+        },
+        "/tesseract/lang/eng.traineddata.gz": {
+            path: resolve("node_modules/@tesseract.js-data/eng/4.0.0_best_int/eng.traineddata.gz"),
+            mimeType: "application/gzip",
+        },
+        "/tesseract/lang/chi_sim.traineddata.gz": {
+            path: resolve(
+                "node_modules/@tesseract.js-data/chi_sim/4.0.0_best_int/chi_sim.traineddata.gz",
+            ),
+            mimeType: "application/gzip",
+        },
+        "/tesseract/lang/chi_tra.traineddata.gz": {
+            path: resolve(
+                "node_modules/@tesseract.js-data/chi_tra/4.0.0_best_int/chi_tra.traineddata.gz",
+            ),
+            mimeType: "application/gzip",
+        },
+    };
+
+    for (const fileName of coreFiles) {
+        assets[`/tesseract/core/${fileName}`] = {
+            path: resolve(`node_modules/tesseract.js-core/${fileName}`),
+            mimeType: fileName.endsWith(".wasm") ? "application/wasm" : "text/javascript",
+        };
+    }
+
+    return {
+        name: "local-tesseract-assets",
+        configureServer(server) {
+            server.middlewares.use((request, response, next) => {
+                const requestPath = request.url?.split("?")[0];
+                const asset = requestPath ? assets[requestPath] : undefined;
+                if (!asset) {
+                    next();
+                    return;
+                }
+
+                response.statusCode = 200;
+                response.setHeader("Content-Type", asset.mimeType);
+                response.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+                response.end(readFileSync(asset.path));
+            });
+        },
+        generateBundle() {
+            for (const [requestPath, asset] of Object.entries(assets)) {
+                this.emitFile({
+                    type: "asset",
+                    fileName: requestPath.slice(1),
+                    source: new Uint8Array(readFileSync(asset.path)),
                 });
             }
         },
@@ -57,7 +128,7 @@ export default defineConfig(({ command }) => {
     if (command === "serve") {
         // dev
         return {
-            plugins: [ffmpegCoreAssets(), reactClickToComponent(), react()],
+            plugins: [ffmpegCoreAssets(), tesseractAssets(), reactClickToComponent(), react()],
             build: {
                 sourcemap: false,
             },
@@ -73,6 +144,8 @@ export default defineConfig(({ command }) => {
             "/legal",
             "/imageConvert",
             "/imageConvertPDF",
+            "/imageToText",
+            "/luckyDraw",
             "/pdfConvertImages",
             "/pdfOrganizer",
             "/videoEditor",
@@ -86,6 +159,7 @@ export default defineConfig(({ command }) => {
         return {
             plugins: [
                 ffmpegCoreAssets(),
+                tesseractAssets(),
                 reactClickToComponent(),
                 Sitemap({
                     hostname: "https://media-local-tools.vercel.app/",
@@ -111,6 +185,8 @@ export default defineConfig(({ command }) => {
                     },
                     workbox: {
                         globIgnores: ["**/ffmpeg/**"],
+                        globPatterns: ["**/*.{js,css,html,ico,png,svg,wasm,gz}"],
+                        maximumFileSizeToCacheInBytes: 30 * 1024 * 1024,
                         runtimeCaching: [
                             {
                                 urlPattern: /\/ffmpeg\/ffmpeg-core\.(?:js|wasm)$/,

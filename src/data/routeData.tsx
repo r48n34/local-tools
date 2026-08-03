@@ -9,9 +9,22 @@ import {
     IconTextWrap,
     IconFiles,
     IconMovie,
+    IconTextScan2,
+    IconConfetti,
 } from "@tabler/icons-react";
 
 export const categoryList = [
+    {
+        labels: "Lucky Draw",
+        link: "luckyDraw",
+        desc: "Run a private XLSX-powered spin wheel",
+        icon: IconConfetti,
+        categories: "Utilities",
+        tags: ["Lucky Draw", "Excel", "Wheel"],
+        displayAtHome: true,
+        avaiableAtHome: true,
+        displayAtNav: true,
+    },
     {
         labels: "Image Converter",
         link: "imageConvert",
@@ -30,6 +43,17 @@ export const categoryList = [
         icon: IconPdf,
         categories: "Media",
         tags: ["Image", "PDF"],
+        displayAtHome: true,
+        avaiableAtHome: true,
+        displayAtNav: true,
+    },
+    {
+        labels: "OCR: Image to Text",
+        link: "imageToText",
+        desc: "Extract text from images locally",
+        icon: IconTextScan2,
+        categories: "Media",
+        tags: ["Image", "Text", "OCR"],
         displayAtHome: true,
         avaiableAtHome: true,
         displayAtNav: true,

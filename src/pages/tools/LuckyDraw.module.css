@@ -1,0 +1,116 @@
+.page {
+    position: relative;
+}
+
+.fullscreen {
+    min-height: 100vh;
+    overflow: auto;
+    padding: 1rem;
+    background:
+        radial-gradient(circle at 50% 20%, rgba(132, 94, 247, 0.18), transparent 38%),
+        var(--mantine-color-body);
+}
+
+.hero {
+    background:
+        linear-gradient(135deg, rgba(132, 94, 247, 0.13), rgba(34, 184, 207, 0.08)),
+        var(--mantine-color-body);
+}
+
+.wheelStage {
+    position: relative;
+    width: min(100%, 620px);
+    aspect-ratio: 1;
+    margin-inline: auto;
+    padding: 14px;
+    filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.16));
+}
+
+.wheelCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+}
+
+.pointer {
+    position: absolute;
+    z-index: 3;
+    top: 1px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    transform: translateX(-50%);
+    border-right: 18px solid transparent;
+    border-left: 18px solid transparent;
+    border-top: 42px solid var(--mantine-color-red-7);
+    filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.28));
+}
+
+.emptyWheelText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 48%;
+    transform: translate(-50%, -50%);
+    color: var(--mantine-color-gray-7);
+}
+
+.resultCard {
+    overflow: hidden;
+    background:
+        linear-gradient(135deg, rgba(132, 94, 247, 0.16), rgba(250, 176, 5, 0.11)),
+        var(--mantine-color-body);
+}
+
+.winnerName {
+    overflow-wrap: anywhere;
+}
+
+.confettiLayer {
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.confettiPiece {
+    position: absolute;
+    top: -24px;
+    width: 10px;
+    height: 18px;
+    animation-name: confetti-fall;
+    animation-timing-function: cubic-bezier(0.15, 0.7, 0.35, 1);
+    animation-fill-mode: forwards;
+}
+
+@keyframes confetti-fall {
+    0% {
+        opacity: 1;
+        transform: translate3d(0, -5vh, 0) rotate(0deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(20px, 105vh, 0) rotate(840deg);
+    }
+}
+
+@media (max-width: 48em) {
+    .wheelStage {
+        width: min(100%, 440px);
+    }
+
+    .pointer {
+        border-right-width: 14px;
+        border-left-width: 14px;
+        border-top-width: 34px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .confettiPiece {
+        animation-duration: 0.35s !important;
+    }
+}
