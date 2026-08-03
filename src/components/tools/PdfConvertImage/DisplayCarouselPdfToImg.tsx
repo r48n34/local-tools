@@ -76,7 +76,13 @@ function DisplayCarouselPdfToImg({ fileList, deleteCb }: DisplayCarouselProps) {
     return (
         <>
             <div id="canvas" style={{ display: "none" }}></div>
-            <Carousel slideSize="70%" slideGap="md" withIndicators height={220} loop>
+            <Carousel
+                slideSize="70%"
+                slideGap="md"
+                withIndicators
+                height={220}
+                emblaOptions={{ loop: true }}
+            >
                 {fileList.map((file, i) => (
                     <Carousel.Slide key={file.name}>
                         <Card shadow="sm" padding="lg" radius="md">

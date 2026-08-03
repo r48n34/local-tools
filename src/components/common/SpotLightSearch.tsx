@@ -19,7 +19,7 @@ function SpotLightSearch({ ...props }) {
                 id: v.link,
                 label: v.labels,
                 description: v.desc,
-                leftSection: v.icon,
+                leftSection: <v.icon size={20} />,
                 onClick: () => navigate(v.link),
             })),
         },

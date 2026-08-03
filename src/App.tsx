@@ -22,6 +22,8 @@ const LegalPage = lazy(() => import("./pages/LegalPage"));
 const ImageConvert = lazy(() => import("./pages/tools/ImageConvert"));
 const ImageConvertPDF = lazy(() => import("./pages/tools/ImageConvertPDF"));
 const PdfConvertImage = lazy(() => import("./pages/tools/PdfConvertImage"));
+const PdfOrganizer = lazy(() => import("./pages/tools/PdfOrganizer"));
+const VideoEditor = lazy(() => import("./pages/tools/VideoEditor"));
 const ScanQR = lazy(() => import("./pages/tools/ScanQR"));
 const QRmaker = lazy(() => import("./pages/tools/QRmaker"));
 // const ScanDocs = lazy(() => import("./pages/tools/ScanDocs"));
@@ -55,6 +57,14 @@ export const mainRouteObj = [
             {
                 path: "/pdfConvertImages",
                 element: <PdfConvertImage />,
+            },
+            {
+                path: "/pdfOrganizer",
+                element: <PdfOrganizer />,
+            },
+            {
+                path: "/videoEditor",
+                element: <VideoEditor />,
             },
             {
                 path: "/scanQR",

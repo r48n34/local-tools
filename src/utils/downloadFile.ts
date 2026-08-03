@@ -13,6 +13,19 @@ export function toDownloadFile(str: string, fileName: string = crypto.randomUUID
     }
 }
 
+export function downloadBlob(blob: Blob, fileName: string) {
+    if (typeof window === "undefined") {
+        return;
+    }
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
+}
+
 function getoneBaseTotalSize(base64Data: string) {
     let length = base64Data.length;
 

@@ -7,6 +7,8 @@ import {
     IconFileTypeTs,
     IconDeviceImacCode,
     IconTextWrap,
+    IconFiles,
+    IconMovie,
 } from "@tabler/icons-react";
 
 export const categoryList = [
@@ -39,6 +41,28 @@ export const categoryList = [
         icon: IconFileAnalytics,
         categories: "Media",
         tags: ["PDF", "Image"],
+        displayAtHome: true,
+        avaiableAtHome: true,
+        displayAtNav: true,
+    },
+    {
+        labels: "PDF Organizer",
+        link: "pdfOrganizer",
+        desc: "Merge, split, rotate, and reorder PDF pages",
+        icon: IconFiles,
+        categories: "Media",
+        tags: ["PDF"],
+        displayAtHome: true,
+        avaiableAtHome: true,
+        displayAtNav: true,
+    },
+    {
+        labels: "Video Editor",
+        link: "videoEditor",
+        desc: "Trim and combine video clips locally",
+        icon: IconMovie,
+        categories: "Media",
+        tags: ["Video"],
         displayAtHome: true,
         avaiableAtHome: true,
         displayAtNav: true,
