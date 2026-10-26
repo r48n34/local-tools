@@ -4,7 +4,8 @@ import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 import Sitemap from "vite-plugin-sitemap";
-import { reactClickToComponent } from "vite-plugin-react-click-to-component";
+import { tabToComponents } from "tab-to-components";
+// import { reactClickToComponent } from "vite-plugin-react-click-to-component";
 
 function ffmpegCoreAssets(): Plugin {
     const assets = {
@@ -128,7 +129,15 @@ export default defineConfig(({ command }) => {
     if (command === "serve") {
         // dev
         return {
-            plugins: [ffmpegCoreAssets(), tesseractAssets(), reactClickToComponent(), react()],
+            plugins: [
+                ffmpegCoreAssets(),
+                tesseractAssets(),
+                // reactClickToComponent(),
+                tabToComponents({
+                    editor: process.env.LAUNCH_EDITOR || "code",
+                }),
+                react(),
+            ],
             build: {
                 sourcemap: false,
             },
@@ -160,7 +169,10 @@ export default defineConfig(({ command }) => {
             plugins: [
                 ffmpegCoreAssets(),
                 tesseractAssets(),
-                reactClickToComponent(),
+                // reactClickToComponent(),
+                tabToComponents({
+                    editor: process.env.LAUNCH_EDITOR || "code",
+                }),
                 Sitemap({
                     hostname: "https://media-local-tools.vercel.app/",
                     dynamicRoutes,
